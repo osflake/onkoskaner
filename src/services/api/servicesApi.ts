@@ -1,5 +1,5 @@
 import axios from "axios";
-import { services } from "../endpoints/endpoints";
+import { services } from "../endpoints";
 
 export const getServices = ({ active, offset, limit }: any) => {
   const params = new URLSearchParams({

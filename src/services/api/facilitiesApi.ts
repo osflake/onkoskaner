@@ -1,5 +1,5 @@
 import axios from "axios";
-import { facilities } from "../endpoints/endpoints";
+import { facilities } from "../endpoints";
 
 export const getFacilities = ({ offset, limit }: any) => {
   const params = new URLSearchParams({

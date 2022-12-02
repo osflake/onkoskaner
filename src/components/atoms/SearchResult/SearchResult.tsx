@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import "./SearchResult.css";
-import StarsRating from "../StarsRating";
+import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
 
 const SearchResult: React.FC<PanelItemProps> = ({ place }) => {

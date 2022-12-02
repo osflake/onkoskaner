@@ -1,24 +1,24 @@
-import Container from "react-bootstrap/Container"
-import Button from "react-bootstrap/Button"
-import Modal from "react-bootstrap/Modal"
-import Dropdown from "react-bootstrap/Dropdown"
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Dropdown from "react-bootstrap/Dropdown";
 
-import "./ChangeCriteriaModal.css"
+import "./ChangeCriteriaModal.css";
 
-import { useProvincesQuery } from "../../../hooks/useProvincesQuery"
+import { useProvincesQuery } from "../../../../hooks/useProvincesQuery";
 
 interface ModalContainerProps {
-  show: boolean
-  title?: string
-  handleClose?: () => void
+  show: boolean;
+  title?: string;
+  handleClose?: () => void;
 }
 
 const ModalContainer = ({
   show = true,
   title = "Zmień kryteria",
-  handleClose = () => {}
+  handleClose = () => {},
 }: ModalContainerProps) => {
-  const { data, isLoading, isError, error } = useProvincesQuery()
+  const { data, isLoading, isError, error } = useProvincesQuery();
 
   return (
     <>
@@ -61,7 +61,7 @@ const ModalContainer = ({
         </Modal>
       )}
     </>
-  )
-}
+  );
+};
 
-export default ModalContainer
+export default ModalContainer;

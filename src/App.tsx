@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import CustomDropdown from "./components/CustomDropdown";
-import TestView from "./views/TestView/TestView";
+import CustomDropdown from "./components/atoms/CustomDropdown";
+import TestPage from "./components/pages/TestPage/TestPage";
 
 const router = createBrowserRouter([
   {
     path: "/results/:examId/:city",
-    element: <TestView />,
+    element: <TestPage />,
   },
   {
     path: "/test",

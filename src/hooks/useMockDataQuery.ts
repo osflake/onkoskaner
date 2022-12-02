@@ -1,4 +1,4 @@
-import { mockiResultsApi } from "../api/mockiApi";
+import { mockiResultsApi } from "../services/api/mockiApi";
 import { useQuery } from "@tanstack/react-query";
 
 const queryName = "mockData";

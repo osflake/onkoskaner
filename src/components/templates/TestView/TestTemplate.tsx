@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getFacilities } from "../../api/facilitiesApi";
-import SearchResult from "../../components/SearchResult";
-import ChangeCriteriaModal from "../../components/Modals/ChangeCriteriaModal";
+import { getFacilities } from "../../../services/api/facilitiesApi";
+import SearchResult from "../../atoms/SearchResult/SearchResult";
+import ChangeCriteriaModal from "../../organisms/Modals/ChangeCriteriaModal";
 
-import "./TestView.css";
+import "./TestTemplate.css";
 
-const TestView = () => {
+const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const { isLoading, error, data } = useQuery(
     getFacilities({ active: 1, offset: 1, limit: 10 })
@@ -60,4 +60,4 @@ const TestView = () => {
   );
 };
 
-export default TestView;
+export default TestTemplate;
