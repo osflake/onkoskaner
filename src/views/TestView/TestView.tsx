@@ -1,27 +1,28 @@
-import { useState } from "react"
-import { Container, Button } from "react-bootstrap"
-import { useParams } from "react-router-dom"
-import { useMockDataQuery } from "../../hooks/useMockDataQuery"
+import { useState } from "react";
+import { Container, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getFacilities } from "../../api/facilitiesApi";
+import SearchResult from "../../components/SearchResult";
+import ChangeCriteriaModal from "../../components/Modals/ChangeCriteriaModal";
 
-import SearchResult from "../../components/SearchResult"
-import ChangeCriteriaModal from "../../components/Modals/ChangeCriteriaModal"
-
-import "./TestView.css"
+import "./TestView.css";
 
 const TestView = () => {
-  const [showCriteriaModal, setShowCriteriaModal] = useState(false)
-  const { data, isLoading, isError } = useMockDataQuery()
-  const linkParams = useParams()
+  const [showCriteriaModal, setShowCriteriaModal] = useState(false);
+  const { isLoading, error, data } = useQuery(
+    getFacilities({ active: 1, offset: 1, limit: 10 })
+  );
 
-  if (isError) {
-    return <div>Something went wrong...</div>
+  const linkParams = useParams();
+
+  if (error) {
+    return <div>Something went wrong...</div>;
   }
 
   if (isLoading) {
-    return <div>Loading data...</div>
+    return <div>Loading data...</div>;
   }
-
-  console.log("linkParams", linkParams)
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
@@ -51,12 +52,12 @@ const TestView = () => {
         </Container>
 
         {data &&
-          data.map((place) => {
-            return <SearchResult key={place.id} {...place} />
+          data.data.map((place: { id: string }) => {
+            return <SearchResult place={place} key={place.id} />;
           })}
       </Container>
     </Container>
-  )
-}
+  );
+};
 
-export default TestView
+export default TestView;

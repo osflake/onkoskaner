@@ -1,22 +1,22 @@
-import Container from "react-bootstrap/Container"
-import Badge from "react-bootstrap/Badge"
+import Container from "react-bootstrap/Container";
+import Badge from "react-bootstrap/Badge";
 
-import "./PercentageProgress.css"
+import "./PercentageProgress.css";
 
 interface PercentageProgressProps {
-  percentage?: string
+  percentage?: string;
 }
 
 const PercentageProgress = ({ percentage = "40" }: PercentageProgressProps) => {
   const getTooltipColor = (percent: number) => {
     if (percent < 40) {
-      return "danger"
+      return "danger";
     } else if (percent >= 40 && percent < 75) {
-      return "warning"
+      return "warning";
     } else {
-      return "success"
+      return "success";
     }
-  }
+  };
 
   return (
     <Container className="d-flex align-items-center">
@@ -32,7 +32,7 @@ const PercentageProgress = ({ percentage = "40" }: PercentageProgressProps) => {
         className="progress-right"
       ></div>
     </Container>
-  )
-}
+  );
+};
 
-export default PercentageProgress
+export default PercentageProgress;

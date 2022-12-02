@@ -1,12 +1,11 @@
-import Container from "react-bootstrap/Container"
-import Badge from "react-bootstrap/Badge"
-import Button from "react-bootstrap/Button"
-import { resData } from "../../hooks/useMockDataQuery"
-import "./SearchResult.css"
-import StarsRating from "../StarsRating"
-import PercentageProgress from "../PercentageProgress"
+import Container from "react-bootstrap/Container";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
+import "./SearchResult.css";
+import StarsRating from "../StarsRating";
+import PercentageProgress from "../PercentageProgress";
 
-const SearchResult = (place: resData) => {
+const SearchResult: React.FC<PanelItemProps> = ({ place }) => {
   return (
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
       <Container className="d-flex flex-row m-0 p-0 result-top-row-bg">
@@ -29,7 +28,7 @@ const SearchResult = (place: resData) => {
 
       <Container className="d-flex flex-row m-0 p-0">
         <Container className="d-flex flex-column align-items-start border pt-4 pb-4 ps-4 pe-5">
-          <p className="text-nowrap">{`${place.address.street} ${place.address.building_number}, ${place.address.postal_code} ${place.address.city}`}</p>
+          <p className="text-nowrap">{`${place.street} ${place.building_number}, ${place.zipCode} ${place.city.name}`}</p>
           <Button className="btn-outline-pink">POKAŻ NA MAPIE</Button>
         </Container>
         <Container className="d-flex flex-column justify-content-center align-items-center border gap-3">
@@ -52,7 +51,7 @@ const SearchResult = (place: resData) => {
         </Container>
       </Container>
     </Container>
-  )
-}
+  );
+};
 
-export default SearchResult
+export default SearchResult;
