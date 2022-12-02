@@ -1,7 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
-
-import "./PercentageProgress.css";
+import "./PercentageProgress.scss";
 
 interface PercentageProgressProps {
   percentage?: string;
