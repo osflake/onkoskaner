@@ -1,0 +1,16 @@
+.progress-left {
+  position: relative;
+  height: 8px;
+  border-radius: 10px 0 0 10px;
+  background-color: var(--main-text-color);
+}
+
+.progress-right {
+  height: 8px;
+  border-radius: 0 10px 10px 0;
+  background-color: var(--gray-disable);
+}
+
+.progress-tooltip {
+  position: absolute;
+}

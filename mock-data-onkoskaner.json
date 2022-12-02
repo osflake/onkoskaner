@@ -1,0 +1,124 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "0"
+    },
+    {
+      "id": "2",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "50"
+    },
+    {
+      "id": "3",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "50"
+    },
+    {
+      "id": "4",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "100"
+    },
+    {
+      "id": "5",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "100"
+    },
+    {
+      "id": "6",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "0"
+    },
+    {
+      "id": "7",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "100"
+    },
+    {
+      "id": "8",
+      "name": "Ginekologiczno-Położniczy Szpital Kliniczny UM im. Karola Marcinkowskiego w Poznaniu",
+      "address": {
+        "postal_code": "46-200",
+        "city": "Kluczbork",
+        "street": "Marii Skłodowskiej-Curie",
+        "building_number": "21"
+      },
+      "rating": "4,5",
+      "rating_amount": "5",
+      "earliest_appointment": "206",
+      "examination_waiting_time": "4",
+      "successful_phone_calls": "100"
+    }
+  ]
+}

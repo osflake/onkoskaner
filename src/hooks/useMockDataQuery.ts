@@ -1,0 +1,32 @@
+import { mockiResultsApi } from "../api/mockiApi"
+import { useQuery } from "@tanstack/react-query"
+
+const queryName = "mockData"
+
+interface addressData {
+  building_number: string
+  city: string
+  postal_code: string
+  street: string
+}
+
+export interface resData {
+  address: addressData
+  earliest_appointment: string
+  id: string
+  examination_waiting_time: 4
+  name: string
+  rating: string
+  rating_amount: string
+  successful_phone_calls: string
+}
+
+const ResultsDataQuery = async () => {
+  const { data } = await mockiResultsApi.get(``, {})
+
+  return data.data
+}
+
+export const useMockDataQuery = () => {
+  return useQuery<resData[]>([queryName], () => ResultsDataQuery())
+}
