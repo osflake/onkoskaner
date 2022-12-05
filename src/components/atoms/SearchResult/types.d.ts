@@ -1,4 +1,4 @@
-interface PanelItemProps {
+interface SearchResultsProps {
   place: {
     name?: string;
     city?: any;

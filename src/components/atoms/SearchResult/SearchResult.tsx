@@ -5,7 +5,7 @@ import "./SearchResult.css";
 import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
 
-const SearchResult: React.FC<PanelItemProps> = ({ place }) => {
+const SearchResult = ({ place }: SearchResultsProps) => {
   return (
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
       <Container className="d-flex flex-row m-0 p-0 result-top-row-bg">
