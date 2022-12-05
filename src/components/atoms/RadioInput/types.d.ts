@@ -1,0 +1,3 @@
+interface RadioInputProps {
+  label: string;
+}

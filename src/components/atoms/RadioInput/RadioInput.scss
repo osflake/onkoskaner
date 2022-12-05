@@ -1,0 +1,8 @@
+.pink {
+  border-color: var(--pink-btn-color) !important;
+  color: var(--pink-btn-color) !important;
+
+  &:checked {
+    background-color: var(--pink-btn-color) !important;
+  }
+}
