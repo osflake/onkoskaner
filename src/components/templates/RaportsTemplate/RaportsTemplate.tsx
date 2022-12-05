@@ -1,4 +1,6 @@
-import { Container, Stack } from "react-bootstrap";
+import { Col, Container, Row, Stack } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 // import { useParams } from "react-router-dom";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 
@@ -20,28 +22,28 @@ const RaportsTemplate = () => {
         </p>
       </Container>
 
-      <Container className="d-flex p-0 breadcrumbs-font-size">
-        <Container className="flex-column me-auto d-inline-flex pe-4">
+      <Row className="w-100">
+        <Col md="auto" className="me-5">
           <p className="results-title fw-normal-500 mb-4">
             Wybierz świadczenie
           </p>
-          <Container className="p-0  d-inline-flex">
+          <Container className="p-0 d-inline-flex ">
             <RadioInput label="Świadczenie A" />
             <RadioInput label="Świadczenie B" />
             <RadioInput label="Świadczenie C" />
             <RadioInput label="Świadczenie D" />
           </Container>
-        </Container>
-        <Container className="flex-column ">
-          <p className="results-title fw-normal-500 mb-4">
+        </Col>
+        <Col md="auto">
+          <p className="results-title fw-normal-500 mb-4 ">
             Wybierz świadczenie
           </p>
-          <Container className="p-0 ">
-            <RadioInput label="Normalny" />
-            <RadioInput label="Pilny" />
+          <Container className="p-0 w-auto d-inline-flex">
+            <CheckboxInput label="Normalny" id={"1"} />
+            <CheckboxInput label="Pilny" id={"2"} />
           </Container>
-        </Container>
-      </Container>
+        </Col>
+      </Row>
     </Container>
   );
 };
