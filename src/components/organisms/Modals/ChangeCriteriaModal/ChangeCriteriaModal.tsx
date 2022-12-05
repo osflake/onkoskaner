@@ -18,7 +18,7 @@ const ModalContainer = ({
   title = "Zmień kryteria",
   handleClose = () => {},
 }: ModalContainerProps) => {
-  const { data, isLoading, isError, error } = useProvincesQuery();
+  const { data } = useProvincesQuery();
 
   return (
     <>

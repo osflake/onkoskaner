@@ -11,7 +11,7 @@ import "./TestTemplate.css";
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const { isLoading, error, data } = useQuery(
-    getFacilities({ active: 1, offset: 1, limit: 10 })
+    getFacilities({ offset: "1", limit: "10" })
   );
 
   const linkParams = useParams();

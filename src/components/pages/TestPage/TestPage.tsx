@@ -1,4 +1,4 @@
-import TestTemplate from "../../templates/TestView/TestTemplate";
+import TestTemplate from "../../templates/TestTemplate/TestTemplate";
 
 const TestPage = () => <TestTemplate />;
 

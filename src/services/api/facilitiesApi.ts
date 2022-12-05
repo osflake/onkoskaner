@@ -1,7 +1,12 @@
 import axios from "axios";
 import { facilities } from "../endpoints";
 
-export const getFacilities = ({ offset, limit }: any) => {
+interface SerializerSettings {
+  offset?: string;
+  limit?: string;
+}
+
+export const getFacilities = ({ offset, limit }: SerializerSettings) => {
   const params = new URLSearchParams({
     ...(offset && { offset }),
     ...(limit && { limit }),
