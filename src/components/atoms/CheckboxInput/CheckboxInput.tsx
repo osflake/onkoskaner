@@ -1,6 +1,6 @@
 import "./CheckboxInput.scss";
 
-const CheckboxInput = ({ label }: RadioInputProps) => {
+const CheckboxInput = ({ label, register }: RadioInputProps) => {
   return (
     <div className="form-check form-check-inline me-4">
       <label className="form-check-label ">
@@ -8,7 +8,8 @@ const CheckboxInput = ({ label }: RadioInputProps) => {
           className="form-check-input custom-checkbox-pink"
           type="checkbox"
           name="inlineRadioOptions"
-          value="option2"
+          value={true}
+          {...register}
         />
         {label}
       </label>

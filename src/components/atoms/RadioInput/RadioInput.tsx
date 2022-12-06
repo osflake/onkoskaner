@@ -1,6 +1,6 @@
 import "./RadioInput.scss";
 
-const RadioInput = ({ label }: RadioInputProps) => {
+const RadioInput = ({ label, register, value }: RadioInputProps) => {
   return (
     <div className="form-check form-check-inline">
       <label className="form-check-label  ">
@@ -8,7 +8,8 @@ const RadioInput = ({ label }: RadioInputProps) => {
           className="form-check-input custom-radioInput-pink"
           type="radio"
           name="inlineRadioOptions"
-          value="option2"
+          value={value}
+          {...register}
         />
         {label}
       </label>
