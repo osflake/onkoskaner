@@ -11,6 +11,8 @@ export const getProvinces = (provinceId?: string) => {
     queryKey: ["provinces"],
     queryFn: () => axios.get(provinces).then((res) => res.data.data),
     select: (data: provincesDataTypes[]) =>
-      data.filter((province) => province.id.toString() === provinceId)
+      provinceId
+        ? data.filter((province) => province.id.toString() === provinceId)
+        : data
   };
 };

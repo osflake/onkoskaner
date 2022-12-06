@@ -21,6 +21,8 @@ export const getFacilities = ({
   return {
     queryKey: ["facilities"],
     queryFn: () =>
-      axios.get(`${facilities}?${params.toString()}`).then((res) => res.data)
+      axios
+        .get(`${facilities}?${params.toString()}`)
+        .then((res) => res.data.data)
   };
 };

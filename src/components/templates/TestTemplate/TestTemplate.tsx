@@ -14,7 +14,7 @@ const TestTemplate = () => {
   const linkParams = useParams();
 
   const { data: provincesData } = useQuery(getProvinces(linkParams.provinceId));
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data } = useQuery<SearchResultsProps["facility"][]>(
     getFacilities({
       offset: "0",
       limit: "5",
@@ -30,7 +30,7 @@ const TestTemplate = () => {
     return <div>Loading data...</div>;
   }
 
-  console.log("data", provincesData);
+  console.log("data", data);
   console.log("link params", linkParams);
 
   return (
@@ -63,8 +63,8 @@ const TestTemplate = () => {
         </Container>
 
         {data &&
-          data.data.map((place: { id: string }) => {
-            return <SearchResult place={place} key={place.id} />;
+          data.map((facility) => {
+            return <SearchResult facility={facility} key={facility.id} />;
           })}
       </Container>
     </Container>
