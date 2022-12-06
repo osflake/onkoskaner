@@ -1,28 +1,5 @@
-.results-title {
-  color: var(--main-text-color) !important;
-}
-
-.btn-pink {
-  background-color: var(--pink-btn-color) !important;
-  border-color: var(--pink-btn-color) !important;
-}
-
-.btn-pink:hover {
-  background-color: var(--main-text-color) !important;
-  border-color: var(--main-text-color) !important;
-}
-
-.breadcrumbs-font-size {
-  font-size: var(--breadcrumbs-font-size);
-}
-
-.btn-outline-pink {
-  border-color: var(--pink-btn-color) !important;
-  color: var(--pink-btn-color) !important;
-  background-color: transparent !important;
-}
-
-.btn-outline-pink:hover {
-  color: white !important;
-  background-color: var(--pink-btn-color) !important;
+.dropDownLabel {
+  font-size: 14px;
+  line-height: 21px;
+  margin-bottom: 4px;
 }
