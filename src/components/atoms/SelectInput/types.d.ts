@@ -3,4 +3,5 @@ interface SelectInputProps {
   dropdownData?: any;
   register?: any;
   value?: string;
+  disabled?: boolean;
 }

@@ -1,6 +1,11 @@
 import "./SelectInput.scss";
 
-const SelectInput = ({ label, dropdownData, register }: SelectInputProps) => {
+const SelectInput = ({
+  label,
+  dropdownData,
+  register,
+  disabled,
+}: SelectInputProps) => {
   return (
     <label className="w-100 ">
       <p className="selectInputLabel">{label}</p>
@@ -8,6 +13,7 @@ const SelectInput = ({ label, dropdownData, register }: SelectInputProps) => {
         className="form-select"
         aria-label="Default select example"
         defaultValue="all"
+        disabled={disabled}
         {...register}
       >
         <option value="all">Wszystkie</option>

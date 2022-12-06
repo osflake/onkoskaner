@@ -7,12 +7,12 @@ import SelectInput from "../../atoms/SelectInput/SelectInput";
 
 const RaportsForm = () => {
   const { data } = useProvincesQuery();
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       benefit: "1",
+      province: "all",
       city: "all",
       interval: "all",
-      province: "all",
       normal: false,
       urgent: false,
     },
@@ -88,6 +88,7 @@ const RaportsForm = () => {
             label="Miasto"
             dropdownData={data}
             register={register("city")}
+            disabled={watch("province") === "all"}
           />
           <SelectInput
             label="Okres czasowy"
