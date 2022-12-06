@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 
 import "./RaportsTemplate.scss";
 import RaportsForm from "../../organisms/RaportsForm/RaportsForm";
+import LineChart from "../../molecules/LineChart/LineChart";
 
 const RaportsTemplate = () => {
   // const linkParams = useParams();
@@ -29,6 +30,7 @@ const RaportsTemplate = () => {
           ostatnich 30 dni (stan na 23.10.2022)
         </p>
       </Container>
+      <LineChart />
     </Container>
   );
 };
