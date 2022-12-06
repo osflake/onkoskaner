@@ -1,19 +1,22 @@
-import React from "react";
-import { Col, Container, Dropdown, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useProvincesQuery } from "../../../hooks/useProvincesQuery";
 import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
+import SelectInput from "../../atoms/SelectInput/SelectInput";
 
 const RaportsForm = () => {
   const { data } = useProvincesQuery();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      benefit: "1",
+      city: "all",
+      interval: "all",
+      province: "all",
+      normal: false,
+      urgent: false,
+    },
+  });
 
   return (
     <form
@@ -76,61 +79,21 @@ const RaportsForm = () => {
       </Container>
       {data && (
         <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4">
-          <Dropdown className="w-100">
-            <p className="dropDownLabel">Województwo</p>
-            <Dropdown.Toggle
-              className="d-flex justify-content-between align-items-center fs-13 criteria-modal-btn"
-              variant="outline-success"
-              id="dropdown-basic"
-            >
-              {data[0].name}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="criteria-modal-btn">
-              {data.map((province) => (
-                <Dropdown.Item className="results-title" key={province.id}>
-                  {province.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown className="w-100">
-            <p className="dropDownLabel">Miasto</p>
-            <Dropdown.Toggle
-              className="d-flex justify-content-between align-items-center fs-13 criteria-modal-btn"
-              variant="outline-success"
-              id="dropdown-basic"
-              disabled
-            >
-              {data[0].name}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="criteria-modal-btn">
-              {data.map((province) => (
-                <Dropdown.Item className="results-title" key={province.id}>
-                  {province.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown className="w-100">
-            <p className="dropDownLabel">Okres czasowy</p>
-            <Dropdown.Toggle
-              className="d-flex justify-content-between align-items-center fs-13 criteria-modal-btn"
-              variant="outline-success"
-              id="dropdown-basic"
-            >
-              {data[0].name}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="criteria-modal-btn">
-              {data.map((province) => (
-                <Dropdown.Item className="results-title" key={province.id}>
-                  {province.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <SelectInput
+            label="Województwo"
+            dropdownData={data}
+            register={register("province")}
+          />
+          <SelectInput
+            label="Miasto"
+            dropdownData={data}
+            register={register("city")}
+          />
+          <SelectInput
+            label="Okres czasowy"
+            dropdownData={data}
+            register={register("interval")}
+          />
         </Container>
       )}
       <button value="Submit" />
