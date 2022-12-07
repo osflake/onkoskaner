@@ -15,6 +15,7 @@ interface FacilityDataTypes {
     commercialContract?: any;
     communicationType?: any;
     phoneNumber?: number;
+    city?: any;
   };
   rating?: number;
   successfulCalls?: number;
