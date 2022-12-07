@@ -24,7 +24,7 @@ const RaportsForm = () => {
       onSubmit={handleSubmit((data) => console.log(data))}
     >
       <Container className="p-0 d-flex flex-row ">
-        <div className=" ">
+        <div className="pe-5">
           <p className="results-title fw-normal-500">Wybierz świadczenie</p>
           <Container className="p-0 d-inline-flex gap-3 ">
             <RadioInput
@@ -57,11 +57,9 @@ const RaportsForm = () => {
             />
           </Container>
         </div>
-        <Container className="p-0 d-flex flex-column  align-items-center">
+        <div className="p-0 ps-5 d-flex flex-column  align-items-center justify-content-center">
           <div>
-            <p className="results-title fw-normal-500 mb-4 ">
-              Tryb świadczenia
-            </p>
+            <p className="results-title fw-normal-500">Tryb świadczenia</p>
             <Container className="p-0 w-auto d-inline-flex">
               <CheckboxInput
                 register={register("normal")}
@@ -75,7 +73,7 @@ const RaportsForm = () => {
               />
             </Container>
           </div>
-        </Container>
+        </div>
       </Container>
       {data && (
         <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4">
