@@ -1,7 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+
 import "./SearchResult.css";
+
 import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
 
@@ -10,7 +13,14 @@ const SearchResult = ({ facility }: SearchResultsProps) => {
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
       <Container className="d-flex flex-row m-0 p-0 result-top-row-bg">
         <Container className="d-flex align-items-center border pt-5 pb-5 ps-4">
-          <p className="fw-bold-600 m-0">{facility.name}</p>
+          <p className="fw-bold-600 m-0">
+            <Link
+              className="fw-bold-600 m-0 results-title results-link"
+              to={`/details/${facility.id}`}
+            >
+              {facility.name}
+            </Link>
+          </p>
         </Container>
         <Container className="d-flex flex-column justify-content-center align-items-center border">
           <p>Najbliższa wizyta za</p>
