@@ -10,9 +10,9 @@ const RaportsTemplate = () => {
   // const linkParams = useParams();
 
   return (
-    <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
+    <Container className="d-flex flex-column p-5  justify-content-center align-items-center">
       <Container
-        className="d-flex flex-column justify-content-center align-items-center"
+        className="d-flex pb-5 flex-column justify-content-center align-items-center"
         style={{ maxWidth: "738px" }}
       >
         <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>

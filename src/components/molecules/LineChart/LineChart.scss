@@ -1,0 +1,13 @@
+.information {
+  padding: 6px 12px;
+  background-color: #11c0f2;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  display: inline-block;
+
+  &[data-pink="true"] {
+    background-color: #ed2369;
+  }
+}

@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { useProvincesQuery } from "../../../hooks/useProvincesQuery";
 import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
@@ -20,7 +20,7 @@ const RaportsForm = () => {
 
   return (
     <form
-      className="w-100"
+      className="w-100 pb-5"
       onSubmit={handleSubmit((data) => console.log(data))}
     >
       <Container className="p-0 d-flex flex-row ">
@@ -95,7 +95,17 @@ const RaportsForm = () => {
           />
         </Container>
       )}
-      <button value="Submit" />
+      <Container className="p-0 pt-4 d-flex w-100 justify-content-center">
+        <Button
+          variant="danger btn-pink"
+          type="submit"
+          value="Submit"
+          size="lg"
+          className="px-5"
+        >
+          Pokaż
+        </Button>
+      </Container>
     </form>
   );
 };
