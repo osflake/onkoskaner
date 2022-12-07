@@ -22,7 +22,7 @@ const data = [
   },
 ];
 
-const CustomSymbol = ({ size, color, borderWidth, borderColor }) => {
+const CustomSymbol = ({ color }) => {
   return (
     <g>
       <rect x="-31" y="-16" width="62" height="32" rx="15" fill={color} />

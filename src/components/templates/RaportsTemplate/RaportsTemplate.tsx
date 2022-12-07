@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 import "./RaportsTemplate.scss";
 import RaportsForm from "../../organisms/RaportsForm/RaportsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
+import { Map } from "../../molecules/Map/Map";
 
 const RaportsTemplate = () => {
   // const linkParams = useParams();
@@ -31,6 +32,7 @@ const RaportsTemplate = () => {
         </p>
       </Container>
       <LineChart />
+      <Map />
     </Container>
   );
 };
