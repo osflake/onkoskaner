@@ -1,4 +1,8 @@
 import { ResponsiveLine } from "@nivo/line";
+import { useRef } from "react";
+import { Button } from "react-bootstrap";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import "./LineChart.scss";
 
 const data = [
@@ -31,122 +35,146 @@ const CustomSymbol = ({ color }) => {
   );
 };
 
-const LineChart = () => (
-  <>
-    <div style={{ height: 250, width: "100%" }}>
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 50, right: 70, bottom: 50, left: 70 }}
-        xScale={{ type: "point" }}
-        yScale={{
-          type: "linear",
-          min: "auto",
-          max: "auto",
-          stacked: false,
-          reverse: false,
-        }}
-        yFormat=" >-.2f"
-        theme={{
-          dots: {
-            text: {
-              fill: "#ffffff",
-              fontSize: 12,
+const LineChart = () => {
+  const printRef = useRef();
+
+  const handleDownloadPdf = async () => {
+    const element = printRef.current;
+    const canvas = await html2canvas(element);
+    const data = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF();
+    const imgProperties = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("print.pdf");
+  };
+
+  return (
+    <>
+      <div ref={printRef} style={{ height: 250, width: "100%" }}>
+        <ResponsiveLine
+          data={data}
+          margin={{ top: 50, right: 70, bottom: 50, left: 70 }}
+          xScale={{ type: "point" }}
+          yScale={{
+            type: "linear",
+            min: "auto",
+            max: "auto",
+            stacked: false,
+            reverse: false,
+          }}
+          yFormat=" >-.2f"
+          theme={{
+            dots: {
+              text: {
+                fill: "#ffffff",
+                fontSize: 12,
+              },
             },
-          },
-        }}
-        axisTop={null}
-        axisRight={{
-          orient: "right",
-          tickSize: 20,
-          tickPadding: 20,
-          tickRotation: 0,
-          legend: "",
-          legendOffset: -28,
-        }}
-        axisBottom={{
-          orient: "bottom",
-          tickSize: 0,
-          tickPadding: 20,
-          tickRotation: 0,
-          legend: "",
-          legendOffset: 60,
-          legendPosition: "middle",
-        }}
-        axisLeft={{
-          orient: "left",
-          tickSize: 20,
-          tickPadding: 20,
-          tickRotation: 0,
-          legend: "",
-          legendOffset: -22,
-          legendPosition: "middle",
-        }}
-        enableGridX={false}
-        colors={["#11C0F2", "#ED2369", "#003B50"]}
-        pointSymbol={CustomSymbol}
-        pointSize={20}
-        pointBorderWidth={1}
-        textColor="red"
-        pointBorderColor={{
-          from: "color",
-          modifiers: [["darker", 0.3]],
-        }}
-        enablePointLabel={true}
-        pointLabel={function (t) {
-          return `${t.y} dni`;
-        }}
-        pointLabelYOffset={4}
-        areaOpacity={0}
-        useMesh={true}
-        legends={[]}
-        enableSlices="x"
-        sliceTooltip={({ slice }) => {
-          return (
-            <div
-              style={{
-                background: "white",
-                padding: "9px 12px",
-                border: "1px solid #ccc",
-              }}
-            >
-              {slice.points.map((point) => {
-                return (
-                  <div
-                    key={point.id}
-                    className="chartTooltip"
-                    style={{
-                      color: point.serieColor,
-                      padding: "2px 0",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    {point.serieId}
+          }}
+          axisTop={null}
+          axisRight={{
+            orient: "right",
+            tickSize: 20,
+            tickPadding: 20,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: -28,
+          }}
+          axisBottom={{
+            orient: "bottom",
+            tickSize: 0,
+            tickPadding: 20,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: 60,
+            legendPosition: "middle",
+          }}
+          axisLeft={{
+            orient: "left",
+            tickSize: 20,
+            tickPadding: 20,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: -22,
+            legendPosition: "middle",
+          }}
+          enableGridX={false}
+          colors={["#11C0F2", "#ED2369", "#003B50"]}
+          pointSymbol={CustomSymbol}
+          pointSize={20}
+          pointBorderWidth={1}
+          textColor="red"
+          pointBorderColor={{
+            from: "color",
+            modifiers: [["darker", 0.3]],
+          }}
+          enablePointLabel={true}
+          pointLabel={function (t) {
+            return `${t.y} dni`;
+          }}
+          pointLabelYOffset={4}
+          areaOpacity={0}
+          useMesh={true}
+          legends={[]}
+          enableSlices="x"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div
+                style={{
+                  background: "white",
+                  padding: "9px 12px",
+                  border: "1px solid #ccc",
+                }}
+              >
+                {slice.points.map((point) => {
+                  return (
                     <div
+                      key={point.id}
                       className="chartTooltip"
                       style={{
                         color: point.serieColor,
-                        paddingLeft: "15px",
+                        padding: "2px 0",
+                        display: "flex",
+                        justifyContent: "space-between",
                       }}
                     >
-                      <strong> {` ${point.data.y}`}</strong>
+                      {point.serieId}
+                      <div
+                        className="chartTooltip"
+                        style={{
+                          color: point.serieColor,
+                          paddingLeft: "15px",
+                        }}
+                      >
+                        <strong> {` ${point.data.y}`}</strong>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }}
-      />
-    </div>
-    <div className="my-5 w-100 p-0 d-flex align-items-center justify-items-center gap-5">
-      <p className="results-title fw-normal-500 m-0">Legenda</p>
-      <div className="information">NORMALNY TRYB</div>
-      <div className="information" data-pink={true}>
-        TRYB PILNY
+                  );
+                })}
+              </div>
+            );
+          }}
+        />
       </div>
-    </div>
-  </>
-);
+      <div className="my-5 w-100 p-0 d-flex  justify-content-between ">
+        <div className="d-flex gap-5 align-items-center">
+          <p className="results-title fw-normal-500 m-0">Legenda</p>
+          <div className="information">NORMALNY TRYB</div>
+          <div className="information" data-pink={true}>
+            TRYB PILNY
+          </div>
+        </div>
+
+        <Button onClick={handleDownloadPdf} className="btn-outline-pink">
+          Pobierz raport Xlsx/csv
+        </Button>
+      </div>
+    </>
+  );
+};
 
 export default LineChart;
