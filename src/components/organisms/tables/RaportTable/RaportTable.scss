@@ -70,3 +70,7 @@ thead {
     transition: 0.3s all ease-in-out;
   }
 }
+
+td a {
+  color: var(--main-text-color);
+}

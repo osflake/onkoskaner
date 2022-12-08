@@ -1,9 +1,8 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useRef } from "react";
 import { Button } from "react-bootstrap";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 import "./LineChart.scss";
+import downloadPdf from "../../../hooks/downloadPdf";
 
 const data = [
   {
@@ -37,20 +36,6 @@ const CustomSymbol = ({ color }) => {
 
 const LineChart = () => {
   const printRef = useRef();
-
-  const handleDownloadPdf = async () => {
-    const element = printRef.current;
-    const canvas = await html2canvas(element);
-    const data = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF();
-    const imgProperties = pdf.getImageProperties(data);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-
-    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("print.pdf");
-  };
 
   return (
     <>
@@ -169,7 +154,10 @@ const LineChart = () => {
           </div>
         </div>
 
-        <Button onClick={handleDownloadPdf} className="btn-outline-pink">
+        <Button
+          onClick={() => downloadPdf(printRef)}
+          className="btn-outline-pink"
+        >
           Pobierz raport Xlsx/csv
         </Button>
       </div>
