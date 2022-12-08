@@ -11,8 +11,8 @@ const RaportTable = () => {
   const printRef = useRef<HTMLInputElement>(null);
 
   return (
-    <>
-      <div ref={printRef} className=" w-100">
+    <div className="w-100 my-5">
+      <div ref={printRef}>
         <Table striped className="mt-5">
           <thead>
             <tr>
@@ -128,7 +128,7 @@ const RaportTable = () => {
         </Table>
       </div>
 
-      <div className="d-flex justify-content-end w-100 mt-4">
+      <div className="d-flex justify-content-end w-100 mt-5">
         <Button
           onClick={() => downloadPdf(printRef)}
           className="btn-outline-pink"
@@ -136,7 +136,7 @@ const RaportTable = () => {
           Pobierz raport pdf
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

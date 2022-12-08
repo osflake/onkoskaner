@@ -6,6 +6,7 @@ import RaportsForm from "../../organisms/RaportsForm/RaportsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
 import { Map } from "../../molecules/Map/Map";
 import RaportTable from "../../organisms/tables/RaportTable/RaportTable";
+import OtherRaports from "../../organisms/OtherRaports/OtherRaports";
 
 const RaportsTemplate = () => {
   // const linkParams = useParams();
@@ -42,6 +43,7 @@ const RaportsTemplate = () => {
       </Container>
       <Map />
       <RaportTable />
+      <OtherRaports />
     </Container>
   );
 };
