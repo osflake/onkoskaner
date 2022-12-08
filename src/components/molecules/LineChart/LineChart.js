@@ -140,7 +140,7 @@ const LineChart = () => (
       />
     </div>
     <div className="my-5 w-100 p-0 d-flex align-items-center justify-items-center gap-5">
-      <p className="results-title fw-normal-500 m-0">Wybierz świadczenie</p>
+      <p className="results-title fw-normal-500 m-0">Legenda</p>
       <div className="information">NORMALNY TRYB</div>
       <div className="information" data-pink={true}>
         TRYB PILNY

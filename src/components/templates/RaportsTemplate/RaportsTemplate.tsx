@@ -5,6 +5,7 @@ import "./RaportsTemplate.scss";
 import RaportsForm from "../../organisms/RaportsForm/RaportsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
 import { Map } from "../../molecules/Map/Map";
+import RaportTable from "../../organisms/tables/RaportTable/RaportTable";
 
 const RaportsTemplate = () => {
   // const linkParams = useParams();
@@ -26,13 +27,21 @@ const RaportsTemplate = () => {
       </Container>
       <RaportsForm />
       <Container style={{ maxWidth: "738px" }}>
-        <p className="results-title mt-3 text-center">
+        <p className="results-title mt-3 mb-0 text-center">
           Średni czas oczekiwania w całej poslsce na świadczenie a w przeciągu
           ostatnich 30 dni (stan na 23.10.2022)
         </p>
       </Container>
       <LineChart />
+      <Container className="my-5" style={{ maxWidth: "738px" }}>
+        <p className="results-title mt-3 mb-0 text-center">
+          Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach
+          <br />
+          (stan na 23.10.2022)
+        </p>
+      </Container>
       <Map />
+      <RaportTable />
     </Container>
   );
 };
