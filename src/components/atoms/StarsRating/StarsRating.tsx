@@ -4,12 +4,12 @@ import { ReactComponent as StarHalf } from "./Icons/star-half.svg";
 import { ReactComponent as StarFilled } from "./Icons/star-filled.svg";
 
 interface StarsRatingProps {
-  rating?: string;
+  rating?: number;
 }
 
-const StarsRating = ({ rating }: StarsRatingProps) => {
+const StarsRating = ({ rating = 0 }: StarsRatingProps) => {
   const renderStars = () => {
-    let currentRating = 2.5;
+    let currentRating = rating;
     let stars = [];
 
     for (let i = 0; i < 5; i++) {
@@ -35,7 +35,7 @@ const StarsRating = ({ rating }: StarsRatingProps) => {
   };
 
   return (
-    <Container className="d-flex flex-row align-items-center justify-content-center gap-2">
+    <Container className="d-flex flex-row align-items-center justify-content-center width-auto m-0 gap-2">
       {renderStars()}
     </Container>
   );

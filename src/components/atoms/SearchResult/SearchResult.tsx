@@ -45,9 +45,13 @@ const SearchResult = ({ facility }: SearchResultsProps) => {
           <StarsRating rating={facility.rating} />
           <Container className="d-flex flex-row justify-content-center align-items-center gap-2">
             <h4 className="m-0">
-              <Badge bg="info" className="m-0">{`${facility.rating}/5`}</Badge>
+              <Badge bg="info" className="m-0">
+                {facility.rating ? `${facility.rating}/5` : "N/A"}
+              </Badge>
             </h4>
-            <p className="m-0 align-self-center fs-13">{`(${facility.rating_amount} opinii)`}</p>
+            <p className="m-0 align-self-center fs-13">{`(${
+              facility.rating ? facility.rating : "brak"
+            } opinii)`}</p>
           </Container>
         </Container>
         <Container className="d-flex flex-column justify-content-center align-items-center border gap-2">

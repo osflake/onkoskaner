@@ -11,7 +11,7 @@ interface SearchResultsProps {
     examination_waiting_time?: string;
     street?: string;
     zipCode?: string;
-    rating?: string;
+    rating?: number;
     rating_amount?: string;
     successful_phone_calls?: string;
   };

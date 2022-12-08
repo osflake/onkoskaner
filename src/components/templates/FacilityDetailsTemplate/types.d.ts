@@ -15,10 +15,25 @@ interface FacilityDataTypes {
     commercialContract?: any;
     communicationType?: any;
     phoneNumber?: number;
-    city?: any;
+    city?: {
+      id: number;
+      name: string;
+      nameLocalized?: string;
+    };
   };
   rating?: number;
   successfulCalls?: number;
   totalCalls?: number;
   avgTotalCallsPercents?: number;
+  latestSurveys?: LatestSurveyTypes[];
+}
+
+interface LatestSurveyTypes {
+  id: number;
+  daysToExamination?: number;
+  service: {
+    id: number;
+    name: string;
+    active: boolean;
+  };
 }
