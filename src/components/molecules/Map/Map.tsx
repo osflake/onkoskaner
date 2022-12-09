@@ -97,10 +97,10 @@ export const Map = () => {
             id="32 dni"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="80" y="267.2">
               1 DNI
@@ -113,10 +113,10 @@ export const Map = () => {
             id="32 dni_2"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="174" y="122.2">
               15 DNI
@@ -129,10 +129,10 @@ export const Map = () => {
             id="32 dni_3"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="279" y="293.2">
               32 DNI
@@ -145,10 +145,10 @@ export const Map = () => {
             id="32 dni_4"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="378" y="261.2">
               32 DNI
@@ -161,10 +161,10 @@ export const Map = () => {
             id="32 dni_5"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="48" y="87.2">
               32 DNI
@@ -177,10 +177,10 @@ export const Map = () => {
             id="32 dni_6"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="196" y="319.2">
               122 DNI
@@ -193,10 +193,10 @@ export const Map = () => {
             id="32 dni_7"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="256" y="365.2">
               10 DNI
@@ -209,10 +209,10 @@ export const Map = () => {
             id="32 dni_8"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="366" y="103.2">
               32 DNI
@@ -225,10 +225,10 @@ export const Map = () => {
             id="32 dni_9"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="275" y="69.2">
               32 DNI
@@ -241,10 +241,10 @@ export const Map = () => {
             id="32 dni_10"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="12" y="189.2">
               32 DNI
@@ -257,10 +257,10 @@ export const Map = () => {
             id="32 dni_11"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="111" y="175.2">
               32 DNI
@@ -273,10 +273,10 @@ export const Map = () => {
             id="32 dni_12"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="162" y="48.2">
               22 DNI
@@ -289,10 +289,10 @@ export const Map = () => {
             id="32 dni_13"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="293" y="168.2">
               32 DNI
@@ -305,10 +305,10 @@ export const Map = () => {
             id="32 dni_14"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="208" y="235.2">
               32 DNI
@@ -321,10 +321,10 @@ export const Map = () => {
             id="32 dni_15"
             fill="white"
             xmlSpace="preserve"
-            font-family="Poppins"
-            font-size="12"
-            font-weight="bold"
-            letter-spacing="0px"
+            fontFamily="Poppins"
+            fontSize="12"
+            fontWeight="bold"
+            letterSpacing="0px"
           >
             <tspan x="353" y="356.2">
               37 DNI
@@ -345,10 +345,10 @@ export const Map = () => {
               id="32 dni_16"
               fill="white"
               xmlSpace="preserve"
-              font-family="Poppins"
-              font-size="12"
-              font-weight="bold"
-              letter-spacing="0px"
+              fontFamily="Poppins"
+              fontSize="12"
+              fontWeight="bold"
+              letterSpacing="0px"
             >
               <tspan x="144" y="294.2">
                 21 DNI

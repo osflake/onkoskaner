@@ -1,4 +1,4 @@
-import { Button, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { useState } from "react";
 import CustomPagination from "../../../molecules/CustomPagination/CustomPagination";
 import "./OtherStatsTable.scss";
@@ -47,12 +47,14 @@ const OtherStatsTable = () => {
           </tr>
         </tbody>
       </Table>
-      <CustomPagination
-        total={20}
-        itemsPerPage={8}
-        currentPage={currPage}
-        onPageChange={setCurrPage}
-      />
+      <div className="d-flex justify-content-center w-100 p-0">
+        <CustomPagination
+          totalCount={20}
+          itemsPerPage={8}
+          currentPage={currPage}
+          onPageChange={setCurrPage}
+        />
+      </div>
     </>
   );
 };
