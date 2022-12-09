@@ -39,7 +39,7 @@ const LineChart = () => {
 
   return (
     <>
-      <div ref={printRef} style={{ height: 250, width: "100%" }}>
+      <div ref={printRef} style={{ height: 500, width: "100%" }}>
         <ResponsiveLine
           data={data}
           margin={{ top: 50, right: 70, bottom: 50, left: 70 }}

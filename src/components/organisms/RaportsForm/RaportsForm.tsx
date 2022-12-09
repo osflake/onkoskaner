@@ -103,7 +103,7 @@ const RaportsForm = () => {
           size="lg"
           className="px-5"
         >
-          Pokaż
+          Generuj
         </Button>
       </Container>
     </form>

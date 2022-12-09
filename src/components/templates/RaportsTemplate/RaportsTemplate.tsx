@@ -36,7 +36,8 @@ const RaportsTemplate = () => {
       <LineChart />
       <Container className="my-5" style={{ maxWidth: "738px" }}>
         <p className="results-title mt-3 mb-0 text-center">
-          Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach
+          Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
+          okresie
           <br />
           (stan na 23.10.2022)
         </p>
