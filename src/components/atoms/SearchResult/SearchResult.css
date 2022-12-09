@@ -5,3 +5,11 @@
 .result-top-row-bg {
   background-color: #f8f9fa;
 }
+
+.results-link {
+  text-decoration: none;
+}
+
+.results-link:hover {
+  text-decoration: underline;
+}

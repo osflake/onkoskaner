@@ -1,14 +1,17 @@
 interface SearchResultsProps {
-  place: {
+  facility: {
     name?: string;
-    city?: any;
-    id: string;
+    city: {
+      id: number;
+      name: string;
+      nameLocalized: string;
+    };
+    id: number;
     earliest_appointment?: string;
     examination_waiting_time?: string;
     street?: string;
     zipCode?: string;
-    building_number?: string;
-    rating?: string;
+    rating?: number;
     rating_amount?: string;
     successful_phone_calls?: string;
   };

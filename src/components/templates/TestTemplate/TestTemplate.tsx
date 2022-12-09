@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFacilities } from "../../../services/api/facilitiesApi";
+import { getProvinces } from "../../../services/api/provincesApi";
 import SearchResult from "../../atoms/SearchResult/SearchResult";
 import ChangeCriteriaModal from "../../organisms/Modals/ChangeCriteriaModal";
 
@@ -10,11 +11,16 @@ import "./TestTemplate.css";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
-  const { isLoading, error, data } = useQuery(
-    getFacilities({ offset: "1", limit: "10" })
-  );
-
   const linkParams = useParams();
+
+  const { data: provincesData } = useQuery(getProvinces(linkParams.provinceId));
+  const { isLoading, error, data } = useQuery<SearchResultsProps["facility"][]>(
+    getFacilities({
+      offset: "0",
+      limit: "5",
+      provinceId: linkParams.provinceId
+    })
+  );
 
   if (error) {
     return <div>Something went wrong...</div>;
@@ -24,11 +30,16 @@ const TestTemplate = () => {
     return <div>Loading data...</div>;
   }
 
+  console.log("data", data);
+  console.log("link params", linkParams);
+
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
       <Container className="d-flex flex-column justify-content-center align-items-center gap-3">
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
-        <p className="results-title">{`${linkParams.examId} / ${linkParams.city}`}</p>
+        {provincesData && (
+          <p className="results-title">{`${provincesData[0].name} / ${linkParams.cityId}`}</p>
+        )}
         <Button
           className="btn-pink"
           onClick={() => setShowCriteriaModal((prevState) => !prevState)}
@@ -52,8 +63,8 @@ const TestTemplate = () => {
         </Container>
 
         {data &&
-          data.data.map((place: { id: string }) => {
-            return <SearchResult place={place} key={place.id} />;
+          data.map((facility) => {
+            return <SearchResult facility={facility} key={facility.id} />;
           })}
       </Container>
     </Container>
