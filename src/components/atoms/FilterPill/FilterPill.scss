@@ -1,0 +1,18 @@
+.btn-pill-outline-primary {
+  border-radius: 100px;
+  border-color: var(--main-text-color) !important;
+  color: var(--main-text-color) !important;
+  background-color: transparent !important;
+
+  &:hover {
+    color: white !important;
+    background-color: var(--main-text-color) !important;
+  }
+}
+
+.btn-pill-outline-primary-active {
+  border-radius: 100px;
+  color: white !important;
+  background-color: var(--main-text-color) !important;
+  border-color: var(--main-text-color) !important;
+}

@@ -5,7 +5,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import "./ChangeCriteriaModal.css";
 
-import { useProvincesQuery } from "../../../../hooks/useProvincesQuery";
+import { getProvinces } from "../../../../services/api/provincesApi";
+import { useQuery } from "@tanstack/react-query";
 
 interface ModalContainerProps {
   show: boolean;
@@ -16,9 +17,9 @@ interface ModalContainerProps {
 const ModalContainer = ({
   show = true,
   title = "Zmień kryteria",
-  handleClose = () => {},
+  handleClose = () => {}
 }: ModalContainerProps) => {
-  const { data } = useProvincesQuery();
+  const { data } = useQuery(getProvinces());
 
   return (
     <>
