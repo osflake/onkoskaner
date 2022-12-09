@@ -1,14 +1,14 @@
 import { Container } from "react-bootstrap";
 // import { useParams } from "react-router-dom";
 
-import "./RaportsTemplate.scss";
-import RaportsForm from "../../organisms/RaportsForm/RaportsForm";
+import "./StatsTemplate.scss";
+import StatsForm from "../../organisms/StatsForm/StatsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
 import { Map } from "../../molecules/Map/Map";
-import RaportTable from "../../organisms/tables/RaportTable/RaportTable";
-import OtherRaports from "../../organisms/OtherRaports/OtherRaports";
+import StatsTable from "../../organisms/tables/StatsTable/StatsTable";
+import OtherStats from "../../organisms/OtherRaports/OtherStats";
 
-const RaportsTemplate = () => {
+const StatsTemplate = () => {
   // const linkParams = useParams();
 
   return (
@@ -26,7 +26,7 @@ const RaportsTemplate = () => {
           oczekiwania.
         </p>
       </Container>
-      <RaportsForm />
+      <StatsForm />
       <Container style={{ maxWidth: "738px" }}>
         <p className="results-title mt-3 mb-0 text-center">
           Średni czas oczekiwania w całej poslsce na świadczenie a w przeciągu
@@ -43,10 +43,10 @@ const RaportsTemplate = () => {
         </p>
       </Container>
       <Map />
-      <RaportTable />
-      <OtherRaports />
+      <StatsTable />
+      <OtherStats />
     </Container>
   );
 };
 
-export default RaportsTemplate;
+export default StatsTemplate;

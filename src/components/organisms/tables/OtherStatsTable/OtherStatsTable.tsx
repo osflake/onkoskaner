@@ -1,14 +1,14 @@
 import { Button, Table } from "react-bootstrap";
 import { useState } from "react";
 import CustomPagination from "../../../molecules/CustomPagination/CustomPagination";
-import "./OtherRaportsTable.scss";
+import "./OtherStatsTable.scss";
 
-const OtherRaportsTable = () => {
+const OtherStatsTable = () => {
   const [currPage, setCurrPage] = useState(1);
   return (
     <>
       <Table>
-        <tbody className="otherRaportsTable">
+        <tbody className="otherStatsTable">
           <tr>
             <td>Rezonans magenetyczny za 3 kwartał 2022r</td>
             <td className="pdfWeight">PDF (150 KB)</td>
@@ -57,4 +57,4 @@ const OtherRaportsTable = () => {
   );
 };
 
-export default OtherRaportsTable;
+export default OtherStatsTable;

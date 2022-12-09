@@ -1,5 +1,5 @@
 import { Button, Table } from "react-bootstrap";
-import "./RaportTable.scss";
+import "./StatsTable.scss";
 import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ const RaportTable = () => {
               <th className="pb-4">Czas oczekiwania:</th>
               <th className="pb-4">
                 <button
-                  className="raport__sortButton"
+                  className="stats__sortButton"
                   data-asc={sort === "fastest,asc"}
                   onClick={() =>
                     sort === "fastest,asc"
@@ -32,7 +32,7 @@ const RaportTable = () => {
               </th>
               <th className="pb-4">
                 <button
-                  className="raport__sortButton"
+                  className="stats__sortButton"
                   data-asc={sort === "medium,asc"}
                   onClick={() =>
                     sort === "medium,asc"
@@ -46,7 +46,7 @@ const RaportTable = () => {
               </th>
               <th className="pb-4">
                 <button
-                  className="raport__sortButton"
+                  className="stats__sortButton"
                   data-asc={sort === "longest,asc"}
                   onClick={() =>
                     sort === "longest,asc"

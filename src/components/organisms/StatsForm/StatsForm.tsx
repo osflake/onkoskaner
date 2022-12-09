@@ -5,7 +5,7 @@ import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
 import SelectInput from "../../atoms/SelectInput/SelectInput";
 
-const RaportsForm = () => {
+const StatsForm = () => {
   const { data } = useProvincesQuery();
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
@@ -110,4 +110,4 @@ const RaportsForm = () => {
   );
 };
 
-export default RaportsForm;
+export default StatsForm;
