@@ -1,4 +1,4 @@
-export const Map = () => {
+export const Map = (ref: any) => {
   return (
     <svg
       width="452"
@@ -6,7 +6,6 @@ export const Map = () => {
       viewBox="0 0 452 412"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="my-4"
     >
       <g id="Frame 393">
         <g id="Frame 394">
