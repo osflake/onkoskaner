@@ -8,7 +8,8 @@ import "./FacilityDetailsTemplate.scss";
 
 import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
 import StarsRating from "../../atoms/StarsRating";
-import FilterPill from "../../atoms/FilterPill";
+import ResultFilters from "../../molecules/ResultFilters";
+import ServiceDetails from "../../molecules/ServiceDetails";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -22,7 +23,6 @@ const FacilityDetailsTemplate = () => {
     return <div>Loading data...</div>;
   }
 
-  console.log("searchParams", searchParams);
   console.log("data", data);
 
   return (
@@ -62,35 +62,15 @@ const FacilityDetailsTemplate = () => {
           </p>
         </Container>
 
-        <Container className="d-flex flex-column align-items-start gap-3">
-          <p className="fw-normal-500 fs-14 m-0">Filtruj po świadczeniach</p>
-          <Container className="d-flex align-items-start p-0 gap-3">
-            <Button
-              className={`btn-sm ${
-                searchParams.getAll("filterBy").length
-                  ? "btn-pill-outline-primary"
-                  : "btn-pill-outline-primary-active"
-              }`}
-              onClick={() => setSearchParams()}
-            >
-              Wszystkie
-            </Button>
-            {data?.latestSurveys?.map((survey) => (
-              <FilterPill
-                key={survey.id}
-                onClick={() =>
-                  setSearchParams({
-                    filterBy: [
-                      ...searchParams.getAll("filterBy"),
-                      survey.id.toString()
-                    ]
-                  })
-                }
-                title={survey.service?.name}
-              />
-            ))}
-          </Container>
-        </Container>
+        <ResultFilters filterAll itemsList={data?.latestSurveys} />
+        {data &&
+          data.latestSurveys?.map((survey) => (
+            <ServiceDetails
+              key={survey.id}
+              name={survey.service.name}
+              daysToExamination={survey?.daysToExamination}
+            />
+          ))}
       </Container>
     </Container>
   );
