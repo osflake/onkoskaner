@@ -7,7 +7,7 @@ import SelectInput from "../../atoms/SelectInput/SelectInput";
 
 const StatsForm = () => {
   const { data } = useProvincesQuery();
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       benefit: "1",
       province: "all",
@@ -17,6 +17,10 @@ const StatsForm = () => {
       urgent: false,
     },
   });
+
+  if (watch("province") === "all") {
+    setValue("city", "all");
+  }
 
   return (
     <form
