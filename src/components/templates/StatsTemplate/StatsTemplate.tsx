@@ -9,10 +9,14 @@ import StatsTable from "../../organisms/tables/StatsTable/StatsTable";
 import OtherStats from "../../organisms/OtherRaports/OtherStats";
 import downloadPdf from "../../../hooks/downloadPdf";
 import { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getStatsByProvince } from "../../../services/api/statsApi";
 
 const StatsTemplate = () => {
   // const linkParams = useParams();
   const printRef = useRef<HTMLInputElement>(null);
+
+  const { data: provinceStatsData } = useQuery(getStatsByProvince());
 
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
@@ -41,7 +45,7 @@ const StatsTemplate = () => {
           </p>
         </Container>
         <LineChart />
-        <Container className="my-5" style={{ maxWidth: "738px" }}>
+        <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
@@ -49,10 +53,8 @@ const StatsTemplate = () => {
             (stan na 23.10.2022)
           </p>
         </Container>
-        <div className="mt-4">
-          <Map />
-        </div>
-        <StatsTable />
+        <Map />
+        <StatsTable data={provinceStatsData?.data} />
       </div>
       <div className="px-5 w-100">
         <div className="d-flex justify-content-end w-100 mb-5">

@@ -1,22 +1,42 @@
 import { Button, Container } from "react-bootstrap";
-import { useProvincesQuery } from "../../../hooks/useProvincesQuery";
 import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
 import SelectInput from "../../atoms/SelectInput/SelectInput";
+import styles from "./StatsForm.module.scss";
+import { useQuery } from "@tanstack/react-query";
+import { getProvinces } from "../../../services/api/provincesApi";
+import { getCities } from "../../../services/api/citiesApi";
 
 const StatsForm = () => {
-  const { data } = useProvincesQuery();
-  const { register, handleSubmit, watch } = useForm({
+  const { data: provincesData } = useQuery(getProvinces());
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       benefit: "1",
       province: "all",
       city: "all",
       interval: "all",
-      normal: false,
+      normal: true,
       urgent: false,
     },
   });
+
+  const { data: citiesData } = useQuery(
+    [watch("province")],
+    getCities({ provinceId: watch("province") })
+  );
+
+  if (watch("province") === "all") {
+    setValue("city", "all");
+  }
 
   return (
     <form
@@ -60,37 +80,56 @@ const StatsForm = () => {
         <div className="p-0 ps-5 d-flex flex-column  align-items-center justify-content-center">
           <div>
             <p className="results-title fw-normal-500">Tryb świadczenia</p>
-            <Container className="p-0 w-auto d-inline-flex">
+            <Container className="p-0 w-auto d-inline-flex position-relative">
               <CheckboxInput
-                register={register("normal")}
+                register={register("normal", {
+                  validate: {
+                    positive: () =>
+                      !!(!!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!!getValues("urgent") && !getValues("normal")),
+                  },
+                })}
                 label="Normalny"
                 id={"1"}
               />
               <CheckboxInput
-                register={register("urgent")}
+                register={register("urgent", {
+                  validate: {
+                    positive: () =>
+                      !!(!!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!!getValues("urgent") && !getValues("normal")),
+                  },
+                })}
                 label="Pilny"
                 id={"2"}
               />
+              {!!errors.normal && !!errors.urgent ? (
+                <div className={styles.benefitErrorMessage}>
+                  Wybierz tryb świadczenia
+                </div>
+              ) : null}
             </Container>
           </div>
         </div>
       </Container>
-      {data && (
+      {provincesData && (
         <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4">
           <SelectInput
             label="Województwo"
-            dropdownData={data}
+            dropdownData={provincesData}
             register={register("province")}
           />
           <SelectInput
             label="Miasto"
-            dropdownData={data}
+            dropdownData={citiesData?.data}
             register={register("city")}
             disabled={watch("province") === "all"}
           />
           <SelectInput
             label="Okres czasowy"
-            dropdownData={data}
+            dropdownData={provincesData}
             register={register("interval")}
           />
         </Container>

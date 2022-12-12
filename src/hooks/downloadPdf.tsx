@@ -14,7 +14,6 @@ const useDownloadPdf = async (ref: { current: any }) => {
     doc.addImage(canvas, "PNG", 0, position, imgWidth, imgHeight, "", "FAST");
     while (heightLeft >= 0) {
       position = heightLeft - imgHeight;
-      console.log(position);
       doc.addPage();
       doc.addImage(
         canvas,
