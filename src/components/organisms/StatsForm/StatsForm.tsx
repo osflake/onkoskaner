@@ -1,13 +1,16 @@
 import { Button, Container } from "react-bootstrap";
-import { useProvincesQuery } from "../../../hooks/useProvincesQuery";
 import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
 import SelectInput from "../../atoms/SelectInput/SelectInput";
 import styles from "./StatsForm.module.scss";
+import { useQuery } from "@tanstack/react-query";
+import { getProvinces } from "../../../services/api/provincesApi";
+import { getCities } from "../../../services/api/citiesApi";
 
 const StatsForm = () => {
-  const { data } = useProvincesQuery();
+  const { data: provincesData } = useQuery(getProvinces());
+
   const {
     register,
     handleSubmit,
@@ -25,6 +28,11 @@ const StatsForm = () => {
       urgent: false,
     },
   });
+
+  const { data: citiesData } = useQuery(
+    [watch("province")],
+    getCities({ provinceId: watch("province") })
+  );
 
   if (watch("province") === "all") {
     setValue("city", "all");
@@ -106,22 +114,22 @@ const StatsForm = () => {
           </div>
         </div>
       </Container>
-      {data && (
+      {provincesData && (
         <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4">
           <SelectInput
             label="Województwo"
-            dropdownData={data}
+            dropdownData={provincesData}
             register={register("province")}
           />
           <SelectInput
             label="Miasto"
-            dropdownData={data}
+            dropdownData={citiesData?.data}
             register={register("city")}
             disabled={watch("province") === "all"}
           />
           <SelectInput
             label="Okres czasowy"
-            dropdownData={data}
+            dropdownData={provincesData}
             register={register("interval")}
           />
         </Container>

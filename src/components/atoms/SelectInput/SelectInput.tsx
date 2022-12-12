@@ -17,7 +17,7 @@ const SelectInput = ({
         {...register}
       >
         <option value="all">Wszystkie</option>
-        {dropdownData.map((item: { id: string; name: string }) => (
+        {dropdownData?.map((item: { id: string; name: string }) => (
           <option key={item.id} value={item.id}>
             {item.name}
           </option>
