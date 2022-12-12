@@ -9,6 +9,7 @@ import "./FacilityDetailsTemplate.scss";
 import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
 import StarsRating from "../../atoms/StarsRating";
 import ResultFilters from "../../molecules/ResultFilters";
+import ServiceDetails from "../../molecules/ServiceDetails";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -62,6 +63,14 @@ const FacilityDetailsTemplate = () => {
         </Container>
 
         <ResultFilters filterAll itemsList={data?.latestSurveys} />
+        {data &&
+          data.latestSurveys?.map((survey) => (
+            <ServiceDetails
+              key={survey.id}
+              name={survey.service.name}
+              daysToExamination={survey?.daysToExamination}
+            />
+          ))}
       </Container>
     </Container>
   );
