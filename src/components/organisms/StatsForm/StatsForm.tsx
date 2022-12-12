@@ -4,16 +4,24 @@ import CheckboxInput from "../../atoms/CheckboxInput/CheckboxInput";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
 import SelectInput from "../../atoms/SelectInput/SelectInput";
+import styles from "./StatsForm.module.scss";
 
 const StatsForm = () => {
   const { data } = useProvincesQuery();
-  const { register, handleSubmit, watch, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       benefit: "1",
       province: "all",
       city: "all",
       interval: "all",
-      normal: false,
+      normal: true,
       urgent: false,
     },
   });
@@ -64,17 +72,36 @@ const StatsForm = () => {
         <div className="p-0 ps-5 d-flex flex-column  align-items-center justify-content-center">
           <div>
             <p className="results-title fw-normal-500">Tryb świadczenia</p>
-            <Container className="p-0 w-auto d-inline-flex">
+            <Container className="p-0 w-auto d-inline-flex position-relative">
               <CheckboxInput
-                register={register("normal")}
+                register={register("normal", {
+                  validate: {
+                    positive: () =>
+                      !!(!!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!!getValues("urgent") && !getValues("normal")),
+                  },
+                })}
                 label="Normalny"
                 id={"1"}
               />
               <CheckboxInput
-                register={register("urgent")}
+                register={register("urgent", {
+                  validate: {
+                    positive: () =>
+                      !!(!!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!getValues("urgent") && !!getValues("normal")) ||
+                      !!(!!getValues("urgent") && !getValues("normal")),
+                  },
+                })}
                 label="Pilny"
                 id={"2"}
               />
+              {!!errors.normal && !!errors.urgent ? (
+                <div className={styles.benefitErrorMessage}>
+                  Wybierz tryb świadczenia
+                </div>
+              ) : null}
             </Container>
           </div>
         </div>

@@ -41,7 +41,7 @@ const StatsTemplate = () => {
           </p>
         </Container>
         <LineChart />
-        <Container className="my-5" style={{ maxWidth: "738px" }}>
+        <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
@@ -49,9 +49,7 @@ const StatsTemplate = () => {
             (stan na 23.10.2022)
           </p>
         </Container>
-        <div className="mt-4">
-          <Map />
-        </div>
+        <Map />
         <StatsTable />
       </div>
       <div className="px-5 w-100">
