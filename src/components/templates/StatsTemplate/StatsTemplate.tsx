@@ -9,10 +9,14 @@ import StatsTable from "../../organisms/tables/StatsTable/StatsTable";
 import OtherStats from "../../organisms/OtherRaports/OtherStats";
 import downloadPdf from "../../../hooks/downloadPdf";
 import { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getStatsByProvince } from "../../../services/api/statsApi";
 
 const StatsTemplate = () => {
   // const linkParams = useParams();
   const printRef = useRef<HTMLInputElement>(null);
+
+  const { data: provinceStatsData } = useQuery(getStatsByProvince());
 
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
@@ -50,7 +54,7 @@ const StatsTemplate = () => {
           </p>
         </Container>
         <Map />
-        <StatsTable />
+        <StatsTable data={provinceStatsData?.data} />
       </div>
       <div className="px-5 w-100">
         <div className="d-flex justify-content-end w-100 mb-5">
