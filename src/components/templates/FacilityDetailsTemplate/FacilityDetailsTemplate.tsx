@@ -9,7 +9,7 @@ import "./FacilityDetailsTemplate.scss";
 import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
 import StarsRating from "../../atoms/StarsRating";
 import ResultFilters from "../../molecules/ResultFilters";
-import ServiceDetails from "../../molecules/ServiceDetails";
+import ServiceDetails from "../../organisms/ServiceDetails";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -66,9 +66,11 @@ const FacilityDetailsTemplate = () => {
         {data &&
           data.latestSurveys?.map((survey) => (
             <ServiceDetails
+              facility={data.facility}
               key={survey.id}
               name={survey.service.name}
               daysToExamination={survey?.daysToExamination}
+              avgTotalCallsPercents={data.avgTotalCallsPercents}
             />
           ))}
       </Container>

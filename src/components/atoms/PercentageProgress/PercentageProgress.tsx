@@ -3,10 +3,10 @@ import Badge from "react-bootstrap/Badge";
 import "./PercentageProgress.scss";
 
 interface PercentageProgressProps {
-  percentage?: string;
+  percentage?: number;
 }
 
-const PercentageProgress = ({ percentage = "40" }: PercentageProgressProps) => {
+const PercentageProgress = ({ percentage = 40 }: PercentageProgressProps) => {
   const getTooltipColor = (percent: number) => {
     if (percent < 40) {
       return "danger";
@@ -22,12 +22,12 @@ const PercentageProgress = ({ percentage = "40" }: PercentageProgressProps) => {
       <div style={{ width: `${percentage}%` }} className="progress-left"></div>
       <h4 className="m-0">
         <Badge
-          bg={getTooltipColor(parseInt(percentage))}
+          bg={getTooltipColor(percentage)}
           className="m-0"
         >{`${percentage}%`}</Badge>
       </h4>
       <div
-        style={{ width: `${100 - parseInt(percentage)}%` }}
+        style={{ width: `${100 - percentage}%` }}
         className="progress-right"
       ></div>
     </Container>
