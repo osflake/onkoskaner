@@ -53,7 +53,7 @@ const StatsTemplate = () => {
             (stan na 23.10.2022)
           </p>
         </Container>
-        <Map />
+        <Map data={provinceStatsData?.data} />
         <StatsTable data={provinceStatsData?.data} />
       </div>
       <div className="px-5 w-100">
