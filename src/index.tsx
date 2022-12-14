@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter basename="/App">
+    <BrowserRouter basename="/app">
       <App />
       <ReactQueryDevtools initialIsOpen={false} />
     </BrowserRouter>
