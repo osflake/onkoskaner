@@ -41,7 +41,14 @@ const StatsTemplate = () => {
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Średni czas oczekiwania w całej poslsce na świadczenie a w przeciągu
-            ostatnich 30 dni (stan na 23.10.2022)
+            ostatnich 30 dni (stan na{" "}
+            {new Date()
+              .toISOString()
+              .split("T")[0]
+              .split("-")
+              .reverse()
+              .join(".")}
+            )
           </p>
         </Container>
         <LineChart />
@@ -50,7 +57,14 @@ const StatsTemplate = () => {
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
             <br />
-            (stan na 23.10.2022)
+            (stan na{" "}
+            {new Date()
+              .toISOString()
+              .split("T")[0]
+              .split("-")
+              .reverse()
+              .join(".")}
+            )
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />
