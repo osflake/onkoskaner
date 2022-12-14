@@ -8,10 +8,7 @@ import TestPage from "./components/pages/TestPage/TestPage";
 function App() {
   return (
     <Routes>
-      <Route
-        path="results/:service/:serviceId/:queue/:queueId/:province/:provinceId/:city/:cityId"
-        element={<TestPage />}
-      />
+      <Route path="/results" element={<TestPage />} />
       <Route path="test" element={<CustomDropdown />} />
       {/* <Route path="stats" element={<StatsPage />} /> */}
       <Route path="/stats/">

@@ -9,7 +9,7 @@ import "./FacilityDetailsTemplate.scss";
 import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
 import StarsRating from "../../atoms/StarsRating";
 import ResultFilters from "../../molecules/ResultFilters";
-import ServiceDetails from "../../molecules/ServiceDetails";
+import ServiceDetails from "../../organisms/ServiceDetails";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -24,6 +24,22 @@ const FacilityDetailsTemplate = () => {
   }
 
   console.log("data", data);
+  console.log("searchParams.getAll", searchParams.getAll("service"));
+
+  const filteredDetails = (data: FacilityDataTypes) => {
+    if (searchParams.getAll("service").length < 1) {
+      return data.latestSurveys;
+    } else {
+      console.log(
+        data.latestSurveys?.filter(({ service }) =>
+          searchParams.getAll("service").includes(service.id.toString())
+        )
+      );
+      return data.latestSurveys?.filter(({ service }) =>
+        searchParams.getAll("service").includes(service.id.toString())
+      );
+    }
+  };
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
@@ -64,14 +80,18 @@ const FacilityDetailsTemplate = () => {
 
         <ResultFilters filterAll itemsList={data?.latestSurveys} />
         {data &&
-          data.latestSurveys?.map((survey) => (
+          filteredDetails(data)?.map((survey) => (
             <ServiceDetails
+              facility={data.facility}
               key={survey.id}
               name={survey.service.name}
               daysToExamination={survey?.daysToExamination}
+              avgTotalCallsPercents={data.avgTotalCallsPercents}
+              surveyId={survey.id}
             />
           ))}
       </Container>
+      <div className="w-100 border-top"></div>
     </Container>
   );
 };

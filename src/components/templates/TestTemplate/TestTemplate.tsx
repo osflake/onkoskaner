@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFacilities } from "../../../services/api/facilitiesApi";
-import { getProvinces } from "../../../services/api/provincesApi";
 import SearchResult from "../../atoms/SearchResult/SearchResult";
 import ChangeCriteriaModal from "../../organisms/Modals/ChangeCriteriaModal";
 
@@ -11,34 +10,37 @@ import "./TestTemplate.css";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
-  const linkParams = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { data: provincesData } = useQuery(getProvinces(linkParams.provinceId));
-  const { isLoading, error, data } = useQuery<SearchResultsProps["facility"][]>(
+  const { isLoading, error, data } = useQuery<FacilityDataTypes[]>(
     getFacilities({
       offset: "0",
       limit: "5",
-      provinceId: linkParams.provinceId
+      provinceId: searchParams.get("provinceId"),
+      serviceId: searchParams.get("serviceId"),
+      queueId: searchParams.get("queueId")
     })
   );
 
   if (error) {
-    return <div>Something went wrong...</div>;
+    return <div>Coś poszło nie tak...</div>;
   }
 
   if (isLoading) {
-    return <div>Loading data...</div>;
+    return <div>Ładuję dane...</div>;
   }
 
   console.log("data", data);
-  console.log("link params", linkParams);
+  console.log("results/searchParams", searchParams);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
       <Container className="d-flex flex-column justify-content-center align-items-center gap-3">
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
-        {provincesData && (
-          <p className="results-title">{`${provincesData[0].name} / ${linkParams.cityId}`}</p>
+        {data && (
+          <p className="results-title">{`Nazwa badania / ${data[0].facility.province?.name
+            ?.charAt(0)
+            .toUpperCase()}${data[0].facility.province?.name.slice(1)}`}</p>
         )}
         <Button
           className="btn-pink"
@@ -64,7 +66,9 @@ const TestTemplate = () => {
 
         {data &&
           data.map((facility) => {
-            return <SearchResult facility={facility} key={facility.id} />;
+            return (
+              <SearchResult facility={facility} key={facility.facility.id} />
+            );
           })}
       </Container>
     </Container>

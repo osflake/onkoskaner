@@ -1,0 +1,27 @@
+.booking-link {
+  color: var(--pink-btn-color);
+  text-decoration: underline;
+}
+
+.details-divider {
+  border-right: 1px solid black;
+  height: 100%;
+}
+
+.accordion-details-bg button {
+  background-color: #ebebeb !important;
+  color: var(--main-text-color) !important;
+  padding: 12px !important;
+
+  &::after {
+    margin-left: 10px;
+    margin-right: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    filter: brightness(0);
+  }
+
+  p {
+    margin-left: auto !important;
+  }
+}

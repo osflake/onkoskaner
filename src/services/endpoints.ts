@@ -8,4 +8,6 @@ export const provinces = `${api}provinces`;
 
 export const cities = `${api}cities`;
 
+export const detailedFacilities = `${api}detailed-facilities`;
+
 export const stats = `${api}stats`;

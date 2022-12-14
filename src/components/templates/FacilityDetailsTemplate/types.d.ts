@@ -15,6 +15,10 @@ interface FacilityDataTypes {
     commercialContract?: any;
     communicationType?: any;
     phoneNumber?: number;
+    province?: {
+      id: number;
+      name: string;
+    };
     city?: {
       id: number;
       name: string;
