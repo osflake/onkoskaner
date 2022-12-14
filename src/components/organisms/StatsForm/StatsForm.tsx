@@ -28,7 +28,7 @@ const StatsForm = () => {
       service: search.get("service") || "217",
       province: search.get("province") || "all",
       city: search.get("city") || "all",
-      interval: search.get("dateTo") ? "test" || "all",
+      interval: search.get("dateTo") ? "currInterval" : "all",
       normal: search.get("normal") ? search.get("normal") === "true" : true,
       urgent: search.get("urgent") ? search.get("urgent") === "true" : false,
     },
@@ -62,8 +62,6 @@ const StatsForm = () => {
     <form
       className="w-100 pb-5"
       onSubmit={handleSubmit((data) => {
-        console.log(data);
-
         setSearch({
           ...(data.service && { service: data.service }),
           ...(data.province && { province: data.province }),
@@ -148,6 +146,7 @@ const StatsForm = () => {
             label="Okres czasowy"
             dropdownData={interval}
             register={register("interval")}
+            currInterval={watch("interval")}
           />
         </Container>
       )}
