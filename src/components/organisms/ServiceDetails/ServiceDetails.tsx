@@ -12,13 +12,15 @@ interface ServiceDetailsProps {
   daysToExamination?: number;
   facility: FacilityDataTypes["facility"];
   avgTotalCallsPercents?: number;
+  surveyId?: number;
 }
 
 const ServiceDetails = ({
   facility,
   name,
   daysToExamination,
-  avgTotalCallsPercents = 40
+  avgTotalCallsPercents = 40,
+  surveyId
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
 
