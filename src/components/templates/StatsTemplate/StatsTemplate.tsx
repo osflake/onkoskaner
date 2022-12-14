@@ -1,6 +1,4 @@
 import { Button, Container } from "react-bootstrap";
-// import { useParams } from "react-router-dom";
-
 import "./StatsTemplate.scss";
 import StatsForm from "../../organisms/StatsForm/StatsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
@@ -13,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatsByProvince } from "../../../services/api/statsApi";
 
 const StatsTemplate = () => {
-  // const linkParams = useParams();
   const printRef = useRef<HTMLInputElement>(null);
 
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
@@ -40,8 +37,15 @@ const StatsTemplate = () => {
         <StatsForm />
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Średni czas oczekiwania w całej poslsce na świadczenie a w przeciągu
-            ostatnich 30 dni (stan na 23.10.2022)
+            Średni czas oczekiwania w całej polsce na świadczenie a w przeciągu
+            ostatnich 30 dni (stan na{" "}
+            {new Date()
+              .toISOString()
+              .split("T")[0]
+              .split("-")
+              .reverse()
+              .join(".")}
+            )
           </p>
         </Container>
         <LineChart />
@@ -50,10 +54,17 @@ const StatsTemplate = () => {
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
             <br />
-            (stan na 23.10.2022)
+            (stan na{" "}
+            {new Date()
+              .toISOString()
+              .split("T")[0]
+              .split("-")
+              .reverse()
+              .join(".")}
+            )
           </p>
         </Container>
-        <Map />
+        <Map data={provinceStatsData?.data} />
         <StatsTable data={provinceStatsData?.data} />
       </div>
       <div className="px-5 w-100">
@@ -62,7 +73,7 @@ const StatsTemplate = () => {
             onClick={() => downloadPdf(printRef)}
             className="btn-outline-pink"
           >
-            Pobierz raport pdf
+            POBIERZ RAPORT PDF
           </Button>
         </div>
         <OtherStats />

@@ -8,7 +8,6 @@ const CheckboxInput = ({ label, register }: RadioInputProps) => {
           className="form-check-input custom-checkbox-pink"
           type="checkbox"
           name="inlineRadioOptions"
-          value={true}
           {...register}
         />
         {label}

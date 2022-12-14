@@ -17,7 +17,6 @@ export const getCities = ({ offset, limit, provinceId, q }: citiesProps) => {
   });
 
   return {
-    queryKey: ["cities"],
     queryFn: () =>
       axios.get(`${cities}?${params.toString()}`).then((res) => res.data),
   };
