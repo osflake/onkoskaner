@@ -25,11 +25,11 @@ const StatsForm = () => {
   } = useForm({
     defaultValues: {
       service: search.get("service") || "217",
-      province: "all",
-      city: "all",
-      interval: "all",
-      normal: true,
-      urgent: false,
+      province: search.get("province") || "all",
+      city: search.get("city") || "all",
+      interval: search.get("interval") || "all",
+      normal: search.get("normal") ? search.get("normal") === "true" : true,
+      urgent: search.get("urgent") ? search.get("urgent") === "true" : false,
     },
   });
 
@@ -37,10 +37,6 @@ const StatsForm = () => {
     [watch("province")],
     getCities({ provinceId: watch("province") })
   );
-
-  if (watch("province") === "all") {
-    setValue("city", "all");
-  }
 
   const interval = [
     {
@@ -61,33 +57,6 @@ const StatsForm = () => {
     },
   ];
 
-  // const today = new Date();
-  // const quarter = Math.floor(today.getMonth() / 3);
-
-  // const startFullQuarterxxx = new Date(today.getFullYear(), quarter * 3 - 3, 1)
-  //   .toISOString()
-  //   .split("T")[0];
-
-  // const startFullQuarter = new Date(today.getFullYear(), quarter * 3 - 3, 1);
-  // const endFullQuarter = new Date(
-  //   startFullQuarter.getFullYear(),
-  //   startFullQuarter.getMonth() + 3,
-  //   0
-  // )
-  //   .toISOString()
-  //   .split("T")[0];
-
-  // let last30days = new Date(today.setDate(today.getDate() - 30))
-  //   .toISOString()
-  //   .split("T")[0];
-  // let last60days = new Date(today.setDate(today.getDate() - 60))
-  //   .toISOString()
-  //   .split("T")[0];
-
-  // console.log(last30days, last60days);
-
-  console.log(search.toString());
-
   return (
     <form
       className="w-100 pb-5"
@@ -99,7 +68,12 @@ const StatsForm = () => {
           ...(data.province && { province: data.province }),
           ...(data.city && { city: data.city }),
           ...(data.interval && { interval: data.interval }),
+          // ...(data.interval && { dateSince: dateSince(data.interval) }),
+          // ...(data.interval && { dateTo: dateTo(data.interval) }),
+
           ...(data.service && { service: data.service }),
+          ...(data.normal === true ? { normal: "true" } : { normal: "false" }),
+          ...(data.urgent === true ? { urgent: "true" } : { urgent: "false" }),
         });
       })}
     >
@@ -162,6 +136,7 @@ const StatsForm = () => {
             label="Województwo"
             dropdownData={provincesData}
             register={register("province")}
+            onChange={() => setValue("city", "all")}
           />
           <SelectInput
             label="Miasto"

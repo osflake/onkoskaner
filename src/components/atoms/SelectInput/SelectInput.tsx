@@ -5,6 +5,7 @@ const SelectInput = ({
   dropdownData,
   register,
   disabled,
+  onChange,
 }: SelectInputProps) => {
   return (
     <label className="w-100 ">
@@ -14,6 +15,7 @@ const SelectInput = ({
         aria-label="Default select example"
         defaultValue="all"
         disabled={disabled}
+        onChangeCapture={onChange}
         {...register}
       >
         <option value="all">Wszystkie</option>
