@@ -1,14 +1,14 @@
-import OtherRaportsTable from "../tables/OtherRaportsTable/OtherRaportsTable";
-import "./OtherRaports.scss";
+import OtherStatsTable from "../tables/OtherStatsTable/OtherStatsTable";
+import "./OtherStats.scss";
 
-const OtherRaports = () => {
+const OtherStats = () => {
   return (
     <div className="d-flex flex-column gap-5 w-100">
       <div className="breakLine my-5"></div>
       <p className="fw-bold results-title mt-4 mb-1 fs-1 ">Pozostałe raporty</p>
-      <OtherRaportsTable />
+      <OtherStatsTable />
     </div>
   );
 };
 
-export default OtherRaports;
+export default OtherStats;

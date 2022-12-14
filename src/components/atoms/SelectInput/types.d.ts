@@ -4,4 +4,6 @@ interface SelectInputProps {
   register?: any;
   value?: string;
   disabled?: boolean;
+  onChange?: any;
+  currInterval?: any;
 }

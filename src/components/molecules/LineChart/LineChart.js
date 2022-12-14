@@ -158,7 +158,7 @@ const LineChart = () => {
           onClick={() => downloadPdf(printRef)}
           className="btn-outline-pink"
         >
-          Pobierz raport Xlsx/csv
+          POBIERZ RAPORT XLSX/CSV
         </Button>
       </div>
     </>

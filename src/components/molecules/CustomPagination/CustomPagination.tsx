@@ -1,11 +1,11 @@
-import React from "react";
-import { Container, Pagination } from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
 import { usePagination } from "../../../hooks/usePagination";
+import "./CustomPagination.scss";
 
 const CustomPagination = (props: any) => {
   const {
     onPageChange,
-    totalCount = 100,
+    totalCount,
     siblingCount = 1,
     currentPage,
     pageSize = 8,
@@ -32,40 +32,32 @@ const CustomPagination = (props: any) => {
 
   const lastPage = paginationRange[paginationRange.length - 1];
   return (
-    <Container>
+    <>
       <Pagination>
         <Pagination.Prev onClick={onPrevious} disabled={currentPage === 1} />
-        {paginationRange.map(
-          (
-            pageNumber:
-              | boolean
-              | React.ReactElement<
-                  any,
-                  string | React.JSXElementConstructor<any>
-                >
-              | React.ReactFragment
-              | React.Key
-              | null
-              | undefined
-          ) => {
-            if (pageNumber === "DOTS") {
-              return <Pagination.Item>&#8230;</Pagination.Item>;
-            }
-
+        {paginationRange.map((pageNumber: number | string, idx: number) => {
+          if (pageNumber === "DOTS") {
             return (
-              <Pagination.Item
-                active={pageNumber === currentPage}
-                onClick={() => onPageChange(pageNumber)}
-              >
-                {pageNumber}
+              <Pagination.Item key={`${pageNumber} ${idx}`}>
+                &#8230;
               </Pagination.Item>
             );
           }
-        )}
+
+          return (
+            <Pagination.Item
+              key={`${pageNumber} ${idx}`}
+              active={pageNumber === currentPage}
+              onClick={() => onPageChange(pageNumber)}
+            >
+              {pageNumber}
+            </Pagination.Item>
+          );
+        })}
 
         <Pagination.Next onClick={onNext} disabled={currentPage === lastPage} />
       </Pagination>
-    </Container>
+    </>
   );
 };
 
