@@ -9,6 +9,7 @@ import { getProvinces } from "../../../services/api/provincesApi";
 import { getCities } from "../../../services/api/citiesApi";
 import { getServices } from "../../../services/api/servicesApi";
 import { useSearchParams } from "react-router-dom";
+import { dateSince, dateTo } from "../../../services/helpers/statsDates";
 
 const StatsForm = () => {
   const { data: provincesData } = useQuery(getProvinces());
@@ -27,7 +28,7 @@ const StatsForm = () => {
       service: search.get("service") || "217",
       province: search.get("province") || "all",
       city: search.get("city") || "all",
-      interval: search.get("interval") || "all",
+      interval: search.get("dateTo") ? "test" || "all",
       normal: search.get("normal") ? search.get("normal") === "true" : true,
       urgent: search.get("urgent") ? search.get("urgent") === "true" : false,
     },
@@ -68,9 +69,8 @@ const StatsForm = () => {
           ...(data.province && { province: data.province }),
           ...(data.city && { city: data.city }),
           ...(data.interval && { interval: data.interval }),
-          // ...(data.interval && { dateSince: dateSince(data.interval) }),
-          // ...(data.interval && { dateTo: dateTo(data.interval) }),
-
+          ...(data.interval && { dateSince: dateSince(data.interval) }),
+          ...(data.interval && { dateTo: dateTo(data.interval) }),
           ...(data.service && { service: data.service }),
           ...(data.normal === true ? { normal: "true" } : { normal: "false" }),
           ...(data.urgent === true ? { urgent: "true" } : { urgent: "false" }),
