@@ -91,6 +91,7 @@ const FacilityDetailsTemplate = () => {
             />
           ))}
       </Container>
+      <div className="w-100 border-top"></div>
     </Container>
   );
 };

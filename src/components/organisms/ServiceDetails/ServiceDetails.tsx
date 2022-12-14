@@ -6,6 +6,7 @@ import Accordion from "react-bootstrap/Accordion";
 
 import "./ServiceDetails.scss";
 import PercentageProgress from "../../atoms/PercentageProgress";
+import OpeningHours from "../../atoms/OpeningHours";
 
 interface ServiceDetailsProps {
   name: string;
@@ -65,29 +66,7 @@ const ServiceDetails = ({
         <Accordion.Body className="border-bottom p-0">
           <Container className="d-flex flex-column m-0 p-0">
             <Container className="d-flex p-0 m-0">
-              <Container className="d-flex flex-column align-items-start py-4 ps-3 pe-4 gap-4 border-end">
-                <p className="m-0 fw-bold-600">Godziny otwarcia rejestracji</p>
-                <Container className="d-flex align-items-center p-0 justify-content-between">
-                  <p className="m-0">Poniedziałek</p>
-                  <p className="m-0 fw-bold-600">08:00 - 14:00</p>
-                </Container>
-                <Container className="d-flex align-items-center p-0 justify-content-between">
-                  <p className="m-0">Wtorek</p>
-                  <p className="m-0 fw-bold-600">08:00 - 14:00</p>
-                </Container>
-                <Container className="d-flex align-items-center p-0 justify-content-between">
-                  <p className="m-0">Środa</p>
-                  <p className="m-0 fw-bold-600">08:00 - 14:00</p>
-                </Container>
-                <Container className="d-flex align-items-center p-0 justify-content-between">
-                  <p className="m-0">Czwartek</p>
-                  <p className="m-0 fw-bold-600">08:00 - 14:00</p>
-                </Container>
-                <Container className="d-flex align-items-center p-0 justify-content-between">
-                  <p className="m-0">Piątek</p>
-                  <p className="m-0 fw-bold-600">08:00 - 14:00</p>
-                </Container>
-              </Container>
+              <OpeningHours />
 
               <Container className="d-flex flex-column gap-4 border-end p-4">
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
