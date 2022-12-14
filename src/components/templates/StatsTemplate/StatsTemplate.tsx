@@ -1,6 +1,4 @@
 import { Button, Container } from "react-bootstrap";
-// import { useParams } from "react-router-dom";
-
 import "./StatsTemplate.scss";
 import StatsForm from "../../organisms/StatsForm/StatsForm";
 import LineChart from "../../molecules/LineChart/LineChart";
@@ -13,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatsByProvince } from "../../../services/api/statsApi";
 
 const StatsTemplate = () => {
-  // const linkParams = useParams();
   const printRef = useRef<HTMLInputElement>(null);
 
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
@@ -76,7 +73,7 @@ const StatsTemplate = () => {
             onClick={() => downloadPdf(printRef)}
             className="btn-outline-pink"
           >
-            Pobierz raport pdf
+            POBIERZ RAPORT PDF
           </Button>
         </div>
         <OtherStats />

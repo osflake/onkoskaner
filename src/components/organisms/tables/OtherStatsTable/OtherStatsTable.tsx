@@ -9,26 +9,38 @@ const OtherStatsTable = () => {
   const [currPage, setCurrPage] = useState(1);
   const { data: pdfData, isLoading } = useQuery(getPdf());
 
-  console.log(pdfData);
-
   return (
     <>
       <Table>
         {!isLoading ? (
           <tbody className="otherStatsTable">
-            {pdfData.map((item: any) => (
-              <tr key={item.id}>
-                <td>{item.title.rendered}</td>
-                <td className="pdfWeight">PDF (150 KB)</td>
-                <td>
-                  <div className="d-flex justify-content-end w-100 p-2">
-                    <Button className="btn-outline-pink">
-                      Pobierz raport pdf
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {pdfData.map((item: any) =>
+              item.status === "publish" ? (
+                <tr key={item.pdf.id}>
+                  <td>
+                    <p className="m-0 fs-5">{item.title.rendered}</p>{" "}
+                    <p className="m-0 fs-6">{item.excerpt.rendered}</p>
+                  </td>
+                  <td className="pdfWeight">
+                    PDF ({item.pdf.filesize / 1000}KB)
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-end w-100 p-2">
+                      <a
+                        href={item.pdf.url}
+                        download
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        <Button className="btn-outline-pink">
+                          POBIERZ RAPORT
+                        </Button>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              ) : null
+            )}
           </tbody>
         ) : (
           <tbody className="d-flex justify-content-center my-5">
@@ -42,7 +54,7 @@ const OtherStatsTable = () => {
       </Table>
       <div className="d-flex justify-content-center w-100 p-0">
         <CustomPagination
-          totalCount={20}
+          totalCount={pdfData?.length || 0}
           itemsPerPage={8}
           currentPage={currPage}
           onPageChange={setCurrPage}

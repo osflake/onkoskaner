@@ -9,7 +9,7 @@ import { getProvinces } from "../../../services/api/provincesApi";
 import { getCities } from "../../../services/api/citiesApi";
 import { getServices } from "../../../services/api/servicesApi";
 import { useSearchParams } from "react-router-dom";
-import { dateSince, dateTo } from "../../../services/helpers/statsDates";
+import { dateTo, days } from "../../../services/helpers/statsDates";
 
 const StatsForm = () => {
   const { data: provincesData } = useQuery(getProvinces());
@@ -62,13 +62,14 @@ const StatsForm = () => {
     <form
       className="w-100 pb-5"
       onSubmit={handleSubmit((data) => {
+        console.log(data);
         setSearch({
           ...(data.service && { service: data.service }),
           ...(data.province && { province: data.province }),
           ...(data.city && { city: data.city }),
           ...(data.interval && { interval: data.interval }),
-          ...(data.interval && { dateSince: dateSince(data.interval) }),
           ...(data.interval && { dateTo: dateTo(data.interval) }),
+          ...(data.interval && { days: days(data.interval) }),
           ...(data.service && { service: data.service }),
           ...(data.normal === true ? { normal: "true" } : { normal: "false" }),
           ...(data.urgent === true ? { urgent: "true" } : { urgent: "false" }),
