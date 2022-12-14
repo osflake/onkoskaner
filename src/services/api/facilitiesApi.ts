@@ -1,28 +1,34 @@
 import axios from "axios";
-import { facilities } from "../endpoints";
+import { detailedFacilities } from "../endpoints";
 
 interface SerializerSettings {
   offset?: string;
   limit?: string;
-  provinceId?: string;
+  queueId?: string | null;
+  serviceId?: string | null;
+  provinceId?: string | null;
 }
 
 export const getFacilities = ({
   offset,
   limit,
-  provinceId
+  provinceId,
+  serviceId,
+  queueId
 }: SerializerSettings) => {
   const params = new URLSearchParams({
     ...(offset && { offset }),
     ...(limit && { limit }),
-    ...(provinceId && { provinceId })
+    ...(provinceId && { provinceId }),
+    ...(serviceId && { serviceId }),
+    ...(queueId && { queueId })
   });
 
   return {
-    queryKey: ["facilities"],
+    queryKey: ["detailedFacilities"],
     queryFn: () =>
       axios
-        .get(`${facilities}?${params.toString()}`)
+        .get(`${detailedFacilities}?${params.toString()}`)
         .then((res) => res.data.data)
   };
 };
