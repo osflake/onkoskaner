@@ -19,9 +19,7 @@ const StatsTemplate = () => {
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
 
-  const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
-
-  console.log(dateStatsData);
+  // const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
 
   const [searchParams] = useSearchParams();
 
@@ -44,7 +42,7 @@ const StatsTemplate = () => {
         className="w-100 d-flex flex-column justify-content-center align-items-center px-5 py-5"
       >
         <Container
-          className="d-flex pb-5 flex-column justify-content-center align-items-center"
+          className="d-flex pb-4 flex-column justify-content-center align-items-center"
           style={{ maxWidth: "738px" }}
         >
           <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>

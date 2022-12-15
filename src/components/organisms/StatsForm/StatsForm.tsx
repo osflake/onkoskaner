@@ -80,8 +80,8 @@ const StatsForm = () => {
         });
       })}
     >
-      <Container className="p-0 d-flex flex-row ">
-        <div className="pe-5">
+      <Container className="p-0 d-flex flex-row flex-wrap ">
+        <div className="pe-5 pt-4" style={{ maxWidth: "920px" }}>
           <p className="results-title fw-normal-500">Wybierz świadczenie</p>
           <Container className="p-0 d-inline-flex gap-3 ">
             {servicesData?.data.map((item: { name: string; id: string }) => (
@@ -96,7 +96,7 @@ const StatsForm = () => {
             ))}
           </Container>
         </div>
-        <div className="p-0 ps-5 d-flex flex-column  align-items-center justify-content-center">
+        <div className="p-0 pt-4 h-100 d-flex flex-column  align-items-center justify-content-center">
           <div>
             <p className="results-title fw-normal-500">Tryb świadczenia</p>
             <Container className="p-0 w-auto d-inline-flex position-relative">
