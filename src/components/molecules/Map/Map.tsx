@@ -3,18 +3,21 @@ interface FormValues {
     name: string;
   };
   results: {
-    min: number;
+    minDaysUntilExamination: number;
   };
 }
 
 export const Map = (data: any) => {
   const mapData = data?.data?.reduce(
-    (accumulator: FormValues, currentValue: FormValues) => ({
+    (accumulator: FormValues, currentValue: any) => ({
       ...accumulator,
-      [currentValue.province.name]: currentValue.results.min,
+      [currentValue.province.name]:
+        currentValue.results[0].minDaysUntilExamination,
     }),
     ""
   );
+
+  console.log(mapData);
 
   return (
     <>

@@ -9,9 +9,9 @@ interface FormValues {
     id: number;
   };
   results: {
-    min: number;
-    avg: number;
-    max: number;
+    minDaysUntilExamination: number;
+    avgDaysUntilExamination: number;
+    maxDaysUntilExamination: number;
   };
 }
 
@@ -76,8 +76,9 @@ const RaportTable = (data: any) => {
               <th>
                 {Math.round(
                   data.data?.reduce(
-                    (accumulator: number, currentValue: FormValues) =>
-                      accumulator + currentValue.results.min,
+                    (accumulator: number, currentValue: any) =>
+                      accumulator +
+                      currentValue.results[0].minDaysUntilExamination,
                     0
                   ) / 16
                 )}
@@ -86,8 +87,9 @@ const RaportTable = (data: any) => {
               <th>
                 {Math.round(
                   data.data?.reduce(
-                    (accumulator: number, currentValue: FormValues) =>
-                      accumulator + Number(currentValue.results.avg),
+                    (accumulator: number, currentValue: any) =>
+                      accumulator +
+                      Number(currentValue.results[0].avgDaysUntilExamination),
                     0
                   ) / 16
                 )}
@@ -96,8 +98,9 @@ const RaportTable = (data: any) => {
               <th>
                 {Math.round(
                   data.data?.reduce(
-                    (accumulator: number, currentValue: FormValues) =>
-                      accumulator + currentValue.results.max,
+                    (accumulator: number, currentValue: any) =>
+                      accumulator +
+                      currentValue.results[0].maxDaysUntilExamination,
                     0
                   ) / 16
                 )}
@@ -106,13 +109,15 @@ const RaportTable = (data: any) => {
               <th></th>
             </tr>
 
-            {data.data.map((item: FormValues) => {
+            {data.data.map((item: any) => {
               return (
                 <tr key={item.province.id}>
                   <td>{item.province.name}</td>
-                  <td>{item.results.min} dni</td>
-                  <td>{Math.round(item.results.avg)} dni</td>
-                  <td>{item.results.max} dni</td>
+                  <td>{item.results[0].minDaysUntilExamination} dni</td>
+                  <td>
+                    {Math.round(item.results[0].avgDaysUntilExamination)} dni
+                  </td>
+                  <td>{item.results[0].maxDaysUntilExamination} dni</td>
                   <td>
                     <Link to="">Pokaż placówki</Link>
                   </td>
