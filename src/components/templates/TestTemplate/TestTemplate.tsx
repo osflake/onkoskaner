@@ -7,12 +7,13 @@ import SearchResult from "../../atoms/SearchResult/SearchResult";
 import ChangeCriteriaModal from "../../organisms/Modals/ChangeCriteriaModal";
 
 import "./TestTemplate.css";
+import ErrorInfo from "../../atoms/ErrorInfo";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { isLoading, error, data } = useQuery<FacilityDataTypes[]>(
+  const { isError, data } = useQuery<FacilityDataTypes[]>(
     getFacilities({
       offset: "0",
       limit: "5",
@@ -22,12 +23,8 @@ const TestTemplate = () => {
     })
   );
 
-  if (error) {
-    return <div>Coś poszło nie tak...</div>;
-  }
-
-  if (isLoading) {
-    return <div>Ładuję dane...</div>;
+  if (isError) {
+    return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
   }
 
   console.log("data", data);

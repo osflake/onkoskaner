@@ -29,6 +29,7 @@ export const getFacilities = ({
     queryFn: () =>
       axios
         .get(`${detailedFacilities}?${params.toString()}`)
-        .then((res) => res.data.data)
+        .then((res) => res.data.data),
+    retry: false
   };
 };
