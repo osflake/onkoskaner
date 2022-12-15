@@ -10,6 +10,7 @@ import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
 import StarsRating from "../../atoms/StarsRating";
 import ResultFilters from "../../molecules/ResultFilters";
 import ServiceDetails from "../../organisms/ServiceDetails";
+import FacilityReviews from "../../organisms/FacilityReviews";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -92,6 +93,7 @@ const FacilityDetailsTemplate = () => {
           ))}
       </Container>
       <div className="w-100 border-top"></div>
+      <FacilityReviews rating={data?.rating} />
     </Container>
   );
 };

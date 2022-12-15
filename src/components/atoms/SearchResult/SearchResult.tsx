@@ -41,8 +41,8 @@ const SearchResult = ({ facility }: SearchResultProps) => {
       </Container>
 
       <Container className="d-flex flex-row m-0 p-0 border-top">
-        <Container className="d-flex flex-column align-items-start border-end pt-4 pb-4 ps-4 pe-5">
-          <p className="text-nowrap">{`ul. ${facility.facility.street}, ${facility.facility.zipCode} ${facility.facility.city?.name}`}</p>
+        <Container className="d-flex flex-column align-items-start border-end gap-2 pt-4 pb-4 ps-4 pe-5">
+          <p className="m-0">{`ul. ${facility.facility.street}, ${facility.facility.zipCode} ${facility.facility.city?.name}`}</p>
           <Button className="btn-outline-pink">POKAŻ NA MAPIE</Button>
         </Container>
         <Container className="d-flex flex-column justify-content-center align-items-center border-end gap-3">
