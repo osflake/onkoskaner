@@ -6,14 +6,34 @@ import { Map } from "../../molecules/Map/Map";
 import StatsTable from "../../organisms/tables/StatsTable/StatsTable";
 import OtherStats from "../../organisms/OtherRaports/OtherStats";
 import downloadPdf from "../../../hooks/downloadPdf";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getStatsByProvince } from "../../../services/api/statsApi";
+import {
+  getStatsByDate,
+  getStatsByProvince,
+} from "../../../services/api/statsApi";
+import { useSearchParams } from "react-router-dom";
 
 const StatsTemplate = () => {
   const printRef = useRef<HTMLInputElement>(null);
-
+  const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
+
+  // const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    setQueryParams({
+      service: searchParams.get("service"),
+      normal: searchParams.get("normal"),
+      urgent: searchParams.get("urgent"),
+      province: searchParams.get("province"),
+      city: searchParams.get("city"),
+      days: searchParams.get("days"),
+      dateTo: searchParams.get("dateTo"),
+    });
+  }, [searchParams]);
 
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
@@ -22,7 +42,7 @@ const StatsTemplate = () => {
         className="w-100 d-flex flex-column justify-content-center align-items-center px-5 py-5"
       >
         <Container
-          className="d-flex pb-5 flex-column justify-content-center align-items-center"
+          className="d-flex pb-4 flex-column justify-content-center align-items-center"
           style={{ maxWidth: "738px" }}
         >
           <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>

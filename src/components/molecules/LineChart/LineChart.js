@@ -145,7 +145,7 @@ const LineChart = () => {
           }}
         />
       </div>
-      <div className="my-5 w-100 p-0 d-flex  justify-content-between ">
+      <div className="my-4 w-100 p-0 d-flex  justify-content-between ">
         <div className="d-flex gap-5 align-items-center">
           <p className="results-title fw-normal-500 m-0">Legenda</p>
           <div className="information">NORMALNY TRYB</div>

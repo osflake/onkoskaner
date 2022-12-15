@@ -10,14 +10,7 @@ function App() {
     <Routes>
       <Route path="/results" element={<TestPage />} />
       <Route path="test" element={<CustomDropdown />} />
-      {/* <Route path="stats" element={<StatsPage />} /> */}
-      <Route path="/stats/">
-        <Route
-          path=":service/:serviceId/:queue/:queueId/:province/:provinceId/:okres/:parametry/:city/:cityId"
-          element={<StatsPage />}
-        />
-        <Route path="" element={<StatsPage />} />
-      </Route>
+      <Route path="stats" element={<StatsPage />} />
       <Route path="details/:facilityId" element={<FacilityDetailsPage />} />
       <Route path="*" element={<p>There's nothing here: 404! TEST</p>} />
     </Routes>

@@ -18,8 +18,18 @@ const OtherStatsTable = () => {
               item.status === "publish" ? (
                 <tr key={item.pdf.id}>
                   <td>
-                    <p className="m-0 fs-5">{item.title.rendered}</p>{" "}
-                    <p className="m-0 fs-6">{item.excerpt.rendered}</p>
+                    <p
+                      className="m-0 fs-5"
+                      dangerouslySetInnerHTML={{
+                        __html: item.title.rendered,
+                      }}
+                    />{" "}
+                    <p
+                      className="m-0 fs-6"
+                      dangerouslySetInnerHTML={{
+                        __html: item.excerpt.rendered,
+                      }}
+                    />
                   </td>
                   <td className="pdfWeight">
                     PDF ({item.pdf.filesize / 1000}KB)
