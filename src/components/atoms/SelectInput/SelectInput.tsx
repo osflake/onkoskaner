@@ -6,7 +6,7 @@ const SelectInput = ({
   register,
   disabled,
   onChange,
-  currInterval,
+  defaultValue,
 }: SelectInputProps) => {
   return (
     <label className="w-100 ">
@@ -14,16 +14,15 @@ const SelectInput = ({
       <select
         className="form-select"
         aria-label="Default select example"
-        defaultValue={currInterval === "currInterval" ? "currInterval" : "all"}
         disabled={disabled}
         onChangeCapture={onChange}
         {...register}
       >
-        {currInterval === "currInterval" && (
-          <option value="currInterval">wybrany okres</option>
-        )}
+        {/* {currInterval === "currInterval" && (
+          <option value="99">wybrany okres</option>
+        )} */}
 
-        <option value="all">Wszystkie</option>
+        {defaultValue ? null : <option value="all">Wszystkie</option>}
         {dropdownData?.map((item: { id: string; name: string }) => (
           <option key={item.id} value={item.id}>
             {item.name}

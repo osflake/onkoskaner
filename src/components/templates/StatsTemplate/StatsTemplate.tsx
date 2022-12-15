@@ -8,13 +8,21 @@ import OtherStats from "../../organisms/OtherRaports/OtherStats";
 import downloadPdf from "../../../hooks/downloadPdf";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getStatsByProvince } from "../../../services/api/statsApi";
+import {
+  getStatsByDate,
+  getStatsByProvince,
+} from "../../../services/api/statsApi";
 import { useSearchParams } from "react-router-dom";
 
 const StatsTemplate = () => {
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
+
+  const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
+
+  console.log(dateStatsData);
+
   const [searchParams] = useSearchParams();
 
   useEffect(() => {

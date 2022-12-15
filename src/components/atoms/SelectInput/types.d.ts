@@ -5,5 +5,5 @@ interface SelectInputProps {
   value?: string;
   disabled?: boolean;
   onChange?: any;
-  currInterval?: any;
+  defaultValue?: string;
 }

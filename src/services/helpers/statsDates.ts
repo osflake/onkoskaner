@@ -77,6 +77,7 @@ export const dateTo = (type: string) => {
       return getLastDayOfYear(currentYear - 1)
         .toISOString()
         .split("T")[0];
+
     default:
       return "";
   }
