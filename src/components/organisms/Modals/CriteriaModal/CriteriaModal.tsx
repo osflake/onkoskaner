@@ -12,6 +12,7 @@ import SelectInput from "../../../atoms/SelectInput/SelectInput";
 import { getCities } from "../../../../services/api/citiesApi";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
+import SwitchButton from "../../../atoms/SwitchButton/SwitchButton";
 
 interface ModalContainerProps {
   show: boolean;
@@ -82,21 +83,10 @@ const CriteriaModal = ({
                   // onChange={() => setValue("city", "all")}
                   label="Świadczenie"
                 />
-
-                <div className="form-check form-switch">
-                  <label className="form-check-label">
-                    <input
-                      className="form-check-input"
-                      {...register("queueId")}
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                      style={{ transform: "scale(1.3)" }}
-                      defaultValue={"true"}
-                    />
-                    Pilne badania
-                  </label>
-                </div>
+                <SwitchButton
+                  label="Pilne badania"
+                  register={register("queueId")}
+                />
                 <SelectInput
                   // dropdownData={citiesData?.data}
                   dropdownData={provincesData}
