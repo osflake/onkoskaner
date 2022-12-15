@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +16,8 @@ import FacilityReviews from "../../organisms/FacilityReviews";
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const reviewsRef = useRef<null | HTMLDivElement>(null);
 
   const { data, isLoading } = useQuery<FacilityDataTypes>(
     getFacilityDetails(linkParams.facilityId)
@@ -45,7 +48,7 @@ const FacilityDetailsTemplate = () => {
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
       <Container className="d-flex flex-column gap-5 p-0 align-items-center mb-5">
-        <h1 className="fw-bold results-title text-center">
+        <h1 className="fw-bold results-title text-center mb-5">
           {data && data.facility.name}
         </h1>
         <Container className="d-flex justify-content-center align-items-end border-top">
@@ -65,13 +68,20 @@ const FacilityDetailsTemplate = () => {
                 </Badge>
               </h4>
             </Container>
-            <Button className="btn-outline-pink">ZOBACZ OPINIE</Button>
+            <Button
+              className="btn-outline-pink"
+              onClick={() =>
+                reviewsRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              ZOBACZ OPINIE
+            </Button>
           </Container>
         </Container>
       </Container>
 
-      <Container className="d-flex flex-column align-items-start gap-5 results-title p-0">
-        <Container className="d-flex justify-content-between align-items-baseline">
+      <Container className="d-flex flex-column align-items-start gap-5 results-title p-0 pb-5">
+        <Container className="d-flex justify-content-between align-items-baseline p-0">
           <h2 className="fw-bold">Terminarz</h2>
           <p>
             Ostatnia aktualizacja:{" "}
@@ -92,7 +102,7 @@ const FacilityDetailsTemplate = () => {
             />
           ))}
       </Container>
-      <div className="w-100 border-top"></div>
+      <div ref={reviewsRef} className="w-100 border-top pb-5"></div>
       <FacilityReviews rating={data?.rating} />
     </Container>
   );

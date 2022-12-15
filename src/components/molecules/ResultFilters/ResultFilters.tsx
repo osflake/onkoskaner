@@ -39,7 +39,7 @@ const ResultFilters = ({
   // };
 
   return (
-    <Container className="d-flex flex-column align-items-start gap-3">
+    <Container className="d-flex flex-column align-items-start gap-3 p-0">
       <p className="fw-normal-500 fs-14 m-0">{label}</p>
       <Container className="d-flex align-items-start p-0 gap-3">
         {filterAll && (
