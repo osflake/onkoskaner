@@ -4,10 +4,9 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFacilities } from "../../../services/api/facilitiesApi";
 import SearchResult from "../../atoms/SearchResult/SearchResult";
-import ChangeCriteriaModal from "../../organisms/Modals/ChangeCriteriaModal";
-
 import "./TestTemplate.css";
 import ErrorInfo from "../../atoms/ErrorInfo";
+import CriteriaModal from "../../organisms/Modals/CriteriaModal/CriteriaModal";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
@@ -19,7 +18,7 @@ const TestTemplate = () => {
       limit: "5",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
-      queueId: searchParams.get("queueId")
+      queueId: searchParams.get("queueId"),
     })
   );
 
@@ -45,7 +44,7 @@ const TestTemplate = () => {
         >
           ZMIEŃ KRYTERIA
         </Button>
-        <ChangeCriteriaModal
+        <CriteriaModal
           show={showCriteriaModal}
           handleClose={() => setShowCriteriaModal((prevState) => !prevState)}
         />

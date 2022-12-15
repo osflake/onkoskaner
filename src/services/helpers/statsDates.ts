@@ -5,9 +5,9 @@ function getLastDayOfYear(year: any) {
   return new Date(year, 11, 31);
 }
 
-function getFirstDayOfYear(year: any) {
-  return new Date(year, 0, 1);
-}
+// function getFirstDayOfYear(year: any) {
+//   return new Date(year, 0, 1);
+// }
 
 const currentYear = new Date().getFullYear();
 
