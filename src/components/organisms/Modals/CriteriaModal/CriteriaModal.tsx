@@ -1,9 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Dropdown from "react-bootstrap/Dropdown";
-
-// import "./ChangeCriteriaModal.css";
 
 import { getProvinces } from "../../../../services/api/provincesApi";
 import { useQuery } from "@tanstack/react-query";
@@ -26,19 +23,12 @@ const CriteriaModal = ({
 }: ModalContainerProps) => {
   const [search, setSearch] = useSearchParams();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       serviceId: search.get("serviceId"),
-      provinceId: search.get("provinceId") || "all",
+      provinceId: search.get("provinceId") || "",
       queueId: search.get("queueId"),
-      cityId: search.get("cityId") || "all",
+      cityId: search.get("cityId") || "",
     },
   });
   const { data: provincesData } = useQuery(getProvinces());
@@ -62,12 +52,11 @@ const CriteriaModal = ({
         >
           <form
             onSubmit={handleSubmit((data) => {
-              console.log(data);
               setSearch({
                 ...(data.serviceId && { serviceId: data.serviceId }),
-                ...(data.provinceId && { provinceId: data.provinceId }),
-                ...(data.queueId && { queueId: data.queueId }),
-                ...(data.cityId && { cityId: data.cityId }),
+                provinceId: data.provinceId,
+                queueId: data.queueId ? "2" : "1",
+                cityId: data.cityId,
               });
             })}
           >
@@ -75,12 +64,11 @@ const CriteriaModal = ({
               <Modal.Title>Zmień kryteria</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Container className="p-0">
+              <Container className="p-0 d-flex flex-column gap-4">
                 <SelectInput
                   dropdownData={servicesData.data}
                   defaultValue={servicesData.data[0].id}
                   register={register("serviceId")}
-                  // onChange={() => setValue("city", "all")}
                   label="Świadczenie"
                 />
                 <SwitchButton
@@ -88,17 +76,15 @@ const CriteriaModal = ({
                   register={register("queueId")}
                 />
                 <SelectInput
-                  // dropdownData={citiesData?.data}
                   dropdownData={provincesData}
                   register={register("provinceId")}
-                  // disabled={watch("province") === "all"}
                   label="Województwo"
-                  onChange={() => setValue("cityId", "all")}
+                  onChange={() => setValue("cityId", "")}
                 />
                 <SelectInput
                   dropdownData={citiesData?.data}
                   register={register("cityId")}
-                  disabled={watch("provinceId") === "all"}
+                  disabled={watch("provinceId") === ""}
                   label="Miasto"
                 />
               </Container>

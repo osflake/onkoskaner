@@ -17,8 +17,6 @@ export const Map = (data: any) => {
     ""
   );
 
-  console.log(mapData);
-
   return (
     <>
       {mapData ? (
