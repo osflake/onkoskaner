@@ -11,13 +11,11 @@ export const getStatsByProvince = () => {
 
 export const getStatsByDate = ({ queryParams }: any) => {
   const searchParams = new URLSearchParams({
-    city: queryParams.city || "all",
-    dateTo: queryParams.dateTo || new Date().toISOString().split("T")[0],
-    days: queryParams.days || "30",
-    normal: queryParams.normal || "true",
-    province: queryParams.province || "all",
-    service: queryParams.service || "217",
-    urgent: queryParams.urgent || "false",
+    serviceId: queryParams.serviceId,
+    provinceId: queryParams.provinceId,
+    cityId: queryParams.cityId,
+    days: queryParams.days,
+    dateTo: queryParams.dateTo,
   });
 
   return {

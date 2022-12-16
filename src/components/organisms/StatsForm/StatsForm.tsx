@@ -25,18 +25,18 @@ const StatsForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      service: search.get("service") || "217",
-      province: search.get("province") || "all",
-      city: search.get("city") || "",
+      serviceId: search.get("serviceId") || "217",
+      provinceId: search.get("provinceId") || "",
+      cityId: search.get("cityId") || "",
       interval: search.get("interval") || "1",
-      normal: search.get("normal") ? search.get("normal") === "true" : true,
-      urgent: search.get("urgent") ? search.get("urgent") === "true" : false,
+      normal: search.get("normal") ? search.get("normal") : true,
+      urgent: search.get("urgent") ? search.get("urgent") : false,
     },
   });
 
   const { data: citiesData } = useQuery(
-    [watch("province")],
-    getCities({ provinceId: watch("province") })
+    [watch("provinceId")],
+    getCities({ provinceId: watch("provinceId") })
   );
 
   const interval = [
@@ -63,9 +63,9 @@ const StatsForm = () => {
       className="w-100 pb-5"
       onSubmit={handleSubmit((data) => {
         setSearch({
-          ...(data.service && { service: data.service }),
-          ...(data.province && { province: data.province }),
-          ...(data.city && { city: data.city }),
+          ...(data.serviceId && { serviceId: data.serviceId }),
+          ...(data.provinceId && { provinceId: data.provinceId }),
+          ...(data.cityId && { cityId: data.cityId }),
           ...(data.interval && { interval: data.interval }),
           ...(data.interval && {
             dateTo: dateTo(data.interval),
@@ -73,9 +73,8 @@ const StatsForm = () => {
           ...(data.interval && {
             days: days(data.interval),
           }),
-          ...(data.service && { service: data.service }),
-          ...(data.normal === true ? { normal: "true" } : { normal: "false" }),
-          ...(data.urgent === true ? { urgent: "true" } : { urgent: "false" }),
+          ...(data.normal === true ? { normal: "1" } : { normal: "" }),
+          ...(data.urgent === true ? { urgent: "2" } : { urgent: "" }),
           isActive: "true",
         });
       })}
@@ -87,7 +86,7 @@ const StatsForm = () => {
             {servicesData?.data.map((item: { name: string; id: string }) => (
               <RadioInput
                 key={item.id}
-                register={register("service", {
+                register={register("serviceId", {
                   required: true,
                 })}
                 label={item.name}
@@ -138,14 +137,14 @@ const StatsForm = () => {
           <SelectInput
             label="Województwo"
             dropdownData={provincesData}
-            register={register("province")}
-            onChange={() => setValue("city", "")}
+            register={register("provinceId")}
+            onChange={() => setValue("cityId", "")}
           />
           <SelectInput
             label="Miasto"
             dropdownData={citiesData?.data}
-            register={register("city")}
-            disabled={watch("province") === ""}
+            register={register("cityId")}
+            disabled={watch("provinceId") === ""}
           />
           <SelectInput
             label="Okres czasowy"

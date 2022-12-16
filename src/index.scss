@@ -1,3 +1,11 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/helpers";
+@import "~bootstrap/scss/utilities/api";
+
 :root {
   --main-text-color: #003b50;
   --pink-btn-color: #ed2369;
@@ -14,6 +22,7 @@
 
 $form-select-indicator: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMyAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0wLjQwMTY3MSAwLjgyMTcyMkMwLjM1NjA3MSAwLjkwOTMyMiAwLjMzMzI3MSAxLjAwNDcyIDAuMzMzMjcxIDEuMTAwMTJDMC4zMzMyNzEgMS4yMjAxMiAwLjM2OTI3IDEuMzM4OTIgMC40NDAwNyAxLjQ0MTUyTDUuODQwMDcgOS4yNDE1MkM1Ljk1MjI3IDkuNDAzNTIgNi4xMzY0NyA5LjUwMDEyIDYuMzMzMjcgOS41MDAxMkM2LjUzMDA3IDkuNTAwMTIgNi43MTQyNyA5LjQwMzUyIDYuODI2NDcgOS4yNDE1MkwxMi4yMjY1IDEuNDQxNTJDMTIuMzUzMSAxLjI1ODUyIDEyLjM2ODEgMS4wMTkxMiAxMi4yNjQ5IDAuODIxNzIyQzEyLjE2MTEgMC42MjM3MjIgMTEuOTU2NSAwLjUwMDEyMiAxMS43MzMzIDAuNTAwMTIyTDAuOTMzMjcxIDAuNTAwMTIyQzAuNzEwMDcxIDAuNTAwMTIyIDAuNTA1NDcxIDAuNjIzNzIyIDAuNDAxNjcxIDAuODIxNzIyWiIgZmlsbD0iIzAwM0I1MCIvPgo8L3N2Zz4K");
 $form-select-border-color: #003b50;
+$form-select-disabled-border-color: #bcbcbc;
 
 .fw-normal-500 {
   font-weight: 500;
