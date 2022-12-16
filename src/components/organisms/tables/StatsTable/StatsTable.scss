@@ -59,3 +59,24 @@ th {
 td a {
   color: var(--main-text-color);
 }
+
+.innner {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 5px;
+    background-color: rgb(88, 88, 88);
+  }
+  background-color: #7c93b4;
+}
+
+.odd {
+  background-color: #ebebeb;
+}
+
+.even {
+  background-color: #ffffff;
+}

@@ -82,14 +82,7 @@ const StatsTemplate = () => {
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
             <br />
-            (stan na{" "}
-            {new Date()
-              .toISOString()
-              .split("T")[0]
-              .split("-")
-              .reverse()
-              .join(".")}
-            )
+            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />

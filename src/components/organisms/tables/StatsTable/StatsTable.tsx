@@ -2,7 +2,7 @@ import { Table } from "react-bootstrap";
 import "./StatsTable.scss";
 import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import TableRowWithCollapse from "./TableRowWithCollapse";
 interface FormValues {
   province: {
     name: string;
@@ -21,7 +21,7 @@ const RaportTable = (data: any) => {
   return (
     <div className="w-100 my-5">
       {!!data.data ? (
-        <Table striped className="mt-5">
+        <Table className="mt-5 ">
           <thead>
             <tr>
               <th className="pb-4">Czas oczekiwania:</th>
@@ -110,19 +110,7 @@ const RaportTable = (data: any) => {
             </tr>
 
             {data.data.map((item: any) => {
-              return (
-                <tr key={item.province.id}>
-                  <td>{item.province.name}</td>
-                  <td>{item.results[0].minDaysUntilExamination} dni</td>
-                  <td>
-                    {Math.round(item.results[0].avgDaysUntilExamination)} dni
-                  </td>
-                  <td>{item.results[0].maxDaysUntilExamination} dni</td>
-                  <td>
-                    <Link to="">Pokaż placówki</Link>
-                  </td>
-                </tr>
-              );
+              return <TableRowWithCollapse item={item} />;
             })}
           </tbody>
         </Table>
