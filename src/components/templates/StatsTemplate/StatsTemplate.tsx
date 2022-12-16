@@ -19,19 +19,24 @@ const StatsTemplate = () => {
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
 
-  // const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
+  const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
 
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     setQueryParams({
-      service: searchParams.get("service"),
-      normal: searchParams.get("normal"),
-      urgent: searchParams.get("urgent"),
-      province: searchParams.get("province"),
-      city: searchParams.get("city"),
-      days: searchParams.get("days"),
-      dateTo: searchParams.get("dateTo"),
+      serviceId: searchParams.get("serviceId") || "217",
+      queueId: [
+        ["queueId", searchParams.get("normal")],
+        ["queueId", searchParams.get("urgent")],
+      ],
+      normal: searchParams.get("normal") || "",
+      urgent: searchParams.get("urgent") || "",
+      provinceId: searchParams.get("provinceId") || "",
+      cityId: searchParams.get("cityId") || "",
+      days: searchParams.get("days") || "30",
+      dateTo:
+        searchParams.get("dateTo") || new Date().toISOString().split("T")[0],
     });
   }, [searchParams]);
 
@@ -57,31 +62,27 @@ const StatsTemplate = () => {
         <StatsForm />
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Średni czas oczekiwania w całej polsce na świadczenie a w przeciągu
-            ostatnich 30 dni (stan na{" "}
-            {new Date()
-              .toISOString()
-              .split("T")[0]
-              .split("-")
-              .reverse()
-              .join(".")}
-            )
+            Średni czas oczekiwania{" "}
+            {dateStatsData?.data?.province && !dateStatsData?.data?.city
+              ? `w województwie "${dateStatsData?.data?.province.name}" `
+              : null}
+            {dateStatsData?.data?.province && dateStatsData?.data?.city
+              ? `w "${dateStatsData?.data?.city.name}" `
+              : null}
+            {!dateStatsData?.data?.province && !dateStatsData?.data?.city
+              ? `w całej Polsce `
+              : null}
+            na świadczenie a w przeciągu ostatnich {dateStatsData?.data?.days}{" "}
+            dni (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
           </p>
         </Container>
-        <LineChart />
+        <LineChart data={dateStatsData?.data?.stats} />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
             okresie
             <br />
-            (stan na{" "}
-            {new Date()
-              .toISOString()
-              .split("T")[0]
-              .split("-")
-              .reverse()
-              .join(".")}
-            )
+            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />

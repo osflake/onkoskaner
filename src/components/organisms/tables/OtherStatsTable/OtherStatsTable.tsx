@@ -18,14 +18,21 @@ const OtherStatsTable = () => {
               item.status === "publish" ? (
                 <tr key={item.pdf.id}>
                   <td>
+                    <a
+                      className="nav-link"
+                      href={item.link}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <p
+                        className="m-0 fs-5"
+                        dangerouslySetInnerHTML={{
+                          __html: item.title.rendered,
+                        }}
+                      />
+                    </a>{" "}
                     <p
-                      className="m-0 fs-5"
-                      dangerouslySetInnerHTML={{
-                        __html: item.title.rendered,
-                      }}
-                    />{" "}
-                    <p
-                      className="m-0 fs-6"
+                      className="m-0 fs-6 innerText"
                       dangerouslySetInnerHTML={{
                         __html: item.excerpt.rendered,
                       }}
