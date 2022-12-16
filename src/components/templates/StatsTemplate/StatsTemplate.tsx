@@ -57,7 +57,7 @@ const StatsTemplate = () => {
         <StatsForm />
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Średni czas oczekiwania w całej polsce na świadczenie a w przeciągu
+            Średni czas oczekiwania w całej Polsce na świadczenie a w przeciągu
             ostatnich 30 dni (stan na{" "}
             {new Date()
               .toISOString()
