@@ -27,7 +27,7 @@ const CriteriaModal = ({
     defaultValues: {
       serviceId: search.get("serviceId"),
       provinceId: search.get("provinceId") || "",
-      queueId: search.get("queueId"),
+      queueId: search.get("queueId") === "1" ? false : true,
       cityId: search.get("cityId") || "",
     },
   });

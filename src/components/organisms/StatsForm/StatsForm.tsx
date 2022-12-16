@@ -27,7 +27,7 @@ const StatsForm = () => {
     defaultValues: {
       service: search.get("service") || "217",
       province: search.get("province") || "all",
-      city: search.get("city") || "all",
+      city: search.get("city") || "",
       interval: search.get("interval") || "1",
       normal: search.get("normal") ? search.get("normal") === "true" : true,
       urgent: search.get("urgent") ? search.get("urgent") === "true" : false,
@@ -139,13 +139,13 @@ const StatsForm = () => {
             label="Województwo"
             dropdownData={provincesData}
             register={register("province")}
-            onChange={() => setValue("city", "all")}
+            onChange={() => setValue("city", "")}
           />
           <SelectInput
             label="Miasto"
             dropdownData={citiesData?.data}
             register={register("city")}
-            disabled={watch("province") === "all"}
+            disabled={watch("province") === ""}
           />
           <SelectInput
             label="Okres czasowy"
