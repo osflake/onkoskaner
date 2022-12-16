@@ -22,7 +22,7 @@ const SelectInput = ({
           <option value="99">wybrany okres</option>
         )} */}
 
-        {defaultValue ? null : <option value="all">Wszystkie</option>}
+        {defaultValue ? null : <option value="">Wszystkie</option>}
         {dropdownData?.map((item: { id: string; name: string }) => (
           <option key={item.id} value={item.id}>
             {item.name}
