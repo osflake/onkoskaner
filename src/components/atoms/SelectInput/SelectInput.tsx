@@ -18,10 +18,6 @@ const SelectInput = ({
         onChangeCapture={onChange}
         {...register}
       >
-        {/* {currInterval === "currInterval" && (
-          <option value="99">wybrany okres</option>
-        )} */}
-
         {defaultValue ? null : <option value="">Wszystkie</option>}
         {dropdownData?.map((item: { id: string; name: string }) => (
           <option key={item.id} value={item.id}>
