@@ -15,7 +15,6 @@ import {
 import { useSearchParams } from "react-router-dom";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
-  console.log(adminRole);
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
@@ -87,7 +86,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />
-        <StatsTable data={provinceStatsData?.data} />
+        <StatsTable data={provinceStatsData?.data} adminRole={adminRole} />
       </div>
       <div className="px-5 w-100">
         <div className="d-flex justify-content-end w-100 mb-5">

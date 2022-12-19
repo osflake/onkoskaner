@@ -1,8 +1,10 @@
-import { Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import "./StatsTable.scss";
 import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
+import RadioInput from "../../../atoms/RadioInput/RadioInput";
+import { useForm } from "react-hook-form";
 interface FormValues {
   province: {
     name: string;
@@ -15,12 +17,47 @@ interface FormValues {
   };
 }
 
-const RaportTable = (data: any) => {
+const RaportTable = ({
+  data,
+  adminRole,
+}: {
+  data: any;
+  adminRole: boolean;
+}) => {
   const [sort, setSort] = useState("");
+
+  const { register, watch } = useForm({
+    defaultValues: {
+      statsBy: "1",
+    },
+  });
+
+  const statsByData = [
+    { name: "względem województw", value: "1" },
+    { name: "względem miast", value: "2" },
+    { name: "względem placówek", value: "3" },
+  ];
 
   return (
     <div className="w-100 my-5">
-      {!!data.data ? (
+      {adminRole ? (
+        <div className="pt-4">
+          <p className="results-title fw-normal-500">Wybierz świadczenie</p>
+          <Container className="p-0 d-inline-flex gap-3 ">
+            {statsByData.map((item: { name: string; value: string }) => (
+              <RadioInput
+                key={item.value}
+                register={register("statsBy", {
+                  required: true,
+                })}
+                label={item.name}
+                value={item.value}
+              />
+            ))}
+          </Container>
+        </div>
+      ) : null}
+      {!!data ? (
         <Table className="mt-5 ">
           <thead>
             <tr>
@@ -75,43 +112,47 @@ const RaportTable = (data: any) => {
               <th>Cała polska</th>
               <th>
                 {Math.round(
-                  data.data?.reduce(
+                  data?.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      currentValue.results[0].minDaysUntilExamination,
+                      Number(currentValue.results[0].minDaysUntilExamination),
                     0
                   ) / 16
-                )}
+                )}{" "}
                 dni
               </th>
               <th>
                 {Math.round(
-                  data.data?.reduce(
+                  data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
                       Number(currentValue.results[0].avgDaysUntilExamination),
                     0
                   ) / 16
-                )}
+                )}{" "}
                 dni
               </th>
               <th>
                 {Math.round(
-                  data.data?.reduce(
+                  data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
                       currentValue.results[0].maxDaysUntilExamination,
                     0
                   ) / 16
-                )}
+                )}{" "}
                 dni
               </th>
               <th></th>
             </tr>
 
-            {data.data.map((item: any) => {
+            {data.map((item: any) => {
               return (
-                <TableRowWithCollapse item={item} key={item.province.id} />
+                <TableRowWithCollapse
+                  item={item}
+                  key={item.province.id}
+                  statsBy={watch().statsBy}
+                />
               );
             })}
           </tbody>
