@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "./StatsTable.scss";
 
 const TableRowWithCollapse = ({ item }: any) => {
@@ -10,6 +10,14 @@ const TableRowWithCollapse = ({ item }: any) => {
     setCollapse((prev) => !prev);
   };
 
+  const [searchParams] = useSearchParams();
+
+  const linkTo = new URLSearchParams({
+    serviceId: searchParams.get("serviceId") || "217",
+    queueId: searchParams.get("normal") ? "1" : "2",
+    provinceId: item.province.id,
+  });
+
   return (
     <>
       <tr key={item.province.id} onClick={handleCollapse} className={isOdd}>
@@ -18,7 +26,7 @@ const TableRowWithCollapse = ({ item }: any) => {
         <td>{Math.round(item.results[0].avgDaysUntilExamination)} dni</td>
         <td>{item.results[0].maxDaysUntilExamination} dni</td>
         <td>
-          <Link to="">Pokaż placówki</Link>
+          <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
         </td>
       </tr>
       {isCollapse && (
