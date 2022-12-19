@@ -7,18 +7,20 @@ import SearchResult from "../../atoms/SearchResult/SearchResult";
 import "./TestTemplate.css";
 import ErrorInfo from "../../atoms/ErrorInfo";
 import CriteriaModal from "../../organisms/Modals/CriteriaModal/CriteriaModal";
+import CustomPagination from "../../molecules/CustomPagination/CustomPagination";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [currPage, setCurrPage] = useState(1);
 
   const { isError, data } = useQuery<FacilityDataTypes[]>(
     getFacilities({
       offset: "0",
-      limit: "5",
+      limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
-      queueId: searchParams.get("queueId"),
+      queueId: searchParams.get("queueId")
     })
   );
 
@@ -67,6 +69,10 @@ const TestTemplate = () => {
             );
           })}
       </Container>
+      {/* <CustomPagination           totalCount={pdfData?.length || 0}
+          itemsPerPage={8}
+          currentPage={currPage}
+          onPageChange={setCurrPage} /> */}
     </Container>
   );
 };
