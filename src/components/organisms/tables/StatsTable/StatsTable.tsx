@@ -42,7 +42,9 @@ const RaportTable = ({
     <div className="w-100 my-5">
       {adminRole ? (
         <div className="pt-4">
-          <p className="results-title fw-normal-500">Wybierz świadczenie</p>
+          <p className="results-title fw-normal-500">
+            Szczegółowe statystyki względem:
+          </p>
           <Container className="p-0 d-inline-flex gap-3 ">
             {statsByData.map((item: { name: string; value: string }) => (
               <RadioInput
@@ -61,7 +63,7 @@ const RaportTable = ({
         <Table className="mt-5 ">
           <thead>
             <tr>
-              <th className="pb-4">Czas oczekiwania:</th>
+              <th className="pb-3">Czas oczekiwania:</th>
               <th className="pb-4">
                 <button
                   className="stats__sortButton"

@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { getStatsByCity } from "../../../../services/api/statsApi";
+import {
+  getStatsByCity,
+  getStatsByFacility,
+} from "../../../../services/api/statsApi";
 import "./StatsTable.scss";
 
 const TableRowWithCollapse = ({ item, statsBy }: any) => {
@@ -9,9 +12,9 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
   const isOdd = !!(item.province.id % 2) ? "odd" : "even";
   const [queryParams, setQueryParams] = useState({});
 
-  console.log(statsBy);
-
   const handleCollapse = () => {
+    !isCollapse && statsBy === "2" && refetchCity();
+    !isCollapse && statsBy === "3" && refetchFacality();
     setCollapse((prev) => !prev);
   };
 
@@ -36,22 +39,33 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
     });
   }, [item.province.id, searchParams]);
 
-  console.log(queryParams);
-
-  const { data, refetch, isRefetching, dataUpdatedAt, remove } = useQuery({
+  const {
+    data: cityData,
+    refetch: refetchCity,
+    remove: removeCity,
+  } = useQuery({
     queryKey: ["getStatsByCity"],
     queryFn: getStatsByCity({ queryParams }),
     enabled: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const {
+    data: facilityData,
+    refetch: refetchFacality,
+    remove: removeFacality,
+  } = useQuery({
+    queryKey: ["getStatsByFacility"],
+    queryFn: getStatsByFacility({ queryParams }),
+    enabled: false,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
     setCollapse(false);
-    remove();
-  }, [statsBy]);
-
-  console.log(data);
-
-  console.log(isRefetching, dataUpdatedAt);
+    removeCity();
+    removeFacality();
+  }, [removeCity, removeFacality, statsBy]);
 
   return (
     <>
@@ -59,7 +73,6 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         key={item.province.id}
         onClick={() => {
           handleCollapse();
-          !isCollapse && statsBy === "2" && refetch();
         }}
         className={isOdd}
       >
@@ -71,16 +84,43 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
           <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
         </td>
       </tr>
-      {!isRefetching && isCollapse && (
+      {isCollapse && (
         <>
-          {data?.data.map((item: any) => (
-            <tr className="inner">
-              <td>{item.city.name}</td>
-              <td>{Math.round(item.results.avgDaysUntilExamination)} dni</td>
-              <td>{item.results.minDaysUntilExamination} dni</td>
-              <td colSpan={2}>{item.results.maxDaysUntilExamination} dni</td>
-            </tr>
-          ))}
+          {statsBy === "2" &&
+            cityData?.data.map((item: any) => (
+              <Fragment key={item.city.id}>
+                {item.city && (
+                  <tr className="inner">
+                    <td>{item?.city?.name}</td>
+                    <td>
+                      {Math.round(item.results.avgDaysUntilExamination)} dni
+                    </td>
+                    <td>{item.results.minDaysUntilExamination} dni</td>
+                    <td colSpan={2}>
+                      {item.results.maxDaysUntilExamination} dni
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
+            ))}
+
+          {statsBy === "3" &&
+            facilityData?.data.map((item: any) => (
+              <Fragment key={item.facility.id}>
+                {item.facility && (
+                  <tr className="inner" key={item.facility.id}>
+                    <td>{item?.facility?.name}</td>
+                    <td>
+                      {Math.round(item.results[0]?.avgDaysUntilExamination)} dni
+                    </td>
+                    <td>{item.results[0].minDaysUntilExamination} dni</td>
+                    <td colSpan={2}>
+                      {item.results[0].maxDaysUntilExamination} dni
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
+            ))}
         </>
       )}
     </>
