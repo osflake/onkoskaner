@@ -110,7 +110,9 @@ const RaportTable = (data: any) => {
             </tr>
 
             {data.data.map((item: any) => {
-              return <TableRowWithCollapse item={item} />;
+              return (
+                <TableRowWithCollapse item={item} key={item.province.id} />
+              );
             })}
           </tbody>
         </Table>

@@ -14,7 +14,8 @@ import {
 } from "../../../services/api/statsApi";
 import { useSearchParams } from "react-router-dom";
 
-const StatsTemplate = () => {
+const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
+  console.log(adminRole);
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(getStatsByProvince());
