@@ -1,14 +1,18 @@
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 
 import StarsRating from "../../atoms/StarsRating";
+import ReviewAddModal from "../Modals/ReviewAddModal";
 
 interface FacilityReviewsProps {
   rating?: number;
 }
 
 const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <Container className="d-flex flex-column align-items-start gap-5 results-title p-0">
       <Container className="d-flex justify-content-center align-items-center p-0">
@@ -24,7 +28,16 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
           <p className="m-0">{`3 opinii`}</p>
         </Container>
 
-        <Button className="btn-outline-pink">DODAJ SWOJĄ OPINIĘ</Button>
+        <Button
+          className="btn-outline-pink"
+          onClick={() => setShowModal((prev) => !prev)}
+        >
+          DODAJ SWOJĄ OPINIĘ
+        </Button>
+        <ReviewAddModal
+          show={showModal}
+          handleClose={() => setShowModal((prev) => !prev)}
+        />
       </Container>
 
       <Container className="d-flex flex-column align-items-start gap-3 p-0">
