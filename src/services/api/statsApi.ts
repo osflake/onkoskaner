@@ -27,3 +27,27 @@ export const getStatsByDate = ({ queryParams }: any) => {
         .then((res) => res.data),
   };
 };
+
+export const getStatsByCity = ({ queryParams }: any) => {
+  const searchParams = new URLSearchParams({
+    ...queryParams,
+  });
+
+  return () =>
+    searchParams.toString() &&
+    axios
+      .get(`${stats}/waiting-times-by-cities?${searchParams.toString()}`)
+      .then((res) => res.data);
+};
+
+export const getStatsByFacility = ({ queryParams }: any) => {
+  const searchParams = new URLSearchParams({
+    ...queryParams,
+  });
+
+  return () =>
+    searchParams.toString() &&
+    axios
+      .get(`${stats}/waiting-times-by-facility?${searchParams.toString()}`)
+      .then((res) => res.data);
+};

@@ -41,6 +41,9 @@ th {
   font-size: 14px;
   color: #8d8d8d;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  height: 100%;
 
   &[data-asc="true"] {
     img {
@@ -60,7 +63,7 @@ td a {
   color: var(--main-text-color);
 }
 
-.innner {
+.inner {
   position: relative;
   &::after {
     content: "";
