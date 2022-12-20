@@ -1,10 +1,12 @@
 import { Container, Table } from "react-bootstrap";
 import "./StatsTable.scss";
 import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
+
+import { useSearchParams } from "react-router-dom";
 interface FormValues {
   province: {
     name: string;

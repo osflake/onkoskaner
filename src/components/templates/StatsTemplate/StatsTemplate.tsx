@@ -23,6 +23,8 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
 
   const [searchParams] = useSearchParams();
 
+  console.log(dateStatsData);
+
   useEffect(() => {
     setQueryParams({
       serviceId: searchParams.get("serviceId") || "217",
@@ -52,11 +54,12 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         >
           <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>
           <p className="results-title mt-3">
-            Na tej podstronie będziesz mieć możliwość podejrzeć szczegółówe
-            statystyki dotyczące terminów poszczególnych badań. Za zbieranie
-            statystyk odpowiedzialny jest nasz zespół który codzienie
-            aktualizuje statystyki aby mieć jak najlepszy obraz tego jak
-            wyglądają czasy oczekiwania.
+            Na tej podstronie będziesz mieć możliwość zobaczyć szczegółowe
+            statystyki dotyczące terminów wybranych badań. Za zbieranie
+            statystyk odpowiedzialny jest nasz zespół, który codziennie
+            weryfikuje dostępność terminów badań, aby mieć jak najlepszy obraz
+            tego, jak wyglądają czasy oczekiwania na badania w placówkach na
+            terenie Polski
           </p>
         </Container>
         <StatsForm />
@@ -79,10 +82,10 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         <LineChart data={dateStatsData?.data?.stats} />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
-            okresie
+            Czas oczekiwania na świadczenie "{dateStatsData?.data.service.name}"
+            w poszczególnych wojewódzctwach w okresie
             <br />
-            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
+            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"})
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />

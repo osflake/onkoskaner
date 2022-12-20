@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, Fragment } from "react";
+import anglesArrow from "../../../../assets/Icons/anglesArrow.svg";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   getStatsByCity,
@@ -39,12 +40,8 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
     });
   }, [item.province.id, searchParams]);
 
-  const {
-    data: cityData,
-    refetch: refetchCity,
-    remove: removeCity,
-  } = useQuery({
-    queryKey: ["getStatsByCity"],
+  const { data: cityData, refetch: refetchCity } = useQuery({
+    queryKey: [`getStatsByCity${item.province.id}`],
     queryFn: getStatsByCity({ queryParams }),
     enabled: false,
     refetchOnWindowFocus: false,
@@ -53,9 +50,9 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
   const {
     data: facilityData,
     refetch: refetchFacality,
-    remove: removeFacality,
+    isFetchedAfterMount,
   } = useQuery({
-    queryKey: ["getStatsByFacility"],
+    queryKey: [`getStatsByFacility${item.province.id}`],
     queryFn: getStatsByFacility({ queryParams }),
     enabled: false,
     refetchOnWindowFocus: false,
@@ -63,9 +60,7 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
 
   useEffect(() => {
     setCollapse(false);
-    removeCity();
-    removeFacality();
-  }, [removeCity, removeFacality, statsBy]);
+  }, [statsBy]);
 
   return (
     <>
@@ -83,21 +78,34 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         <td>
           <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
         </td>
+        {statsBy === "2" || statsBy === "3" ? (
+          <td>
+            <img
+              src={anglesArrow}
+              alt=""
+              className="angleArrow"
+              data-isopen={isCollapse}
+            />
+          </td>
+        ) : null}
       </tr>
       {isCollapse && (
         <>
           {statsBy === "2" &&
-            cityData?.data.map((item: any) => (
+            cityData?.data.stats.map((item: any) => (
               <Fragment key={item.city.id}>
                 {item.city && (
                   <tr className="inner">
-                    <td>{item?.city?.name}</td>
+                    <td className="ps-4">{item?.city?.name}</td>
                     <td>
                       {Math.round(item.results.avgDaysUntilExamination)} dni
                     </td>
                     <td>{item.results.minDaysUntilExamination} dni</td>
+                    <td>{item.results.maxDaysUntilExamination} dni</td>
                     <td colSpan={2}>
-                      {item.results.maxDaysUntilExamination} dni
+                      <Link to={`/results?${linkTo.toString()}`}>
+                        Pokaż placówki
+                      </Link>
                     </td>
                   </tr>
                 )}
@@ -105,17 +113,21 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
             ))}
 
           {statsBy === "3" &&
-            facilityData?.data.map((item: any) => (
+            isFetchedAfterMount &&
+            facilityData?.data.stats.map((item: any) => (
               <Fragment key={item.facility.id}>
                 {item.facility && (
                   <tr className="inner" key={item.facility.id}>
-                    <td>{item?.facility?.name}</td>
+                    <td className="ps-4">{item?.facility?.name}</td>
                     <td>
-                      {Math.round(item.results[0]?.avgDaysUntilExamination)} dni
+                      {Math.round(item.results?.avgDaysUntilExamination)} dni
                     </td>
-                    <td>{item.results[0].minDaysUntilExamination} dni</td>
+                    <td>{item.results.minDaysUntilExamination} dni</td>
+                    <td>{item.results.maxDaysUntilExamination} dni</td>
                     <td colSpan={2}>
-                      {item.results[0].maxDaysUntilExamination} dni
+                      <Link to={`/results?${linkTo.toString()}`}>
+                        Pokaż placówki
+                      </Link>
                     </td>
                   </tr>
                 )}

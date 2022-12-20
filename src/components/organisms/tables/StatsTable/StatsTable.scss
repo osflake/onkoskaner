@@ -70,10 +70,10 @@ td a {
     position: absolute;
     left: 0;
     height: 100%;
-    width: 5px;
-    background-color: rgb(88, 88, 88);
+    width: 8px;
+    background-color: #ed2369;
   }
-  background-color: #7c93b4;
+  background-color: #ffffff;
 }
 
 .odd {
@@ -82,4 +82,10 @@ td a {
 
 .even {
   background-color: #ffffff;
+}
+
+.angleArrow {
+  &[data-isopen="true"] {
+    transform: rotate(180deg);
+  }
 }
