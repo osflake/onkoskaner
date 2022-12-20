@@ -41,3 +41,10 @@ interface LatestSurveyTypes {
     active: boolean;
   };
 }
+
+interface FacilityDataApiTypes {
+  data: FacilityDataTypes[];
+  meta: {
+    totalResults: number;
+  };
+}
