@@ -37,6 +37,8 @@ const CustomSymbol = ({ color }) => {
 const LineChart = ({ data }) => {
   const printRef = useRef();
 
+  console.log(data);
+
   const chartData = [
     {
       id: "PILNY TRYB",
