@@ -14,7 +14,7 @@ interface FormValues {
 export const Map = (data: any) => {
   const { register, watch } = useForm({
     defaultValues: {
-      setTime: "1",
+      setTime: "2",
     },
   });
 

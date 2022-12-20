@@ -1,11 +1,19 @@
 import axios from "axios";
 import { stats } from "../endpoints";
 
-export const getStatsByProvince = () => {
+export const getStatsByProvince = ({ queryParams, queueId }: any) => {
+  const searchParams = new URLSearchParams({
+    serviceId: queryParams.serviceId,
+    queueId: queueId,
+    days: queryParams.days,
+    dateTo: queryParams.dateTo,
+  });
+
   return {
-    queryKey: ["StatsByProvince"],
     queryFn: () =>
-      axios.get(`${stats}/waiting-times-by-province`).then((res) => res.data),
+      axios
+        .get(`${stats}/waiting-times-by-province?${searchParams.toString()}`)
+        .then((res) => res.data),
   };
 };
 

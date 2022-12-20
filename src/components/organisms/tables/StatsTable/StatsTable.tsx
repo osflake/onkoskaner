@@ -4,7 +4,6 @@ import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
-import { useForm } from "react-hook-form";
 
 interface FormValues {
   province: {
@@ -21,17 +20,15 @@ interface FormValues {
 const RaportTable = ({
   data,
   adminRole,
+  register,
+  watch,
 }: {
   data: any;
   adminRole: boolean;
+  register: any;
+  watch: any;
 }) => {
   const [sort, setSort] = useState("");
-
-  const { register, watch } = useForm({
-    defaultValues: {
-      statsBy: "1",
-    },
-  });
 
   const statsByData = [
     { name: "względem województw", value: "1" },
@@ -39,18 +36,40 @@ const RaportTable = ({
     { name: "względem placówek", value: "3" },
   ];
 
+  const queueData = [
+    { name: "Normalny", value: "1" },
+    { name: "Pilny", value: "2" },
+  ];
+
   return (
     <div className="w-100 my-5">
-      {adminRole ? (
+      <div className="d-flex gap-5">
+        {adminRole ? (
+          <div className="pt-4">
+            <p className="results-title fw-normal-500">
+              Szczegółowe statystyki względem:
+            </p>
+            <Container className="p-0 d-inline-flex gap-3 ">
+              {statsByData.map((item: { name: string; value: string }) => (
+                <RadioInput
+                  key={item.value}
+                  register={register("statsBy", {
+                    required: true,
+                  })}
+                  label={item.name}
+                  value={item.value}
+                />
+              ))}
+            </Container>
+          </div>
+        ) : null}{" "}
         <div className="pt-4">
-          <p className="results-title fw-normal-500">
-            Szczegółowe statystyki względem:
-          </p>
+          <p className="results-title fw-normal-500">Tryb świadczenia:</p>
           <Container className="p-0 d-inline-flex gap-3 ">
-            {statsByData.map((item: { name: string; value: string }) => (
+            {queueData.map((item: { name: string; value: string }) => (
               <RadioInput
                 key={item.value}
-                register={register("statsBy", {
+                register={register("queueId", {
                   required: true,
                 })}
                 label={item.name}
@@ -59,7 +78,7 @@ const RaportTable = ({
             ))}
           </Container>
         </div>
-      ) : null}
+      </div>
       {!!data ? (
         <Table className="mt-5 ">
           <thead>

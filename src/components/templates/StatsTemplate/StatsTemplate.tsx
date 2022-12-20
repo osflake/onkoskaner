@@ -13,17 +13,29 @@ import {
   getStatsByProvince,
 } from "../../../services/api/statsApi";
 import { useSearchParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
+  const { register, watch } = useForm({
+    defaultValues: {
+      statsBy: "1",
+      queueId: "1",
+    },
+  });
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
-  const { data: provinceStatsData } = useQuery(getStatsByProvince());
+  const { data: provinceStatsData } = useQuery(
+    [watch("queueId"), queryParams],
+    getStatsByProvince({ queryParams, queueId: watch("queueId") })
+  );
 
   const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
 
   const [searchParams] = useSearchParams();
 
   console.log(dateStatsData);
+
+  console.log(watch("statsBy"), watch("queueId"));
 
   useEffect(() => {
     setQueryParams({
@@ -107,7 +119,12 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />
-        <StatsTable data={provinceStatsData?.data} adminRole={adminRole} />
+        <StatsTable
+          data={provinceStatsData?.data}
+          adminRole={adminRole}
+          register={register}
+          watch={watch}
+        />
       </div>
       <div className="px-5 w-100">
         <div className="d-flex justify-content-end w-100 mb-5">

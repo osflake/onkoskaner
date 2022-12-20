@@ -80,11 +80,13 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         </td>
         {statsBy === "2" || statsBy === "3" ? (
           <td>
-            <img
-              src={anglesArrow}
-              alt=""
+            <object
+              data={anglesArrow}
+              type="image/svg+xml"
+              width="16"
+              height="16"
               className="angleArrow"
-              data-isopen={isCollapse}
+              aria-label="Arrow"
             />
           </td>
         ) : null}
