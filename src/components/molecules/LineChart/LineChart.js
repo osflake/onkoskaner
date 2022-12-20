@@ -37,7 +37,22 @@ const CustomSymbol = ({ color }) => {
 const LineChart = ({ data }) => {
   const printRef = useRef();
 
-  console.log(data);
+  // const groupBy = require("lodash/groupBy");
+  // const moment = require("moment");
+  // const dataxx = [
+  //   "1396-10-11 09:07:21",
+  //   "1396-10-10 10:03:51",
+  //   "1396-10-07 02:07:02",
+  //   "1396-11-27 08:02:45",
+  //   "1396-11-19 01:02:32",
+  //   "1396-12-01 22:13:21",
+  //   "1396-02-12 09:07:21",
+  //   "1396-05-18 04:02:29",
+  //   "1396-05-21 14:01:42",
+  //   "1396-07-11 01:16:29",
+  // ];
+
+  // groupBy(dataxx, (dt) => moment(dt).week());
 
   const chartData = [
     {

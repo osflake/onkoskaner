@@ -65,27 +65,45 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         <StatsForm />
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Średni czas oczekiwania{" "}
-            {dateStatsData?.data?.province && !dateStatsData?.data?.city
-              ? `w województwie "${dateStatsData?.data?.province.name}" `
-              : null}
-            {dateStatsData?.data?.province && dateStatsData?.data?.city
-              ? `w "${dateStatsData?.data?.city.name}" `
-              : null}
-            {!dateStatsData?.data?.province && !dateStatsData?.data?.city
-              ? `w całej Polsce `
-              : null}
-            na świadczenie a w przeciągu ostatnich {dateStatsData?.data?.days}{" "}
-            dni (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
+            Średni czas oczekiwania w{" "}
+            {dateStatsData?.data?.province && !dateStatsData?.data?.city ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.province.name}{" "}
+              </span>
+            ) : null}
+            {dateStatsData?.data?.province && dateStatsData?.data?.city ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.city.name}{" "}
+              </span>
+            ) : null}
+            {!dateStatsData?.data?.province && !dateStatsData?.data?.city ? (
+              <span className="fw-bolder"> całej Polsce </span>
+            ) : null}
+            na świadczenie{" "}
+            <span className="fw-bolder">
+              {` ${dateStatsData?.data.service.name} `}
+            </span>{" "}
+            w przeciągu ostatnich{" "}
+            <span className="fw-bolder">{dateStatsData?.data?.days}</span> dni
+            stan na{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.dateTo || "2022-00-00"}
+            </span>
           </p>
         </Container>
         <LineChart data={dateStatsData?.data?.stats} />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Czas oczekiwania na świadczenie "{dateStatsData?.data.service.name}"
+            Czas oczekiwania na świadczenie
+            <span className="fw-bolder">
+              {` ${dateStatsData?.data.service.name} `}
+            </span>
             w poszczególnych wojewódzctwach w okresie
+            <span className="fw-bolder"> {dateStatsData?.data?.days} </span> dni
             <br />
-            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"})
+            <span className="fw-bolder">
+              stan na {dateStatsData?.data?.dateTo || "2022-00-00"}
+            </span>
           </p>
         </Container>
         <Map data={provinceStatsData?.data} />
