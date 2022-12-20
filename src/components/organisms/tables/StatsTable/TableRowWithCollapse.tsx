@@ -103,7 +103,11 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
                     <td>{item.results.minDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     <td colSpan={2}>
-                      <Link to={`/results?${linkTo.toString()}`}>
+                      <Link
+                        to={`/results?${linkTo.toString()}&cityId=${
+                          item.city.id
+                        }`}
+                      >
                         Pokaż placówki
                       </Link>
                     </td>
@@ -125,8 +129,8 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
                     <td>{item.results.minDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     <td colSpan={2}>
-                      <Link to={`/results?${linkTo.toString()}`}>
-                        Pokaż placówki
+                      <Link to={`/details/${item.facility.id}`}>
+                        Pokaż szczegóły
                       </Link>
                     </td>
                   </tr>
