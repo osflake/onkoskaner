@@ -12,6 +12,12 @@ import StarsRating from "../../atoms/StarsRating";
 import ResultFilters from "../../molecules/ResultFilters";
 import ServiceDetails from "../../organisms/ServiceDetails";
 import FacilityReviews from "../../organisms/FacilityReviews";
+import { ReactComponent as ToiletIcon } from "../../../assets/Icons/BenefitIcons/ToiletIcon.svg";
+import { ReactComponent as ElevatorIcon } from "../../../assets/Icons/BenefitIcons/ElevatorIcon.svg";
+import { ReactComponent as ParkingIcon } from "../../../assets/Icons/BenefitIcons/ParkingIcon.svg";
+import { ReactComponent as RampIcon } from "../../../assets/Icons/BenefitIcons/RampIcon.svg";
+import { ReactComponent as BlocksIcon } from "../../../assets/Icons/BenefitIcons/BlocksIcon.svg";
+import { ReactComponent as VirusIcon } from "../../../assets/Icons/BenefitIcons/VirusIcon.svg";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -28,17 +34,11 @@ const FacilityDetailsTemplate = () => {
   }
 
   console.log("data", data);
-  console.log("searchParams.getAll", searchParams.getAll("service"));
 
   const filteredDetails = (data: FacilityDataTypes) => {
     if (searchParams.getAll("service").length < 1) {
       return data.latestSurveys;
     } else {
-      console.log(
-        data.latestSurveys?.filter(({ service }) =>
-          searchParams.getAll("service").includes(service.id.toString())
-        )
-      );
       return data.latestSurveys?.filter(({ service }) =>
         searchParams.getAll("service").includes(service.id.toString())
       );
@@ -79,7 +79,17 @@ const FacilityDetailsTemplate = () => {
           </Container>
         </Container>
       </Container>
-
+      <Container className="p-0 d-flex flex-column align-items-start gap-2 pb-3">
+        <p className="fw-bold-600">Lista udogodnień:</p>
+        <Container className="p-0 d-flex align-items-center gap-3">
+          <ToiletIcon />
+          <VirusIcon />
+          <ElevatorIcon />
+          <ParkingIcon />
+          <BlocksIcon />
+          <RampIcon />
+        </Container>
+      </Container>
       <Container className="d-flex flex-column align-items-start gap-5 results-title p-0 pb-5">
         <Container className="d-flex justify-content-between align-items-baseline p-0">
           <h2 className="fw-bold">Terminarz</h2>
