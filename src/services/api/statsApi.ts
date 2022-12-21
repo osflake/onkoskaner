@@ -24,6 +24,7 @@ export const getStatsByDate = ({ queryParams }: any) => {
     cityId: queryParams.cityId,
     days: queryParams.days,
     dateTo: queryParams.dateTo,
+    queueId: "1",
   });
 
   return {

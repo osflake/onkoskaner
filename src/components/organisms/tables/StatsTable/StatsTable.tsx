@@ -41,6 +41,8 @@ const RaportTable = ({
     { name: "Pilny", value: "2" },
   ];
 
+  console.log(watch("statsBy"));
+
   return (
     <div className="w-100 my-5">
       <div className="d-flex gap-5">
@@ -173,7 +175,7 @@ const RaportTable = ({
                 <TableRowWithCollapse
                   item={item}
                   key={item.province.id}
-                  statsBy={watch().statsBy}
+                  statsBy={watch("statsBy")}
                 />
               );
             })}

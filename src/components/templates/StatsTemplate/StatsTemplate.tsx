@@ -33,10 +33,6 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
 
   const [searchParams] = useSearchParams();
 
-  console.log(dateStatsData);
-
-  console.log(watch("statsBy"), watch("queueId"));
-
   useEffect(() => {
     setQueryParams({
       serviceId: searchParams.get("serviceId") || "217",
@@ -103,7 +99,10 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             </span>
           </p>
         </Container>
-        <LineChart data={dateStatsData?.data?.stats} />
+        <LineChart
+          data={dateStatsData?.data?.stats}
+          queue={dateStatsData?.data?.queue}
+        />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Czas oczekiwania na świadczenie

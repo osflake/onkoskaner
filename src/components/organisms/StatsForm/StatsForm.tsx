@@ -29,8 +29,8 @@ const StatsForm = () => {
       provinceId: search.get("provinceId") || "",
       cityId: search.get("cityId") || "",
       interval: search.get("interval") || "1",
-      normal: search.get("normal") ? search.get("normal") : true,
-      urgent: search.get("urgent") ? search.get("urgent") : false,
+      normal: search.get("normal") === "" ? false : true,
+      urgent: search.get("urgent") === "" ? false : true,
     },
   });
 
@@ -75,14 +75,13 @@ const StatsForm = () => {
           }),
           ...(data.normal === true ? { normal: "1" } : { normal: "" }),
           ...(data.urgent === true ? { urgent: "2" } : { urgent: "" }),
-          isActive: "true",
         });
       })}
     >
       <Container className="p-0 d-flex flex-row flex-wrap ">
         <div className="pe-5 pt-4" style={{ maxWidth: "920px" }}>
           <p className="results-title fw-normal-500">Wybierz świadczenie</p>
-          <Container className="p-0 d-inline-flex gap-3 ">
+          <Container className="p-0 d-inline-flex gap-3 row ">
             {servicesData?.data.map((item: { name: string; id: string }) => (
               <RadioInput
                 key={item.id}

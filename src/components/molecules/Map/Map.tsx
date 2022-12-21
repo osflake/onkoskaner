@@ -45,7 +45,10 @@ export const Map = (data: any) => {
         <p className="results-title fw-normal-500">
           Statystyki względem czasu oczekiwania:
         </p>
-        <Container className="p-0 d-inline-flex gap-3 ">
+        <Container
+          className="p-0 d-inline-flex gap-3 row "
+          style={{ maxWidth: "500px" }}
+        >
           {statsByData.map((item: { name: string; value: string }) => (
             <RadioInput
               key={item.value}

@@ -1,8 +1,10 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useRef } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import "./LineChart.scss";
 import downloadPdf from "../../../hooks/downloadPdf";
+import RadioInput from "../../atoms/RadioInput/RadioInput";
+import { useForm } from "react-hook-form";
 
 // const datax = [
 //   {
@@ -34,43 +36,115 @@ const CustomSymbol = ({ color }) => {
   );
 };
 
-const LineChart = ({ data }) => {
+const LineChart = ({ data, queue }) => {
   const printRef = useRef();
 
-  // const groupBy = require("lodash/groupBy");
-  // const moment = require("moment");
-  // const dataxx = [
-  //   "1396-10-11 09:07:21",
-  //   "1396-10-10 10:03:51",
-  //   "1396-10-07 02:07:02",
-  //   "1396-11-27 08:02:45",
-  //   "1396-11-19 01:02:32",
-  //   "1396-12-01 22:13:21",
-  //   "1396-02-12 09:07:21",
-  //   "1396-05-18 04:02:29",
-  //   "1396-05-21 14:01:42",
-  //   "1396-07-11 01:16:29",
-  // ];
-
-  // groupBy(dataxx, (dt) => moment(dt).week());
-
-  const chartData = [
-    {
-      id: "PILNY TRYB",
-      data: data?.map((item) => ({
-        x: item.date,
-        y: item.avgDaysUntilExamination,
-      })),
+  const { register, watch } = useForm({
+    defaultValues: {
+      displayBy: "1",
     },
+  });
+
+  const groupBy = require("lodash/groupBy");
+  const moment = require("moment");
+
+  const testObj = groupBy(data, (dt) =>
+    watch("displayBy") === "1" && data.length > 14
+      ? moment(dt.date).week()
+      : watch("displayBy") === "2" && data.length > 14
+      ? moment(dt.date).month()
+      : data
+  );
+
+  const stats = Object.values(testObj)?.reduce(
+    (accumulator, currentValue) => ({
+      ...accumulator,
+      [data.length > 14
+        ? `${currentValue[0].date} - ${
+            currentValue[currentValue.length - 1].date
+          }`
+        : `${currentValue[0].date}`]: {
+        avgDaysUntilExamination: currentValue.reduce(
+          (innerAccumulator, innerCurrentValue) =>
+            innerAccumulator +
+            Math.round(
+              Number(
+                innerCurrentValue.avgDaysUntilExamination / currentValue.length
+              )
+            ),
+          0
+        ),
+        avgDaysToResult: currentValue.reduce(
+          (innerAccumulator, innerCurrentValue) =>
+            innerAccumulator +
+            Math.round(
+              Number(innerCurrentValue.avgDaysToResult / currentValue.length)
+            ),
+          0
+        ),
+      },
+    }),
+    []
+  );
+
+  console.log(stats);
+
+  const statsArr = Object.keys(stats)?.map((key) => ({
+    date: key,
+    avgDaysUntilExamination: stats[key].avgDaysUntilExamination,
+    avgDaysToResult: stats[key].avgDaysToResult,
+    id: queue,
+  }));
+
+  console.log(statsArr);
+
+  const chartDataxxx = {
+    id: "TRYB NORMALNY",
+    data: statsArr?.map((item) => ({
+      x: item.date,
+      y: item.avgDaysUntilExamination,
+    })),
+  };
+
+  const chartDataCito = {
+    id: "CZAS OCZEKIWANIA",
+    data: statsArr?.map((item) => ({
+      x: item.date,
+      y: item.avgDaysToResult,
+    })),
+  };
+
+  const chartData = [chartDataxxx, chartDataCito];
+
+  const statsByData = [
+    { name: "tygodni", value: "1" },
+    { name: "miesięcy", value: "2" },
   ];
 
   return (
     <>
       {!!data?.length ? (
-        <div ref={printRef} style={{ height: 500, width: "100%" }}>
+        <div ref={printRef} style={{ height: 700, width: "100%" }}>
+          {data?.length > 14 ? (
+            <div className="pe-5 pt-4" style={{ maxWidth: "300px" }}>
+              <p className="results-title fw-normal-500 ">Wyświetl względem:</p>
+              <Container className="p-0 d-inline-flex gap-3 row">
+                {statsByData.map((item) => (
+                  <RadioInput
+                    key={item.value}
+                    register={register("displayBy", {
+                      required: true,
+                    })}
+                    label={item.name}
+                    value={item.value}
+                  />
+                ))}
+              </Container>
+            </div>
+          ) : null}
           <ResponsiveLine
             data={data && chartData}
-            margin={{ top: 50, right: 70, bottom: 50, left: 70 }}
+            margin={{ top: 50, right: 70, bottom: 250, left: 70 }}
             xScale={{ type: "point" }}
             yScale={{
               type: "linear",
@@ -101,7 +175,7 @@ const LineChart = ({ data }) => {
               orient: "bottom",
               tickSize: 0,
               tickPadding: 20,
-              tickRotation: 0,
+              tickRotation: statsArr.length > 14 ? -90 : 0,
               legend: "",
               legendOffset: 60,
               legendPosition: "middle",
