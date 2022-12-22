@@ -15,8 +15,8 @@ interface SearchResultProps {
 const SearchResult = ({ facility }: SearchResultProps) => {
   return (
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
-      <Container className="d-flex flex-row m-0 p-0 result-top-row-bg">
-        <Container className="d-flex align-items-center border-end pt-5 pb-5 ps-4">
+      <Container className="row m-0 p-0 result-top-row-bg">
+        <Container className="col-12 col-md-4 d-flex justify-content-start align-items-center border-end border-bottom py-4 ps-4">
           <p className="fw-bold-600 m-0">
             <Link
               className="fw-bold-600 m-0 results-title results-link"
@@ -26,13 +26,15 @@ const SearchResult = ({ facility }: SearchResultProps) => {
             </Link>
           </p>
         </Container>
-        <Container className="d-flex flex-column justify-content-center align-items-center border-end">
+
+        <Container className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center border-end border-bottom py-4">
           <p>Najbliższa wizyta za</p>
           <h4>
             <Badge bg="info">{`10 DNI`}</Badge>
           </h4>
         </Container>
-        <Container className="d-flex flex-column justify-content-center align-items-center">
+
+        <Container className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center py-4">
           <p>Oczekiwanie na opis badania</p>
           <h4>
             <Badge bg="info">{`10 DNI`}</Badge>
@@ -40,12 +42,13 @@ const SearchResult = ({ facility }: SearchResultProps) => {
         </Container>
       </Container>
 
-      <Container className="d-flex flex-row m-0 p-0 border-top">
-        <Container className="d-flex flex-column align-items-start border-end gap-2 pt-4 pb-4 ps-4 pe-5">
+      <Container className="row m-0 p-0 border-top">
+        <Container className="col-12 col-md-3 d-flex flex-column align-items-start border-end border-bottom gap-2 pt-4 pb-4 ps-4 pe-5">
           <p className="m-0">{`ul. ${facility.facility.street}, ${facility.facility.zipCode} ${facility.facility.city?.name}`}</p>
           <Button className="btn-outline-pink">POKAŻ NA MAPIE</Button>
         </Container>
-        <Container className="d-flex flex-column justify-content-center align-items-center border-end gap-3">
+
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center border-end border-bottom gap-3 py-3">
           <StarsRating rating={facility.rating} />
           <Container className="d-flex flex-row justify-content-center align-items-center gap-2">
             <h4 className="m-0">
@@ -58,13 +61,15 @@ const SearchResult = ({ facility }: SearchResultProps) => {
             } opinii)`}</p>
           </Container>
         </Container>
-        <Container className="d-flex flex-column justify-content-center align-items-center border-end gap-2">
+
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center border-end border-bottom py-3 gap-2">
           <PercentageProgress percentage={facility.avgTotalCallsPercents} />
           <p className="text-center m-0 fs-13">
             udanych połączeń telefonicznych do placówki
           </p>
         </Container>
-        <Container className="d-flex flex-column justify-content-center align-items-center">
+
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center py-3">
           <Button className="btn-pink">UMÓW SIĘ</Button>
         </Container>
       </Container>

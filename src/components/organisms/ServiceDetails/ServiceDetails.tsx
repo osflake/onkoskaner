@@ -31,12 +31,12 @@ const ServiceDetails = ({
 
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">
-      <Container className="d-flex p-0 m-0">
-        <Container className="d-flex flex-column justify-content-center align-items-start ps-3 py-5 border-end">
+      <Container className="row d-flex p-0 m-0">
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-start ps-3 py-5 border-bottom border-end">
           <h6 className="m-0 fw-bold-600">{name}</h6>
         </Container>
 
-        <Container className="d-flex justify-content-between align-items-center border-end px-4">
+        <Container className="col-12 col-md-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
           <p className="m-0">Najbliższa wizyta za</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
@@ -45,8 +45,8 @@ const ServiceDetails = ({
           </h4>
         </Container>
 
-        <Container className="d-flex justify-content-between align-items-center border-end px-4">
-          <p className="m-0">Oczekiwanie na opis badania</p>
+        <Container className="col-12 col-md-3 d-flex justify-content-between align-items-center border-end border-bottom py-3 px-4">
+          <p className="m-0">Oczekiwanie na opis</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
               {daysToExamination ? `${daysToExamination} dni` : "N/A"}
@@ -54,7 +54,7 @@ const ServiceDetails = ({
           </h4>
         </Container>
 
-        <Container className="d-flex flex-column justify-content-center align-items-center px-5 gap-2">
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center py-3 px-5 gap-3">
           <Button className="btn-pink w-100">UMÓW SIĘ</Button>
           <p className="fs-14 booking-link fw-normal-500 m-0">
             Dostałeś inny termin?
@@ -65,10 +65,10 @@ const ServiceDetails = ({
       <Accordion className="m-0 p-0 w-100 border-top">
         <Accordion.Body className="border-bottom p-0">
           <Container className="d-flex flex-column m-0 p-0">
-            <Container className="d-flex p-0 m-0">
+            <Container className="row d-flex p-0 m-0">
               <OpeningHours />
 
-              <Container className="d-flex flex-column gap-4 border-end p-4">
+              <Container className="col-12 col-md-4 d-flex flex-column gap-4 border-end p-4">
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
                 <Container className="d-flex align-items-center p-0 justify-content-between">
                   <p className="m-0">Numer telefonu</p>
@@ -82,7 +82,7 @@ const ServiceDetails = ({
                 </Container>
               </Container>
 
-              <Container className="d-flex flex-column gap-4 p-4">
+              <Container className="col-12 col-md-4 d-flex flex-column gap-4 p-4">
                 <p className="m-0 fw-bold-600">Dodatkowe informacje</p>
                 <p>
                   {facility.description

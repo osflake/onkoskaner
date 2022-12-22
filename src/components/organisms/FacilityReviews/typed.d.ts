@@ -9,6 +9,7 @@ interface ReviewsDataTypes {
   rating: string;
   status: string;
   content: string;
+  createdAt: string;
 }
 
 interface ReviewsMetaTypes {
