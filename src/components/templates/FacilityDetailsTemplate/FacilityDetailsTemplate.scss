@@ -29,4 +29,8 @@
 
 .google-map-title {
   border-radius: 0px 48px 48px 0px;
+
+  &.gm-bundled-control-on-bottom {
+    display: none;
+  }
 }

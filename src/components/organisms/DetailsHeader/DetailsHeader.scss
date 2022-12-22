@@ -1,0 +1,23 @@
+.google-map-cover {
+  background-image: linear-gradient(
+    270deg,
+    transparent,
+    transparent,
+    white,
+    white
+  );
+}
+
+.google-map-container {
+  height: 100%;
+  width: 100%;
+}
+
+.grid-container {
+  display: grid;
+}
+
+.grid-item {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
