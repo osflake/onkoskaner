@@ -11,7 +11,7 @@ const OpeningHours = ({
   openHours = openingHoursArray
 }: OpeningHoursProps) => {
   return (
-    <Container className="d-flex flex-column align-items-start py-4 ps-3 pe-4 gap-4 border-end">
+    <Container className="col-12 col-md-4 d-flex flex-column align-items-start py-4 ps-3 pe-4 gap-4 border-end">
       <p className="m-0 fw-bold-600">{title}</p>
       {openHours &&
         openHours.map((day, i) => (

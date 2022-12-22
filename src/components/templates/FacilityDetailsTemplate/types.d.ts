@@ -40,4 +40,14 @@ interface LatestSurveyTypes {
     name: string;
     active: boolean;
   };
+  queue: {
+    id: number;
+  };
+}
+
+interface FacilityDataApiTypes {
+  data: FacilityDataTypes[];
+  meta: {
+    totalResults: number;
+  };
 }

@@ -1,25 +1,32 @@
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-interface ReviewAddModalProps {
+interface OtherTermModalProps {
   show: boolean;
   handleClose?: () => void;
+  facilityId: number;
+  serviceId: number;
+  queueId: number;
 }
 
-const ReviewAddModal = ({
+const OtherTermModal = ({
   show,
-  handleClose = () => {}
-}: ReviewAddModalProps) => {
-  const [formName, setFormName] = useState("");
+  handleClose = () => {},
+  facilityId,
+  serviceId,
+  queueId
+}: OtherTermModalProps) => {
   const [formDesc, setFormDesc] = useState("");
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(`submitted name: ${formName}`);
-    console.log(`submitted review: ${formDesc}`);
-    setFormName("");
+    console.log(`submitted content: ${formDesc}`);
+    console.log(`submitted facilityId: ${facilityId}`);
+    console.log(`submitted serviceId: ${serviceId}`);
+    console.log(`submitted queueId: ${queueId}`);
+    console.log(`submitted respondentType: 3`);
     setFormDesc("");
   };
 
@@ -27,28 +34,17 @@ const ReviewAddModal = ({
     <Modal className="results-title" show={show} onHide={handleClose} centered>
       <form onSubmit={(e) => handleSubmit(e)}>
         <Modal.Header closeButton>
-          <Modal.Title className="fw-bold">Dodaj swoją opinię</Modal.Title>
+          <Modal.Title className="fw-bold">Inny termin?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container className="p-0 d-flex flex-column gap-4">
             <Container className="p-0 d-flex flex-column">
-              <label className="form-label">Imię</label>
-              <input
-                type="text"
-                className="form-control"
-                aria-describedby="name"
-                placeholder="Wpisz swoje imię"
-                value={formName}
-                onChange={(e) => setFormName(e.target.value)}
-              />
-            </Container>
-            <Container className="p-0 d-flex flex-column">
-              <label className="form-label">Treść opinii</label>
+              <label className="form-label">Podziel się z nami detalami</label>
               <textarea
                 style={{ height: "140px" }}
                 className="form-control"
                 aria-describedby="desc"
-                placeholder="Tu napisz swoją opinię"
+                placeholder="Tu napisz szczegóły nowego terminu"
                 value={formDesc}
                 onChange={(e) => setFormDesc(e.target.value)}
               />
@@ -79,4 +75,4 @@ const ReviewAddModal = ({
   );
 };
 
-export default ReviewAddModal;
+export default OtherTermModal;

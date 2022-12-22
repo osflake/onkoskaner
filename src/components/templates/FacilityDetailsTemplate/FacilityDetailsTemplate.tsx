@@ -2,16 +2,20 @@ import { useRef } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
 
 import "./FacilityDetailsTemplate.scss";
 
 import { getFacilityDetails } from "../../../services/api/facilityDetailsApi";
-import StarsRating from "../../atoms/StarsRating";
+import DetailsHeader from "../../organisms/DetailsHeader";
 import ResultFilters from "../../molecules/ResultFilters";
 import ServiceDetails from "../../organisms/ServiceDetails";
 import FacilityReviews from "../../organisms/FacilityReviews";
+import { ReactComponent as ToiletIcon } from "../../../assets/Icons/BenefitIcons/ToiletIcon.svg";
+import { ReactComponent as ElevatorIcon } from "../../../assets/Icons/BenefitIcons/ElevatorIcon.svg";
+import { ReactComponent as ParkingIcon } from "../../../assets/Icons/BenefitIcons/ParkingIcon.svg";
+import { ReactComponent as RampIcon } from "../../../assets/Icons/BenefitIcons/RampIcon.svg";
+import { ReactComponent as BlocksIcon } from "../../../assets/Icons/BenefitIcons/BlocksIcon.svg";
+import { ReactComponent as VirusIcon } from "../../../assets/Icons/BenefitIcons/VirusIcon.svg";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -28,17 +32,11 @@ const FacilityDetailsTemplate = () => {
   }
 
   console.log("data", data);
-  console.log("searchParams.getAll", searchParams.getAll("service"));
 
   const filteredDetails = (data: FacilityDataTypes) => {
     if (searchParams.getAll("service").length < 1) {
       return data.latestSurveys;
     } else {
-      console.log(
-        data.latestSurveys?.filter(({ service }) =>
-          searchParams.getAll("service").includes(service.id.toString())
-        )
-      );
       return data.latestSurveys?.filter(({ service }) =>
         searchParams.getAll("service").includes(service.id.toString())
       );
@@ -47,44 +45,31 @@ const FacilityDetailsTemplate = () => {
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
-      <Container className="d-flex flex-column gap-5 p-0 align-items-center mb-5">
-        <h1 className="fw-bold results-title text-center mb-5">
-          {data && data.facility.name}
-        </h1>
-        <Container className="d-flex justify-content-center align-items-end border-top">
-          <Container className="d-flex flex-column justify-content-center align-items-center py-4 px-0 m-0 gap-1 border-end">
-            <p>
-              {data &&
-                `ul. ${data.facility.street}, ${data.facility.zipCode} ${data.facility.city?.name}`}
-            </p>
-            <Button className="btn-outline-pink">POKAŻ NA MAPIE</Button>
-          </Container>
-          <Container className="d-flex flex-column justify-content-center align-items-center py-4 px-0 m-0 gap-2">
-            <Container className="d-flex justify-content-center align-items-center p-0 gap-2">
-              {data && <StarsRating rating={data.rating} />}
-              <h4 className="m-0">
-                <Badge bg="info" className="m-0">
-                  {data?.rating ? `${data?.rating}/5` : "N/A"}
-                </Badge>
-              </h4>
-            </Container>
-            <Button
-              className="btn-outline-pink"
-              onClick={() =>
-                reviewsRef.current?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              ZOBACZ OPINIE
-            </Button>
-          </Container>
+      {data && (
+        <DetailsHeader
+          facility={data.facility}
+          scrollClick={() =>
+            reviewsRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+          rating={data.rating}
+        />
+      )}
+      <Container className="p-0 d-flex flex-column align-items-start gap-2 pb-3">
+        <p className="fw-bold-600">Lista udogodnień:</p>
+        <Container className="p-0 d-flex align-items-center gap-3">
+          <ToiletIcon />
+          <VirusIcon />
+          <ElevatorIcon />
+          <ParkingIcon />
+          <BlocksIcon />
+          <RampIcon />
         </Container>
       </Container>
-
       <Container className="d-flex flex-column align-items-start gap-5 results-title p-0 pb-5">
         <Container className="d-flex justify-content-between align-items-baseline p-0">
           <h2 className="fw-bold">Terminarz</h2>
           <p>
-            Ostatnia aktualizacja:{" "}
+            Ostatnia aktualizacja:
             <span className="fw-bold">6 września 2022</span>
           </p>
         </Container>
@@ -96,14 +81,18 @@ const FacilityDetailsTemplate = () => {
               facility={data.facility}
               key={survey.id}
               name={survey.service.name}
+              serviceId={survey.service.id}
               daysToExamination={survey?.daysToExamination}
               avgTotalCallsPercents={data.avgTotalCallsPercents}
               surveyId={survey.id}
+              queueId={survey.queue.id}
             />
           ))}
       </Container>
-      <div ref={reviewsRef} className="w-100 border-top pb-5"></div>
-      <FacilityReviews rating={data?.rating} />
+      <div className="w-100 border-top pb-5"></div>
+      <div ref={reviewsRef} className="p-0 m-0">
+        <FacilityReviews rating={data?.rating} />
+      </div>
     </Container>
   );
 };

@@ -25,11 +25,17 @@ export const getFacilities = ({
   });
 
   return {
-    queryKey: ["detailedFacilities"],
+    queryKey: [
+      "detailedFacilities",
+      `offset/${offset}`,
+      `provinceId/${provinceId}`,
+      `serviceId/${serviceId}`,
+      `queueId/${queueId}`
+    ],
     queryFn: () =>
       axios
         .get(`${detailedFacilities}?${params.toString()}`)
-        .then((res) => res.data.data),
+        .then((res) => res.data),
     retry: false
   };
 };

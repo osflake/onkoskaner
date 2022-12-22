@@ -46,7 +46,7 @@ const FilterPill = ({
   return (
     <Button
       onClick={onClick ? onClick : () => handleClick()}
-      className={`btn-sm ${
+      className={`btn-sm text-nowrap ${
         active ? "btn-pill-outline-primary-active" : "btn-pill-outline-primary"
       }`}
     >

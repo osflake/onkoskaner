@@ -19,7 +19,7 @@ interface ModalContainerProps {
 
 const CriteriaModal = ({
   show = true,
-  handleClose = () => {},
+  handleClose = () => {}
 }: ModalContainerProps) => {
   const [search, setSearch] = useSearchParams();
 
@@ -28,8 +28,8 @@ const CriteriaModal = ({
       serviceId: search.get("serviceId"),
       provinceId: search.get("provinceId") || "",
       queueId: search.get("queueId") === "1" ? false : true,
-      cityId: search.get("cityId") || "",
-    },
+      cityId: search.get("cityId") || ""
+    }
   });
   const { data: provincesData } = useQuery(getProvinces());
   const { data: servicesData, isLoading } = useQuery(
@@ -56,7 +56,7 @@ const CriteriaModal = ({
                 ...(data.serviceId && { serviceId: data.serviceId }),
                 provinceId: data.provinceId,
                 queueId: data.queueId ? "2" : "1",
-                cityId: data.cityId,
+                cityId: data.cityId
               });
             })}
           >
@@ -97,6 +97,7 @@ const CriteriaModal = ({
                   value="Submit"
                   size="lg"
                   className="px-5"
+                  onClick={handleClose}
                 >
                   Szukaj
                 </Button>

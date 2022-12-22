@@ -1,0 +1,7 @@
+.pills-overflow {
+  overflow-x: hidden;
+
+  @media (max-width: 576px) {
+    overflow-x: scroll;
+  }
+}

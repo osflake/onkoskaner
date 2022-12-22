@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -14,15 +14,19 @@ const TestTemplate = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currPage, setCurrPage] = useState(1);
 
-  const { isError, data } = useQuery<FacilityDataTypes[]>(
+  const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: "0",
+      offset: ((currPage - 1) * 10).toString(),
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
       queueId: searchParams.get("queueId")
     })
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currPage, searchParams]);
 
   if (isError) {
     return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
@@ -36,9 +40,11 @@ const TestTemplate = () => {
       <Container className="d-flex flex-column justify-content-center align-items-center gap-3">
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
         {data && (
-          <p className="results-title">{`Nazwa badania / ${data[0].facility.province?.name
+          <p className="results-title">{`Nazwa badania / ${data.data[0].facility.province?.name
             ?.charAt(0)
-            .toUpperCase()}${data[0].facility.province?.name.slice(1)}`}</p>
+            .toUpperCase()}${data.data[0].facility.province?.name.slice(
+            1
+          )}`}</p>
         )}
         <Button
           className="btn-pink"
@@ -63,16 +69,18 @@ const TestTemplate = () => {
         </Container>
 
         {data &&
-          data.map((facility) => {
+          data.data.map((facility) => {
             return (
               <SearchResult facility={facility} key={facility.facility.id} />
             );
           })}
       </Container>
-      {/* <CustomPagination           totalCount={pdfData?.length || 0}
-          itemsPerPage={8}
-          currentPage={currPage}
-          onPageChange={setCurrPage} /> */}
+      <CustomPagination
+        totalCount={data?.meta.totalResults || 0}
+        pageSize={10}
+        currentPage={currPage}
+        onPageChange={setCurrPage}
+      />
     </Container>
   );
 };
