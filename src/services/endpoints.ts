@@ -1,4 +1,8 @@
-export const api = "https://dev-api.alivia.org.pl/api/v1/";
+const apiKey = sessionStorage.getItem("api_key");
+
+export const api = apiKey
+  ? `${apiKey}/api/v1/`
+  : "https://dev-api.alivia.org.pl/api/v1/";
 
 export const facilities = `${api}facilities`;
 

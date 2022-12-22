@@ -1,10 +1,9 @@
 import axios from "axios";
 import { roles } from "../endpoints";
 
-export const getRoles = (userId: number) => {
+export const getRoles = (userId: any) => {
   return {
-    queryKey: ["roles"],
     queryFn: () =>
-      axios.get(`${roles}?userId=${userId}`).then((res) => res.data),
+      userId && axios.get(`${roles}?userId=${userId}`).then((res) => res.data),
   };
 };

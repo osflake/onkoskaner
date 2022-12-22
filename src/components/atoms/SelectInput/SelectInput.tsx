@@ -9,7 +9,7 @@ const SelectInput = ({
   defaultValue,
 }: SelectInputProps) => {
   return (
-    <label className="w-100 ">
+    <label className="w-100 col-12 col-sm">
       <p className="selectInputLabel">{label}</p>
       <select
         className="form-select"

@@ -10,7 +10,7 @@ import "./StatsTable.scss";
 
 const TableRowWithCollapse = ({ item, statsBy }: any) => {
   const [isCollapse, setCollapse] = useState(false);
-  const isOdd = !!(item.province.id % 2) ? "odd" : "even";
+  // const isOdd = !!(item.province.id % 2) ? "odd" : "even";
   const [queryParams, setQueryParams] = useState({});
 
   const handleCollapse = () => {
@@ -69,22 +69,24 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         onClick={() => {
           handleCollapse();
         }}
-        className={isOdd}
+        // className={isOdd}
       >
         <td>{item.province.name}</td>
-        <td>{item.results[0].minDaysUntilExamination} dni</td>
-        <td>{Math.round(item.results[0].avgDaysUntilExamination)} dni</td>
-        <td>{item.results[0].maxDaysUntilExamination} dni</td>
+        <td>{item.results.minDaysUntilExamination} dni</td>
+        <td>{Math.round(item.results.avgDaysUntilExamination)} dni</td>
+        <td>{item.results.maxDaysUntilExamination} dni</td>
         <td>
           <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
         </td>
         {statsBy === "2" || statsBy === "3" ? (
           <td>
-            <img
-              src={anglesArrow}
-              alt=""
+            <object
+              data={anglesArrow}
+              type="image/svg+xml"
+              width="16"
+              height="16"
               className="angleArrow"
-              data-isopen={isCollapse}
+              aria-label="Arrow"
             />
           </td>
         ) : null}

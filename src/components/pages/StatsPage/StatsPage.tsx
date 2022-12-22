@@ -3,7 +3,8 @@ import { getRoles } from "../../../services/api/rolesApi";
 import StatsTemplate from "../../templates/StatsTemplate/StatsTemplate";
 
 const StatsPage = () => {
-  const { data: userRole } = useQuery(getRoles(1));
+  const userId = sessionStorage.getItem("userId");
+  const { data: userRole } = useQuery([userId], getRoles(userId));
 
   return <StatsTemplate adminRole={!!userRole?.permission.administrator} />;
 };

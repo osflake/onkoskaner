@@ -4,7 +4,7 @@ import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
-import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
 
 interface FormValues {
   province: {
@@ -13,7 +13,7 @@ interface FormValues {
   };
   results: {
     minDaysUntilExamination: number;
-    avgDaysUntilExamination: number;
+    avgDaysUntilExaminationDaysUntilExamination: number;
     maxDaysUntilExamination: number;
   };
 }
@@ -21,17 +21,23 @@ interface FormValues {
 const RaportTable = ({
   data,
   adminRole,
+  register,
+  watch,
 }: {
   data: any;
   adminRole: boolean;
+  register: any;
+  watch: any;
 }) => {
   const [sort, setSort] = useState("");
 
-  const { register, watch } = useForm({
-    defaultValues: {
-      statsBy: "1",
-    },
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSort = (sortBy: string) => {
+    searchParams.set("sortBy", sortBy);
+    setSearchParams(searchParams);
+    setSort(sortBy);
+  };
 
   const statsByData = [
     { name: "względem województw", value: "1" },
@@ -39,18 +45,40 @@ const RaportTable = ({
     { name: "względem placówek", value: "3" },
   ];
 
+  const queueData = [
+    { name: "Normalny", value: "1" },
+    { name: "Pilny", value: "2" },
+  ];
+
   return (
     <div className="w-100 my-5">
-      {adminRole ? (
-        <div className="pt-4">
-          <p className="results-title fw-normal-500">
-            Szczegółowe statystyki względem:
-          </p>
-          <Container className="p-0 d-inline-flex gap-3 ">
-            {statsByData.map((item: { name: string; value: string }) => (
+      <div className="d-flex gap-5 row">
+        {adminRole ? (
+          <div className="pt-4 col-12 col-sm">
+            <p className="results-title fw-normal-500">
+              Szczegółowe statystyki względem:
+            </p>
+            <Container className=" d-inline-flex gap-12 row ">
+              {statsByData.map((item: { name: string; value: string }) => (
+                <RadioInput
+                  key={item.value}
+                  register={register("statsBy", {
+                    required: true,
+                  })}
+                  label={item.name}
+                  value={item.value}
+                />
+              ))}
+            </Container>
+          </div>
+        ) : null}{" "}
+        <div className="pt-4 col-12 col-sm">
+          <p className="results-title fw-normal-500">Tryb świadczenia:</p>
+          <Container className="d-inline-flex gap-3 row w-50">
+            {queueData.map((item: { name: string; value: string }) => (
               <RadioInput
                 key={item.value}
-                register={register("statsBy", {
+                register={register("queueId", {
                   required: true,
                 })}
                 label={item.name}
@@ -59,20 +87,20 @@ const RaportTable = ({
             ))}
           </Container>
         </div>
-      ) : null}
+      </div>
       {!!data ? (
-        <Table className="mt-5 ">
+        <Table className="mt-5">
           <thead>
             <tr>
               <th className="pb-3">Czas oczekiwania:</th>
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "fastest,asc"}
+                  data-asc={sort === "minDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "fastest,asc"
-                      ? setSort(`fastest,desc`)
-                      : setSort(`fastest,asc`)
+                    sort === "minDaysUntilExamination,ASC"
+                      ? handleSort(`minDaysUntilExamination,DESC`)
+                      : handleSort(`minDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Najszybciej</span> <img src={sortArrow} alt="" />
@@ -81,11 +109,11 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "medium,asc"}
+                  data-asc={sort === "avgDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "medium,asc"
-                      ? setSort(`medium,desc`)
-                      : setSort(`medium,asc`)
+                    sort === "avgDaysUntilExamination,ASC"
+                      ? handleSort(`avgDaysUntilExamination,DESC`)
+                      : handleSort(`avgDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Średnio</span>
@@ -95,11 +123,11 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "longest,asc"}
+                  data-asc={sort === "maxDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "longest,asc"
-                      ? setSort(`longest,desc`)
-                      : setSort(`longest,asc`)
+                    sort === "maxDaysUntilExamination,ASC"
+                      ? handleSort(`maxDaysUntilExamination,DESC`)
+                      : handleSort(`maxDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Najdłużej</span>
@@ -118,7 +146,7 @@ const RaportTable = ({
                   data?.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      Number(currentValue.results[0].minDaysUntilExamination),
+                      Number(currentValue.results.minDaysUntilExamination),
                     0
                   ) / 16
                 )}{" "}
@@ -129,7 +157,7 @@ const RaportTable = ({
                   data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      Number(currentValue.results[0].avgDaysUntilExamination),
+                      Number(currentValue.results.avgDaysUntilExamination),
                     0
                   ) / 16
                 )}{" "}
@@ -140,7 +168,7 @@ const RaportTable = ({
                   data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      currentValue.results[0].maxDaysUntilExamination,
+                      currentValue.results.maxDaysUntilExamination,
                     0
                   ) / 16
                 )}{" "}
@@ -154,7 +182,7 @@ const RaportTable = ({
                 <TableRowWithCollapse
                   item={item}
                   key={item.province.id}
-                  statsBy={watch().statsBy}
+                  statsBy={watch("statsBy")}
                 />
               );
             })}
