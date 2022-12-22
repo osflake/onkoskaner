@@ -1,32 +1,13 @@
 import { ResponsiveLine } from "@nivo/line";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import "./LineChart.scss";
 import downloadPdf from "../../../hooks/downloadPdf";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useForm } from "react-hook-form";
-
-// const datax = [
-//   {
-//     id: "NORMALNY TRYB",
-//     data: [
-//       { x: "2019-01-06", y: 10 },
-//       { x: "2019-01-07", y: 4 },
-//       { x: "2019-01-08", y: 5 },
-//       { x: "2019-01-09", y: 10 },
-//     ],
-//   },
-
-//   {
-//     id: "PILNY TRYB",
-//     data: [
-//       { x: "2019-01-06", y: 15 },
-//       { x: "2019-01-07", y: 4 },
-//       { x: "2019-01-08", y: 2 },
-//       { x: "2019-01-09", y: 20 },
-//     ],
-//   },
-// ];
+import { useSearchParams } from "react-router-dom";
+const groupBy = require("lodash/groupBy");
+const moment = require("moment");
 
 const CustomSymbol = ({ color }) => {
   return (
@@ -36,30 +17,37 @@ const CustomSymbol = ({ color }) => {
   );
 };
 
-const LineChart = ({ data, queue }) => {
+const LineChart = ({ nomralData, citoData, queue }) => {
   const printRef = useRef();
 
-  const { register, watch } = useForm({
+  const [searchParams] = useSearchParams();
+
+  const { register, watch, setValue } = useForm({
     defaultValues: {
       displayBy: "1",
     },
   });
 
-  const groupBy = require("lodash/groupBy");
-  const moment = require("moment");
-
-  const testObj = groupBy(data, (dt) =>
-    watch("displayBy") === "1" && data.length > 14
+  const normalObj = groupBy(nomralData, (dt) =>
+    watch("displayBy") === "1" && nomralData.length > 14
       ? moment(dt.date).week()
-      : watch("displayBy") === "2" && data.length > 14
+      : watch("displayBy") === "2" && nomralData.length > 14
       ? moment(dt.date).month()
-      : data
+      : nomralData
   );
 
-  const stats = Object.values(testObj)?.reduce(
+  const citoObj = groupBy(citoData, (dt) =>
+    watch("displayBy") === "1" && citoData.length > 14
+      ? moment(dt.date).week()
+      : watch("displayBy") === "2" && citoData.length > 14
+      ? moment(dt.date).month()
+      : citoData
+  );
+
+  const statsCito = Object.values(citoObj)?.reduce(
     (accumulator, currentValue) => ({
       ...accumulator,
-      [data.length > 14
+      [citoData?.length > 14
         ? `${currentValue[0].date} - ${
             currentValue[currentValue.length - 1].date
           }`
@@ -87,64 +75,174 @@ const LineChart = ({ data, queue }) => {
     []
   );
 
-  console.log(stats);
+  const statsNormal = Object.values(normalObj)?.reduce(
+    (accumulator, currentValue) => ({
+      ...accumulator,
+      [nomralData.length > 14
+        ? `${currentValue[0].date} - ${
+            currentValue[currentValue.length - 1].date
+          }`
+        : `${currentValue[0].date}`]: {
+        avgDaysUntilExamination: currentValue.reduce(
+          (innerAccumulator, innerCurrentValue) =>
+            innerAccumulator +
+            Math.round(
+              Number(
+                innerCurrentValue.avgDaysUntilExamination / currentValue.length
+              )
+            ),
+          0
+        ),
+        avgDaysToResult: currentValue.reduce(
+          (innerAccumulator, innerCurrentValue) =>
+            innerAccumulator +
+            Math.round(
+              Number(innerCurrentValue.avgDaysToResult / currentValue.length)
+            ),
+          0
+        ),
+      },
+    }),
+    []
+  );
 
-  const statsArr = Object.keys(stats)?.map((key) => ({
+  const statsNormalArr = Object.keys(statsNormal)?.map((key) => ({
     date: key,
-    avgDaysUntilExamination: stats[key].avgDaysUntilExamination,
-    avgDaysToResult: stats[key].avgDaysToResult,
+    avgDaysUntilExamination: statsNormal[key].avgDaysUntilExamination,
+    avgDaysToResult: statsNormal[key].avgDaysToResult,
     id: queue,
   }));
 
-  console.log(statsArr);
+  const statsCitoArr = Object.keys(statsCito)?.map((key) => ({
+    date: key,
+    avgDaysUntilExamination: statsCito[key]?.avgDaysUntilExamination,
+    avgDaysToResult: statsCito[key]?.avgDaysToResult,
+    id: queue,
+  }));
 
-  const chartDataxxx = {
+  const chartDataNormal = {
     id: "TRYB NORMALNY",
-    data: statsArr?.map((item) => ({
+    data: statsNormalArr?.map((item) => ({
       x: item.date,
       y: item.avgDaysUntilExamination,
+      color: "#11C0F2",
+    })),
+  };
+
+  const chartNormalWaitingTime = {
+    id: "CZAS OCZEKIWANIA - TRYB NORMALNY",
+
+    data: statsNormalArr?.map((item) => ({
+      x: item.date,
+      y: item.avgDaysToResult,
+      color: "#808080",
     })),
   };
 
   const chartDataCito = {
-    id: "CZAS OCZEKIWANIA",
-    data: statsArr?.map((item) => ({
+    id: "TRYB PILNY",
+
+    data: statsCitoArr?.map((item) => ({
       x: item.date,
-      y: item.avgDaysToResult,
+      y: item.avgDaysUntilExamination,
+      color: "#ed2369",
     })),
   };
 
-  const chartData = [chartDataxxx, chartDataCito];
+  const chartCitoWaitingTime = {
+    id: "CZAS OCZEKIWANIA - TRYB PILNY",
 
-  const statsByData = [
-    { name: "tygodni", value: "1" },
-    { name: "miesięcy", value: "2" },
-  ];
+    data: statsCitoArr?.map((item) => ({
+      x: item.date,
+      y: item.avgDaysToResult,
+      color: "#b6b6b6",
+    })),
+  };
+
+  const chartData = [];
+
+  if (
+    searchParams.get("waitingTime") === "true" &&
+    searchParams.get("normal") === "1"
+  ) {
+    chartData.push(chartNormalWaitingTime);
+  }
+
+  if (
+    searchParams.get("waitingTime") === "true" &&
+    searchParams.get("urgent") === "2"
+  ) {
+    chartData.push(chartCitoWaitingTime);
+  }
+
+  if (
+    searchParams.get("normal") === "1" ||
+    searchParams.get("normal") === null
+  ) {
+    chartData.push(chartDataNormal);
+  }
+
+  if (
+    searchParams.get("urgent") === "2" ||
+    searchParams.get("urgent") === null
+  ) {
+    chartData.push(chartDataCito);
+  }
+
+  useEffect(() => {
+    if (watch("displayBy") === "1" && chartData[0]?.data.length > 13) {
+      setValue("displayBy", "2");
+    } else if (watch("displayBy") === "2" && chartData[0]?.data.length < 11) {
+      setValue("displayBy", "1");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nomralData, citoData, watch, setValue]);
 
   return (
     <>
-      {!!data?.length ? (
-        <div ref={printRef} style={{ height: 700, width: "100%" }}>
-          {data?.length > 14 ? (
+      {!!chartData[0]?.data?.length ? (
+        <div
+          ref={printRef}
+          style={{
+            height: nomralData?.length > 14 ? 700 : 500,
+            width: "100%",
+          }}
+        >
+          {nomralData?.length > 14 ? (
             <div className="pe-5 pt-4" style={{ maxWidth: "300px" }}>
               <p className="results-title fw-normal-500 ">Wyświetl względem:</p>
-              <Container className="p-0 d-inline-flex gap-3 row">
-                {statsByData.map((item) => (
+              <Container className="gap-3 row">
+                {(watch("displayBy") === "1" &&
+                  chartData[0]?.data.length < 14) ||
+                (watch("displayBy") === "2" &&
+                  chartData[0]?.data.length < 11) ? (
                   <RadioInput
-                    key={item.value}
                     register={register("displayBy", {
                       required: true,
                     })}
-                    label={item.name}
-                    value={item.value}
+                    label="tygodni"
+                    value="1"
                   />
-                ))}
+                ) : null}
+
+                <RadioInput
+                  register={register("displayBy", {
+                    required: true,
+                  })}
+                  label="miesięcy"
+                  value="2"
+                />
               </Container>
             </div>
           ) : null}
           <ResponsiveLine
-            data={data && chartData}
-            margin={{ top: 50, right: 70, bottom: 250, left: 70 }}
+            data={(nomralData || citoData) && chartData}
+            margin={{
+              top: 50,
+              right: 70,
+              bottom: nomralData?.length > 14 ? 250 : 100,
+              left: 70,
+            }}
             xScale={{ type: "point" }}
             yScale={{
               type: "linear",
@@ -175,7 +273,8 @@ const LineChart = ({ data, queue }) => {
               orient: "bottom",
               tickSize: 0,
               tickPadding: 20,
-              tickRotation: statsArr.length > 14 ? -90 : 0,
+              tickRotation: -60,
+
               legend: "",
               legendOffset: 60,
               legendPosition: "middle",
@@ -190,7 +289,7 @@ const LineChart = ({ data, queue }) => {
               legendPosition: "middle",
             }}
             enableGridX={false}
-            colors={["#11C0F2", "#ED2369", "#003B50"]}
+            colors={({ id, data }) => data[0]?.color}
             pointSymbol={CustomSymbol}
             pointSize={20}
             pointBorderWidth={1}

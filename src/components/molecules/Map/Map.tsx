@@ -46,7 +46,7 @@ export const Map = (data: any) => {
           Statystyki względem czasu oczekiwania:
         </p>
         <Container
-          className="p-0 d-inline-flex gap-3 row "
+          className="d-inline-flex gap-3 row "
           style={{ maxWidth: "500px" }}
         >
           {statsByData.map((item: { name: string; value: string }) => (

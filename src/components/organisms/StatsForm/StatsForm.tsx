@@ -31,6 +31,7 @@ const StatsForm = () => {
       interval: search.get("interval") || "1",
       normal: search.get("normal") === "" ? false : true,
       urgent: search.get("urgent") === "" ? false : true,
+      waitingTime: search.get("urgent") === "true" ? true : false,
     },
   });
 
@@ -75,13 +76,16 @@ const StatsForm = () => {
           }),
           ...(data.normal === true ? { normal: "1" } : { normal: "" }),
           ...(data.urgent === true ? { urgent: "2" } : { urgent: "" }),
+          ...(data.waitingTime === true
+            ? { waitingTime: "true" }
+            : { waitingTime: "" }),
         });
       })}
     >
       <Container className="p-0 d-flex flex-row flex-wrap ">
-        <div className="pe-5 pt-4" style={{ maxWidth: "920px" }}>
+        <div className="pe-5 pt-4" style={{ maxWidth: "890px" }}>
           <p className="results-title fw-normal-500">Wybierz świadczenie</p>
-          <Container className="p-0 d-inline-flex gap-3 row ">
+          <Container className="d-inline-flex gap-3 row ">
             {servicesData?.data.map((item: { name: string; id: string }) => (
               <RadioInput
                 key={item.id}
@@ -95,9 +99,9 @@ const StatsForm = () => {
           </Container>
         </div>
         <div className="p-0 pt-4 h-100 d-flex flex-column  align-items-center justify-content-center">
-          <div>
+          <div className="d-flex flex-column">
             <p className="results-title fw-normal-500">Tryb świadczenia</p>
-            <Container className="p-0 w-auto d-inline-flex position-relative">
+            <Container className="p-0 w-auto d-inline-flex position-relative m-0">
               <CheckboxInput
                 register={register("normal", {
                   validate: {
@@ -128,6 +132,12 @@ const StatsForm = () => {
                 </div>
               ) : null}
             </Container>
+            <div className="pt-4">
+              <CheckboxInput
+                register={register("waitingTime")}
+                label="Pokaż czas oczekiwania na wyniki"
+              />
+            </div>
           </div>
         </div>
       </Container>

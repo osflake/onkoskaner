@@ -29,19 +29,30 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
     getStatsByProvince({ queryParams, queueId: watch("queueId") })
   );
 
-  const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
-
   const [searchParams] = useSearchParams();
+  const { data: dateStatsData } = useQuery({
+    queryKey: [queryParams, "normal"],
+    queryFn: getStatsByDate({
+      queryParams,
+      queueId: 1,
+    }),
+    // enabled: searchParams.get("normal") === "1",
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: dateStatsDataCito } = useQuery({
+    queryKey: [queryParams, "cito"],
+    queryFn: getStatsByDate({
+      queryParams,
+      queueId: 2,
+    }),
+    // enabled: searchParams.get("urgent") === "2",
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     setQueryParams({
       serviceId: searchParams.get("serviceId") || "217",
-      queueId: [
-        ["queueId", searchParams.get("normal")],
-        ["queueId", searchParams.get("urgent")],
-      ],
-      normal: searchParams.get("normal") || "",
-      urgent: searchParams.get("urgent") || "",
       provinceId: searchParams.get("provinceId") || "",
       cityId: searchParams.get("cityId") || "",
       days: searchParams.get("days") || "30",
@@ -74,46 +85,66 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Średni czas oczekiwania w{" "}
-            {dateStatsData?.data?.province && !dateStatsData?.data?.city ? (
+            {(dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
               <span className="fw-bolder">
                 {dateStatsData?.data?.province.name}{" "}
               </span>
             ) : null}
-            {dateStatsData?.data?.province && dateStatsData?.data?.city ? (
+            {(dateStatsData?.data?.province && dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
               <span className="fw-bolder">
-                {dateStatsData?.data?.city.name}{" "}
+                {dateStatsData?.data?.city?.name}{" "}
               </span>
             ) : null}
-            {!dateStatsData?.data?.province && !dateStatsData?.data?.city ? (
+            {(!dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
               <span className="fw-bolder"> całej Polsce </span>
             ) : null}
             na świadczenie{" "}
             <span className="fw-bolder">
-              {` ${dateStatsData?.data.service.name} `}
+              {` ${
+                dateStatsData?.data.service.name ||
+                dateStatsDataCito?.data.service.name
+              } `}
             </span>{" "}
             w przeciągu ostatnich{" "}
-            <span className="fw-bolder">{dateStatsData?.data?.days}</span> dni
-            stan na{" "}
             <span className="fw-bolder">
-              {dateStatsData?.data?.dateTo || "2022-00-00"}
+              {dateStatsData?.data?.days || dateStatsDataCito?.data?.days}
+            </span>{" "}
+            dni stan na{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.dateTo ||
+                dateStatsDataCito?.data?.dateTo ||
+                "2022-00-00"}
             </span>
           </p>
         </Container>
         <LineChart
-          data={dateStatsData?.data?.stats}
+          nomralData={dateStatsData?.data?.stats}
+          citoData={dateStatsDataCito?.data?.stats}
           queue={dateStatsData?.data?.queue}
         />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
             Czas oczekiwania na świadczenie
             <span className="fw-bolder">
-              {` ${dateStatsData?.data.service.name} `}
+              {` ${
+                dateStatsData?.data.service.name ||
+                dateStatsDataCito?.data.service.name
+              } `}
             </span>
             w poszczególnych wojewódzctwach w okresie
             <span className="fw-bolder"> {dateStatsData?.data?.days} </span> dni
             <br />
             <span className="fw-bolder">
-              stan na {dateStatsData?.data?.dateTo || "2022-00-00"}
+              stan na{" "}
+              {dateStatsData?.data?.dateTo ||
+                dateStatsDataCito?.data?.dateTo ||
+                "2022-00-00"}
             </span>
           </p>
         </Container>

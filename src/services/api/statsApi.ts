@@ -17,24 +17,21 @@ export const getStatsByProvince = ({ queryParams, queueId }: any) => {
   };
 };
 
-export const getStatsByDate = ({ queryParams }: any) => {
+export const getStatsByDate = ({ queryParams, queueId }: any) => {
   const searchParams = new URLSearchParams({
     serviceId: queryParams.serviceId,
     provinceId: queryParams.provinceId,
     cityId: queryParams.cityId,
     days: queryParams.days,
     dateTo: queryParams.dateTo,
-    queueId: "1",
+    queueId: queueId,
   });
 
-  return {
-    queryKey: [queryParams],
-    queryFn: () =>
-      searchParams.toString() &&
-      axios
-        .get(`${stats}/waiting-times-by-date?${searchParams.toString()}`)
-        .then((res) => res.data),
-  };
+  return () =>
+    searchParams.toString() &&
+    axios
+      .get(`${stats}/waiting-times-by-date?${searchParams.toString()}`)
+      .then((res) => res.data);
 };
 
 export const getStatsByCity = ({ queryParams }: any) => {
