@@ -7,6 +7,7 @@ import Accordion from "react-bootstrap/Accordion";
 import "./ServiceDetails.scss";
 import PercentageProgress from "../../atoms/PercentageProgress";
 import OpeningHours from "../../atoms/OpeningHours";
+import OtherTermModal from "../Modals/OtherTermModal";
 
 interface ServiceDetailsProps {
   name: string;
@@ -14,6 +15,8 @@ interface ServiceDetailsProps {
   facility: FacilityDataTypes["facility"];
   avgTotalCallsPercents?: number;
   surveyId?: number;
+  serviceId: number;
+  queueId: number;
 }
 
 const ServiceDetails = ({
@@ -21,10 +24,12 @@ const ServiceDetails = ({
   name,
   daysToExamination,
   avgTotalCallsPercents = 40,
-  surveyId
+  surveyId,
+  serviceId,
+  queueId
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const handleCollapse = () => {
     setCollapse((prev) => !prev);
   };
@@ -56,9 +61,20 @@ const ServiceDetails = ({
 
         <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center py-3 px-5 gap-3">
           <Button className="btn-pink w-100">UMÓW SIĘ</Button>
-          <p className="fs-14 booking-link fw-normal-500 m-0">
+          <Button
+            variant="link"
+            className="fs-14 booking-link fw-normal-500 m-0"
+            onClick={() => setShowModal((prev) => !prev)}
+          >
             Dostałeś inny termin?
-          </p>
+          </Button>
+          <OtherTermModal
+            handleClose={() => setShowModal((prev) => !prev)}
+            show={showModal}
+            facilityId={facility.id}
+            serviceId={serviceId}
+            queueId={queueId}
+          />
         </Container>
       </Container>
 

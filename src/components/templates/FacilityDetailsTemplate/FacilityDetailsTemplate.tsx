@@ -81,9 +81,11 @@ const FacilityDetailsTemplate = () => {
               facility={data.facility}
               key={survey.id}
               name={survey.service.name}
+              serviceId={survey.service.id}
               daysToExamination={survey?.daysToExamination}
               avgTotalCallsPercents={data.avgTotalCallsPercents}
               surveyId={survey.id}
+              queueId={survey.queue.id}
             />
           ))}
       </Container>

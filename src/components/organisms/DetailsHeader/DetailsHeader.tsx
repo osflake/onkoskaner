@@ -22,10 +22,12 @@ const DetailsHeader = ({
       <div className="w-100 col-12">
         <div className="google-map-container grid-container">
           <Container
-            style={{ zIndex: "10002" }}
+            style={{ zIndex: "1002" }}
             className="d-flex flex-column grid-item gap-5 p-0 py-3"
           >
-            <h1 className="m-0 fw-bold results-title">{facility.name}</h1>
+            <h1 className="m-0 fw-bold rwd-width results-title">
+              {facility.name}
+            </h1>
             <p className="p-0">
               {`ul. ${facility.street}, ${facility.zipCode} ${facility.city?.name}`}
             </p>
@@ -52,7 +54,7 @@ const DetailsHeader = ({
             style={{
               border: "0",
               borderRadius: "0px 48px 48px 0px",
-              zIndex: "10000"
+              zIndex: "1000"
             }}
             loading="lazy"
             allowFullScreen
@@ -62,7 +64,7 @@ const DetailsHeader = ({
           ></iframe>
 
           <div
-            style={{ zIndex: "10001" }}
+            style={{ zIndex: "1001" }}
             className="google-map-cover grid-item"
           ></div>
         </div>

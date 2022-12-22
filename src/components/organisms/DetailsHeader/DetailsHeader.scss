@@ -21,3 +21,11 @@
   grid-column-start: 1;
   grid-row-start: 1;
 }
+
+.rwd-width {
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+}
