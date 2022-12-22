@@ -156,10 +156,11 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         />
       </div>
       <div className="px-3 w-100">
-        <div className="d-flex justify-content-end w-100 mb-5">
+        {/* <div className="d-flex justify-content-center w-100 mb-5 justify-content-sm-end row"> */}
+        <div className="mb-5 row justify-content-md-end">
           <Button
             onClick={() => downloadPdf(printRef)}
-            className="btn-outline-pink"
+            className="btn-outline-pink col col-lg-3 "
           >
             POBIERZ RAPORT PDF
           </Button>
