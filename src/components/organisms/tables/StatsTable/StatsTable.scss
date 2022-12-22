@@ -7,9 +7,8 @@ table td {
   padding: 5px;
 }
 
-table tbody tr:first-child td {
-  border-top: none;
-  border-right: none;
+table tbody tr:nth-child(2) {
+  border-top: 1px solid #ebebeb;
 }
 
 table tbody tr:last-child td {

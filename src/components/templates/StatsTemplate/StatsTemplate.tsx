@@ -16,6 +16,8 @@ import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
+  const [searchParams] = useSearchParams();
+
   const { register, watch } = useForm({
     defaultValues: {
       statsBy: "1",
@@ -25,11 +27,14 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
   const { data: provinceStatsData } = useQuery(
-    [watch("queueId"), queryParams],
-    getStatsByProvince({ queryParams, queueId: watch("queueId") })
+    [watch("queueId"), queryParams, searchParams.get("sortBy")],
+    getStatsByProvince({
+      queryParams,
+      queueId: watch("queueId"),
+      sortBy: searchParams.get("sortBy"),
+    })
   );
 
-  const [searchParams] = useSearchParams();
   const { data: dateStatsData } = useQuery({
     queryKey: [queryParams, "normal"],
     queryFn: getStatsByDate({
@@ -98,7 +103,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
               </span>
             ) : null}
             {(!dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
-            (dateStatsDataCito?.data?.province &&
+            (!dateStatsDataCito?.data?.province &&
               !dateStatsDataCito?.data?.city) ? (
               <span className="fw-bolder"> całej Polsce </span>
             ) : null}

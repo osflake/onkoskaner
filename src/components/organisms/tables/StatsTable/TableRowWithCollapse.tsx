@@ -10,7 +10,7 @@ import "./StatsTable.scss";
 
 const TableRowWithCollapse = ({ item, statsBy }: any) => {
   const [isCollapse, setCollapse] = useState(false);
-  const isOdd = !!(item.province.id % 2) ? "odd" : "even";
+  // const isOdd = !!(item.province.id % 2) ? "odd" : "even";
   const [queryParams, setQueryParams] = useState({});
 
   const handleCollapse = () => {
@@ -69,7 +69,7 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         onClick={() => {
           handleCollapse();
         }}
-        className={isOdd}
+        // className={isOdd}
       >
         <td>{item.province.name}</td>
         <td>{item.results.minDaysUntilExamination} dni</td>

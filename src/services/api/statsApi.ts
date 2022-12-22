@@ -1,12 +1,16 @@
 import axios from "axios";
 import { stats } from "../endpoints";
 
-export const getStatsByProvince = ({ queryParams, queueId }: any) => {
+export const getStatsByProvince = ({ queryParams, queueId, sortBy }: any) => {
+  const sortArray = sortBy?.split(",");
+
   const searchParams = new URLSearchParams({
     serviceId: queryParams.serviceId,
     queueId: queueId,
     days: queryParams.days,
     dateTo: queryParams.dateTo,
+    ...(sortArray && { orderBy: sortArray[0] }),
+    ...(sortArray && { sortOrder: sortArray[1] }),
   });
 
   return {

@@ -5,8 +5,6 @@ import StatsTemplate from "../../templates/StatsTemplate/StatsTemplate";
 const StatsPage = () => {
   const { data: userRole } = useQuery(getRoles(1));
 
-  console.log(userRole);
-
   // return <StatsTemplate adminRole={!!userRole?.permission.administrator} />;
   return <StatsTemplate adminRole={true} />;
 };

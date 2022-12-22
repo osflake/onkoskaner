@@ -202,8 +202,6 @@ const LineChart = ({ nomralData, citoData, queue }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nomralData, citoData, watch, setValue]);
 
-  console.log(chartData);
-
   return (
     <>
       {!!chartData[0]?.data?.length ? (

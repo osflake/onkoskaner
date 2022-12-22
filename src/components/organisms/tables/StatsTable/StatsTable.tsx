@@ -4,6 +4,7 @@ import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
+import { useSearchParams } from "react-router-dom";
 
 interface FormValues {
   province: {
@@ -12,7 +13,7 @@ interface FormValues {
   };
   results: {
     minDaysUntilExamination: number;
-    avgDaysUntilExamination: number;
+    avgDaysUntilExaminationDaysUntilExamination: number;
     maxDaysUntilExamination: number;
   };
 }
@@ -30,6 +31,14 @@ const RaportTable = ({
 }) => {
   const [sort, setSort] = useState("");
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSort = (sortBy: string) => {
+    searchParams.set("sortBy", sortBy);
+    setSearchParams(searchParams);
+    setSort(sortBy);
+  };
+
   const statsByData = [
     { name: "względem województw", value: "1" },
     { name: "względem miast", value: "2" },
@@ -41,13 +50,11 @@ const RaportTable = ({
     { name: "Pilny", value: "2" },
   ];
 
-  console.log(watch("statsBy"));
-
   return (
     <div className="w-100 my-5">
       <div className="d-flex gap-5 row">
         {adminRole ? (
-          <div className="pt-4 col-12 col-xxl">
+          <div className="pt-4 col-12 col-sm">
             <p className="results-title fw-normal-500">
               Szczegółowe statystyki względem:
             </p>
@@ -65,7 +72,7 @@ const RaportTable = ({
             </Container>
           </div>
         ) : null}{" "}
-        <div className="pt-4 col-12 col-xxl">
+        <div className="pt-4 col-12 col-sm">
           <p className="results-title fw-normal-500">Tryb świadczenia:</p>
           <Container className="d-inline-flex gap-3 row w-50">
             {queueData.map((item: { name: string; value: string }) => (
@@ -82,18 +89,18 @@ const RaportTable = ({
         </div>
       </div>
       {!!data ? (
-        <Table className="mt-5 ">
+        <Table className="mt-5">
           <thead>
             <tr>
               <th className="pb-3">Czas oczekiwania:</th>
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "fastest,asc"}
+                  data-asc={sort === "minDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "fastest,asc"
-                      ? setSort(`fastest,desc`)
-                      : setSort(`fastest,asc`)
+                    sort === "minDaysUntilExamination,ASC"
+                      ? handleSort(`minDaysUntilExamination,DESC`)
+                      : handleSort(`minDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Najszybciej</span> <img src={sortArrow} alt="" />
@@ -102,11 +109,11 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "medium,asc"}
+                  data-asc={sort === "avgDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "medium,asc"
-                      ? setSort(`medium,desc`)
-                      : setSort(`medium,asc`)
+                    sort === "avgDaysUntilExamination,ASC"
+                      ? handleSort(`avgDaysUntilExamination,DESC`)
+                      : handleSort(`avgDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Średnio</span>
@@ -116,11 +123,11 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "longest,asc"}
+                  data-asc={sort === "maxDaysUntilExamination,ASC"}
                   onClick={() =>
-                    sort === "longest,asc"
-                      ? setSort(`longest,desc`)
-                      : setSort(`longest,asc`)
+                    sort === "maxDaysUntilExamination,ASC"
+                      ? handleSort(`maxDaysUntilExamination,DESC`)
+                      : handleSort(`maxDaysUntilExamination,ASC`)
                   }
                 >
                   <span>Najdłużej</span>
