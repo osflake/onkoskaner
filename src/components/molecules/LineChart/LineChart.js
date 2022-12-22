@@ -163,28 +163,32 @@ const LineChart = ({ nomralData, citoData, queue }) => {
 
   if (
     searchParams.get("waitingTime") === "true" &&
-    searchParams.get("normal") === "1"
+    searchParams.get("normal") === "1" &&
+    !!chartNormalWaitingTime.data.length
   ) {
     chartData.push(chartNormalWaitingTime);
   }
 
   if (
     searchParams.get("waitingTime") === "true" &&
-    searchParams.get("urgent") === "2"
+    searchParams.get("urgent") === "2" &&
+    !!chartCitoWaitingTime.data.length
   ) {
     chartData.push(chartCitoWaitingTime);
   }
 
   if (
-    searchParams.get("normal") === "1" ||
-    searchParams.get("normal") === null
+    (searchParams.get("normal") === "1" ||
+      searchParams.get("normal") === null) &&
+    !!chartDataNormal.data.length
   ) {
     chartData.push(chartDataNormal);
   }
 
   if (
-    searchParams.get("urgent") === "2" ||
-    searchParams.get("urgent") === null
+    (searchParams.get("urgent") === "2" ||
+      searchParams.get("urgent") === null) &&
+    !!chartDataCito.data.length
   ) {
     chartData.push(chartDataCito);
   }
@@ -197,6 +201,8 @@ const LineChart = ({ nomralData, citoData, queue }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nomralData, citoData, watch, setValue]);
+
+  console.log(chartData);
 
   return (
     <>
@@ -289,7 +295,7 @@ const LineChart = ({ nomralData, citoData, queue }) => {
               legendPosition: "middle",
             }}
             enableGridX={false}
-            colors={({ id, data }) => data[0]?.color}
+            colors={({ data }) => data[0]?.color}
             pointSymbol={CustomSymbol}
             pointSize={20}
             pointBorderWidth={1}
@@ -356,13 +362,20 @@ const LineChart = ({ nomralData, citoData, queue }) => {
           </div>
         </div>
       )}
-      <div className="my-4 w-100 p-0 d-flex  justify-content-between ">
-        <div className="d-flex gap-5 align-items-center">
-          <p className="results-title fw-normal-500 m-0">Legenda</p>
-          <div className="information">NORMALNY TRYB</div>
-          <div className="information" data-pink={true}>
-            TRYB PILNY
-          </div>
+      <div className="my-4 w-100 p-0 d-flex flex-column  justify-content-between flex-md-row">
+        <div className="d-flex pb-3 gap-3 align-items-center flex-column flex-md-row">
+          <p className="results-title fw-normal-500 m-0">Legenda:</p>
+          {chartData?.map((item) =>
+            item.data.length ? (
+              <div
+                style={{ background: item?.data[0]?.color }}
+                key={item.id}
+                className="information w-100"
+              >
+                {item.id}
+              </div>
+            ) : null
+          )}
         </div>
 
         <Button

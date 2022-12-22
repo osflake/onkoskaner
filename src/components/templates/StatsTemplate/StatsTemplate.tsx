@@ -36,7 +36,6 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
       queryParams,
       queueId: 1,
     }),
-    // enabled: searchParams.get("normal") === "1",
     refetchOnWindowFocus: false,
   });
 
@@ -46,7 +45,6 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
       queryParams,
       queueId: 2,
     }),
-    // enabled: searchParams.get("urgent") === "2",
     refetchOnWindowFocus: false,
   });
 
@@ -65,7 +63,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
       <div
         ref={printRef}
-        className="w-100 d-flex flex-column justify-content-center align-items-center px-5 py-5"
+        className="w-100 d-flex flex-column justify-content-center align-items-center px-3 py-5"
       >
         <Container
           className="d-flex pb-4 flex-column justify-content-center align-items-center"
@@ -108,7 +106,8 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             <span className="fw-bolder">
               {` ${
                 dateStatsData?.data.service.name ||
-                dateStatsDataCito?.data.service.name
+                dateStatsDataCito?.data.service.name ||
+                ""
               } `}
             </span>{" "}
             w przeciągu ostatnich{" "}
@@ -156,7 +155,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
           watch={watch}
         />
       </div>
-      <div className="px-5 w-100">
+      <div className="px-3 w-100">
         <div className="d-flex justify-content-end w-100 mb-5">
           <Button
             onClick={() => downloadPdf(printRef)}

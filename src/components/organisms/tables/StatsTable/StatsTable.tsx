@@ -45,13 +45,13 @@ const RaportTable = ({
 
   return (
     <div className="w-100 my-5">
-      <div className="d-flex gap-5">
+      <div className="d-flex gap-5 row">
         {adminRole ? (
-          <div className="pt-4">
+          <div className="pt-4 col-12 col-xxl">
             <p className="results-title fw-normal-500">
               Szczegółowe statystyki względem:
             </p>
-            <Container className="p-0 d-inline-flex gap-3 ">
+            <Container className=" d-inline-flex gap-12 row ">
               {statsByData.map((item: { name: string; value: string }) => (
                 <RadioInput
                   key={item.value}
@@ -65,9 +65,9 @@ const RaportTable = ({
             </Container>
           </div>
         ) : null}{" "}
-        <div className="pt-4">
+        <div className="pt-4 col-12 col-xxl">
           <p className="results-title fw-normal-500">Tryb świadczenia:</p>
-          <Container className="p-0 d-inline-flex gap-3 ">
+          <Container className="d-inline-flex gap-3 row w-50">
             {queueData.map((item: { name: string; value: string }) => (
               <RadioInput
                 key={item.value}
@@ -139,7 +139,7 @@ const RaportTable = ({
                   data?.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      Number(currentValue.results[0].minDaysUntilExamination),
+                      Number(currentValue.results.minDaysUntilExamination),
                     0
                   ) / 16
                 )}{" "}
@@ -150,7 +150,7 @@ const RaportTable = ({
                   data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      Number(currentValue.results[0].avgDaysUntilExamination),
+                      Number(currentValue.results.avgDaysUntilExamination),
                     0
                   ) / 16
                 )}{" "}
@@ -161,7 +161,7 @@ const RaportTable = ({
                   data.reduce(
                     (accumulator: number, currentValue: any) =>
                       accumulator +
-                      currentValue.results[0].maxDaysUntilExamination,
+                      currentValue.results.maxDaysUntilExamination,
                     0
                   ) / 16
                 )}{" "}

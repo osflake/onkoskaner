@@ -142,7 +142,7 @@ const StatsForm = () => {
         </div>
       </Container>
       {provincesData && (
-        <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4">
+        <Container className="p-0 pt-5 d-flex w-100 justify-content-between gap-4 row">
           <SelectInput
             label="Województwo"
             dropdownData={provincesData}

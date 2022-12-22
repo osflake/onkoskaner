@@ -72,9 +72,9 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         className={isOdd}
       >
         <td>{item.province.name}</td>
-        <td>{item.results[0].minDaysUntilExamination} dni</td>
-        <td>{Math.round(item.results[0].avgDaysUntilExamination)} dni</td>
-        <td>{item.results[0].maxDaysUntilExamination} dni</td>
+        <td>{item.results.minDaysUntilExamination} dni</td>
+        <td>{Math.round(item.results.avgDaysUntilExamination)} dni</td>
+        <td>{item.results.maxDaysUntilExamination} dni</td>
         <td>
           <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
         </td>
