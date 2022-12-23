@@ -45,7 +45,7 @@ th {
   height: 100%;
 
   &[data-asc="true"] {
-    img {
+    .sortArrow {
       transform: rotate(180deg);
     }
   }
@@ -55,6 +55,14 @@ th {
 
   :nth-child(2) {
     transition: 0.3s all ease-in-out;
+  }
+}
+
+.sortArrow {
+  &[data-active="true"] {
+    > path {
+      fill: #ed2369;
+    }
   }
 }
 
