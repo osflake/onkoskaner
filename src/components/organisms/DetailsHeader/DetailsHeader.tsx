@@ -59,8 +59,10 @@ const DetailsHeader = ({
             loading="lazy"
             allowFullScreen
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCnQEweM-kYWe0sHmlryq_IViRQMUZuwDU
-									&q=Alivia+Fundacja+onkologiczna+Warszawa"
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCnQEweM-kYWe0sHmlryq_IViRQMUZuwDU
+									&q=${encodeURI(facility.name ? facility.name : "")}${
+              facility.street ? `+${facility.street}` : ""
+            }${facility.city ? `+${facility.city.name}` : ""}`}
           ></iframe>
 
           <div

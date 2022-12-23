@@ -5,6 +5,8 @@ import Badge from "react-bootstrap/Badge";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
+import "./FacilityReviews.scss";
+
 import StarsRating from "../../atoms/StarsRating";
 import ReviewAddModal from "../Modals/ReviewAddModal";
 import { getReviews } from "../../../services/api/reviewsApi";
@@ -30,10 +32,12 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
 
   return (
     <Container className="d-flex flex-column align-items-start gap-5 results-title p-0">
-      <Container className="d-flex justify-content-center align-items-center p-0">
-        <h2 className="fw-bold">Opinie o placówce</h2>
+      <Container className="row d-flex justify-content-center align-items-center p-0">
+        <h2 className="rwd-reviews-title p-0 m-0 py-3 col-12 col-lg-4 fw-bold">
+          Opinie o placówce
+        </h2>
 
-        <Container className="d-flex justify-content-center align-items-center gap-2 w-auto">
+        <Container className="col-12 col-lg-4 d-flex justify-content-start align-items-center gap-2 w-auto py-3">
           {rating && <StarsRating rating={rating} />}
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
@@ -44,7 +48,7 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
         </Container>
 
         <Button
-          className="btn-outline-pink"
+          className="col-12 col-lg-4 btn-outline-pink w-auto my-3"
           onClick={() => setShowModal((prev) => !prev)}
         >
           DODAJ SWOJĄ OPINIĘ
