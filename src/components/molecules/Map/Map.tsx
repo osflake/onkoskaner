@@ -11,14 +11,14 @@ interface FormValues {
   };
 }
 
-export const Map = (data: any) => {
+export const Map = ({ data, registerTemplate }: any) => {
   const { register, watch } = useForm({
     defaultValues: {
       setTime: "2",
     },
   });
 
-  const mapData = data?.data?.reduce(
+  const mapData = data?.reduce(
     (accumulator: FormValues, currentValue: any) => ({
       ...accumulator,
       [currentValue.province.name]:
@@ -39,27 +39,49 @@ export const Map = (data: any) => {
     { name: "najdłuższy", value: "3" },
   ];
 
+  const queueData = [
+    { name: "Normalny", value: "1" },
+    { name: "Pilny", value: "2" },
+  ];
+
   return (
     <>
-      <div className="d-flex flex-column w-100">
-        <p className="results-title fw-normal-500">
-          Statystyki względem czasu oczekiwania:
-        </p>
-        <Container
-          className="d-inline-flex gap-3 row "
-          style={{ maxWidth: "500px" }}
-        >
-          {statsByData.map((item: { name: string; value: string }) => (
-            <RadioInput
-              key={item.value}
-              register={register("setTime", {
-                required: true,
-              })}
-              label={item.name}
-              value={item.value}
-            />
-          ))}
-        </Container>
+      <div className="d-flex row w-100">
+        <div className="pt-4 col-12 col-sm-6">
+          <p className="results-title fw-normal-500">
+            Statystyki względem czasu oczekiwania:
+          </p>
+          <Container
+            className="d-inline-flex gap-3 row "
+            style={{ maxWidth: "500px" }}
+          >
+            {statsByData.map((item: { name: string; value: string }) => (
+              <RadioInput
+                key={item.value}
+                register={register("setTime", {
+                  required: true,
+                })}
+                label={item.name}
+                value={item.value}
+              />
+            ))}
+          </Container>
+        </div>
+        <div className="pt-4 col-12 col-sm-5">
+          <p className="results-title fw-normal-500">Tryb świadczenia:</p>
+          <Container className="d-inline-flex gap-2 row w-50">
+            {queueData.map((item: { name: string; value: string }) => (
+              <RadioInput
+                key={item.value}
+                register={registerTemplate("queueId", {
+                  required: true,
+                })}
+                label={item.name}
+                value={item.value}
+              />
+            ))}
+          </Container>
+        </div>
       </div>
       {mapData ? (
         <div className="mx-auto">
@@ -611,3 +633,20 @@ export const Map = (data: any) => {
     </>
   );
 };
+
+<svg
+  width="16"
+  height="15"
+  viewBox="0 0 16 15"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M3.61065 14.9435C3.22465 15.1415 2.78665 14.7945 2.86465 14.3515L3.69465 9.6215L0.171653 6.2655C-0.157347 5.9515 0.0136534 5.3775 0.454653 5.3155L5.35265 4.6195L7.53665 0.2925C7.73365 -0.0975 8.26665 -0.0975 8.46365 0.2925L10.6477 4.6195L15.5457 5.3155C15.9867 5.3775 16.1577 5.9515 15.8277 6.2655L12.3057 9.6215L13.1357 14.3515C13.2137 14.7945 12.7757 15.1415 12.3897 14.9435L7.99865 12.6875L3.60965 14.9435H3.61065Z"
+    fill="#828282"
+  />
+  <path
+    d="M2.86465 14.3511C2.78665 14.7951 3.22465 15.1421 3.61065 14.9441L8.00065 12.6881L12.3897 14.9441C12.7757 15.1421 13.2137 14.7951 13.1357 14.3521L12.3057 9.62214L15.8277 6.26614C16.1577 5.95214 15.9877 5.37814 15.5457 5.31614L10.6477 4.62014L8.46365 0.293144C8.42205 0.205433 8.35641 0.131327 8.27436 0.0794361C8.19232 0.0275455 8.09723 0 8.00015 0C7.90308 0 7.80799 0.0275455 7.72594 0.0794361C7.6439 0.131327 7.57826 0.205433 7.53665 0.293144L5.35265 4.62114L0.454653 5.31714C0.0136534 5.37914 -0.157347 5.95314 0.171653 6.26714L3.69465 9.62314L2.86465 14.3531V14.3511ZM7.76965 11.5841L4.08365 13.4781L4.77765 9.52114C4.79391 9.43006 4.78755 9.33637 4.75913 9.24832C4.73071 9.16026 4.6811 9.08054 4.61465 9.01614L1.70865 6.24614L5.76065 5.67014C5.84456 5.65747 5.92414 5.62465 5.99259 5.57449C6.06103 5.52434 6.1163 5.45834 6.15365 5.38214L7.99865 1.72414L9.84565 5.38214C9.88301 5.45834 9.93828 5.52434 10.0067 5.57449C10.0752 5.62465 10.1547 5.65747 10.2387 5.67014L14.2907 6.24514L11.3847 9.01514C11.3181 9.07964 11.2684 9.15953 11.2399 9.24777C11.2115 9.33602 11.2052 9.4299 11.2217 9.52114L11.9157 13.4781L8.22965 11.5841C8.15838 11.5474 8.07935 11.5282 7.99915 11.5282C7.91896 11.5282 7.83993 11.5474 7.76865 11.5841H7.76965Z"
+    fill="#56CCF2"
+  />
+</svg>;

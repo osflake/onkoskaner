@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, Fragment } from "react";
-import anglesArrow from "../../../../assets/Icons/anglesArrow.svg";
+import { ReactComponent as AnglesArrow } from "../../../../assets/Icons/anglesArrow.svg";
+
 import { Link, useSearchParams } from "react-router-dom";
 import {
   getStatsByCity,
@@ -69,7 +70,6 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         onClick={() => {
           handleCollapse();
         }}
-        // className={isOdd}
       >
         <td>{item.province.name}</td>
         <td>{item.results.minDaysUntilExamination} dni</td>
@@ -80,14 +80,7 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
         </td>
         {statsBy === "2" || statsBy === "3" ? (
           <td>
-            <object
-              data={anglesArrow}
-              type="image/svg+xml"
-              width="16"
-              height="16"
-              className="angleArrow"
-              aria-label="Arrow"
-            />
+            <AnglesArrow className="angleArrow" data-isopen={isCollapse} />
           </td>
         ) : null}
       </tr>
