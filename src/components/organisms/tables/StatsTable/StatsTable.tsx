@@ -52,13 +52,13 @@ const RaportTable = ({
 
   return (
     <div className="w-100 my-5">
-      <div className="d-flex gap-5 row">
+      <div className="d-flex row">
         {adminRole ? (
-          <div className="pt-4 col-12 col-sm">
+          <div className="pt-4 col-12 col-sm-7">
             <p className="results-title fw-normal-500">
               Szczegółowe statystyki względem:
             </p>
-            <Container className=" d-inline-flex gap-12 row ">
+            <Container className=" d-inline-flex gap-2 row ">
               {statsByData.map((item: { name: string; value: string }) => (
                 <RadioInput
                   key={item.value}
@@ -72,9 +72,9 @@ const RaportTable = ({
             </Container>
           </div>
         ) : null}{" "}
-        <div className="pt-4 col-12 col-sm">
+        <div className="pt-4 col-12 col-sm-5">
           <p className="results-title fw-normal-500">Tryb świadczenia:</p>
-          <Container className="d-inline-flex gap-3 row w-50">
+          <Container className="d-inline-flex gap-2 row w-50">
             {queueData.map((item: { name: string; value: string }) => (
               <RadioInput
                 key={item.value}

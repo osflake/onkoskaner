@@ -361,14 +361,14 @@ const LineChart = ({ nomralData, citoData, queue }) => {
         </div>
       )}
       <div className="my-4 w-100 p-0 d-flex flex-column  justify-content-between flex-md-row">
-        <div className="d-flex pb-3 gap-3 align-items-center flex-column flex-md-row">
+        <div className="d-flex pb-3 gap-3 align-items-center flex-column flex-md-row ">
           <p className="results-title fw-normal-500 m-0">Legenda:</p>
           {chartData?.map((item) =>
             item.data.length ? (
               <div
                 style={{ background: item?.data[0]?.color }}
                 key={item.id}
-                className="information w-100"
+                className={`information  d-flex align-items-center justify-content-center text-center `}
               >
                 {item.id}
               </div>

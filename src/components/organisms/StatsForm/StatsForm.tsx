@@ -31,7 +31,7 @@ const StatsForm = () => {
       interval: search.get("interval") || "1",
       normal: search.get("normal") === "" ? false : true,
       urgent: search.get("urgent") === "" ? false : true,
-      waitingTime: search.get("urgent") === "true" ? true : false,
+      waitingTime: search.get("waitingTime") === "true" ? true : false,
     },
   });
 
