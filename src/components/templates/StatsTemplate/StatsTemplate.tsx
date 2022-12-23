@@ -14,6 +14,7 @@ import {
 } from "../../../services/api/statsApi";
 import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import MobileReportTable from "../../organisms/tables/MobileReportTable/MobileReportTable";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   const [searchParams] = useSearchParams();
@@ -22,6 +23,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
     defaultValues: {
       statsBy: "1",
       queueId: "1",
+      waitingTime: "minDaysUntilExamination",
     },
   });
   const printRef = useRef<HTMLInputElement>(null);
@@ -64,6 +66,16 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
     });
   }, [searchParams]);
 
+  const [matches, setMatches] = useState(
+    window.matchMedia("(min-width: 768px)").matches
+  );
+
+  useEffect(() => {
+    window
+      .matchMedia("(min-width: 768px)")
+      .addEventListener("change", (e) => setMatches(e.matches));
+  }, []);
+
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
       <div
@@ -92,7 +104,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             (dateStatsDataCito?.data?.province &&
               !dateStatsDataCito?.data?.city) ? (
               <span className="fw-bolder">
-                {dateStatsData?.data?.province.name}{" "}
+                {dateStatsData?.data?.province?.name}{" "}
               </span>
             ) : null}
             {(dateStatsData?.data?.province && dateStatsData?.data?.city) ||
@@ -110,8 +122,8 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             na świadczenie{" "}
             <span className="fw-bolder">
               {` ${
-                dateStatsData?.data.service.name ||
-                dateStatsDataCito?.data.service.name ||
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name ||
                 ""
               } `}
             </span>{" "}
@@ -137,8 +149,8 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             Czas oczekiwania na świadczenie
             <span className="fw-bolder">
               {` ${
-                dateStatsData?.data.service.name ||
-                dateStatsDataCito?.data.service.name
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name
               } `}
             </span>
             w poszczególnych wojewódzctwach w okresie
@@ -152,16 +164,25 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             </span>
           </p>
         </Container>
-        <Map data={provinceStatsData?.data} />
-        <StatsTable
-          data={provinceStatsData?.data}
-          adminRole={adminRole}
-          register={register}
-          watch={watch}
-        />
+
+        <Map data={provinceStatsData?.data} registerTemplate={register} />
+        {matches ? (
+          <StatsTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        ) : (
+          <MobileReportTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        )}
       </div>
       <div className="px-3 w-100">
-        {/* <div className="d-flex justify-content-center w-100 mb-5 justify-content-sm-end row"> */}
         <div className="mb-5 row justify-content-md-end">
           <Button
             onClick={() => downloadPdf(printRef)}

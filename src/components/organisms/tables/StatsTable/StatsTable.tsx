@@ -29,9 +29,9 @@ const RaportTable = ({
   register: any;
   watch: any;
 }) => {
-  const [sort, setSort] = useState("");
-
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [sort, setSort] = useState(searchParams.get("sortBy"));
 
   const handleSort = (sortBy: string) => {
     searchParams.set("sortBy", sortBy);
@@ -43,11 +43,6 @@ const RaportTable = ({
     { name: "względem województw", value: "1" },
     { name: "względem miast", value: "2" },
     { name: "względem placówek", value: "3" },
-  ];
-
-  const queueData = [
-    { name: "Normalny", value: "1" },
-    { name: "Pilny", value: "2" },
   ];
 
   return (
@@ -72,31 +67,16 @@ const RaportTable = ({
             </Container>
           </div>
         ) : null}{" "}
-        <div className="pt-4 col-12 col-sm-5">
-          <p className="results-title fw-normal-500">Tryb świadczenia:</p>
-          <Container className="d-inline-flex gap-2 row w-50">
-            {queueData.map((item: { name: string; value: string }) => (
-              <RadioInput
-                key={item.value}
-                register={register("queueId", {
-                  required: true,
-                })}
-                label={item.name}
-                value={item.value}
-              />
-            ))}
-          </Container>
-        </div>
       </div>
       {!!data ? (
-        <Table className="mt-5">
+        <Table className="mt-5 reportTable">
           <thead>
             <tr>
               <th className="pb-3">Czas oczekiwania:</th>
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "minDaysUntilExamination,ASC"}
+                  data-desc={sort === "minDaysUntilExamination,DESC"}
                   onClick={() =>
                     sort === "minDaysUntilExamination,ASC"
                       ? handleSort(`minDaysUntilExamination,DESC`)
@@ -105,7 +85,7 @@ const RaportTable = ({
                 >
                   <span>Najszybciej</span>{" "}
                   <SortArrow
-                    data-active={sort.includes("minDaysUntilExamination")}
+                    data-active={sort?.includes("minDaysUntilExamination")}
                     className="sortArrow"
                   />
                 </button>
@@ -113,7 +93,7 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "avgDaysUntilExamination,ASC"}
+                  data-desc={sort === "avgDaysUntilExamination,DESC"}
                   onClick={() =>
                     sort === "avgDaysUntilExamination,ASC"
                       ? handleSort(`avgDaysUntilExamination,DESC`)
@@ -122,7 +102,7 @@ const RaportTable = ({
                 >
                   <span>Średnio</span>
                   <SortArrow
-                    data-active={sort.includes("avgDaysUntilExamination")}
+                    data-active={sort?.includes("avgDaysUntilExamination")}
                     className="sortArrow"
                   />
                 </button>
@@ -130,7 +110,7 @@ const RaportTable = ({
               <th className="pb-4">
                 <button
                   className="stats__sortButton"
-                  data-asc={sort === "maxDaysUntilExamination,ASC"}
+                  data-desc={sort === "maxDaysUntilExamination,DESC"}
                   onClick={() =>
                     sort === "maxDaysUntilExamination,ASC"
                       ? handleSort(`maxDaysUntilExamination,DESC`)
@@ -139,7 +119,7 @@ const RaportTable = ({
                 >
                   <span>Najdłużej</span>
                   <SortArrow
-                    data-active={sort.includes("maxDaysUntilExamination")}
+                    data-active={sort?.includes("maxDaysUntilExamination")}
                     className="sortArrow"
                   />
                 </button>
