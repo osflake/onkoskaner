@@ -1,0 +1,7 @@
+.rwd-reviews-title {
+  text-align: center;
+
+  @media (min-width: 768px) {
+    text-align: start;
+  }
+}

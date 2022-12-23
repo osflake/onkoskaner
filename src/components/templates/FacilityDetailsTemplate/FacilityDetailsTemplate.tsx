@@ -69,7 +69,7 @@ const FacilityDetailsTemplate = () => {
         <Container className="d-flex justify-content-between align-items-baseline p-0">
           <h2 className="fw-bold">Terminarz</h2>
           <p>
-            Ostatnia aktualizacja:
+            Ostatnia aktualizacja:{" "}
             <span className="fw-bold">6 września 2022</span>
           </p>
         </Container>
@@ -90,8 +90,8 @@ const FacilityDetailsTemplate = () => {
           ))}
       </Container>
       <div className="w-100 border-top pb-5"></div>
-      <div ref={reviewsRef} className="p-0 m-0">
-        <FacilityReviews rating={data?.rating} />
+      <div ref={reviewsRef} className="w-100 p-0 m-0">
+        {data && <FacilityReviews rating={data.rating} />}
       </div>
     </Container>
   );

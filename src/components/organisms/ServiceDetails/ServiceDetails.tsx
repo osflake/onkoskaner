@@ -61,6 +61,7 @@ const ServiceDetails = ({
 
         <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center py-3 px-5 gap-3">
           <Button className="btn-pink w-100">UMÓW SIĘ</Button>
+
           <Button
             variant="link"
             className="fs-14 booking-link fw-normal-500 m-0"

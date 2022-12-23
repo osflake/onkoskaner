@@ -2,23 +2,46 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { useMutation } from "@tanstack/react-query";
+import { postFacilityReview } from "../../../../services/api/facilityReviewsApi";
+import StarsInput from "../../../atoms/StarsInput";
+import Badge from "react-bootstrap/Badge";
 
 interface ReviewAddModalProps {
   show: boolean;
   handleClose?: () => void;
+  facilityId: number;
 }
 
 const ReviewAddModal = ({
   show,
-  handleClose = () => {}
+  handleClose = () => {},
+  facilityId
 }: ReviewAddModalProps) => {
   const [formName, setFormName] = useState("");
   const [formDesc, setFormDesc] = useState("");
+  const [formRating, setFormRating] = useState(0);
+
+  const mutation = useMutation(postFacilityReview());
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(`submitted name: ${formName}`);
-    console.log(`submitted review: ${formDesc}`);
+    mutation.mutate({
+      facility: facilityId,
+      // name: formName,
+      rating: 5,
+      addedByUser: 1,
+      content: formDesc
+    });
+
+    console.log("payload sent: ", {
+      facilityId: facilityId,
+      // name: formName,
+      rating: formRating,
+      addedByUser: 0,
+      content: formDesc
+    });
+
     setFormName("");
     setFormDesc("");
   };
@@ -53,6 +76,20 @@ const ReviewAddModal = ({
                 onChange={(e) => setFormDesc(e.target.value)}
               />
             </Container>
+            <Container className="px-0 d-flex justify-content-between align-items-center">
+              <p className="m-0">Twoja ocena</p>
+              <div className="d-flex justify-content-end align-items-center m-0 p-0 gap-3">
+                <StarsInput ratingSetter={setFormRating} />
+                <h5 className="m-0 p-0">
+                  <Badge bg="info">{`${formRating}/5`}</Badge>
+                </h5>
+              </div>
+            </Container>
+            {mutation.isLoading ? <p>Trwa wysyłanie opinii...</p> : null}
+            {mutation.isSuccess ? (
+              <p>Pomyślnie wysłano opinię do weryfikacji!</p>
+            ) : null}
+            {mutation.isError ? <p>Coś poszło nie tak...</p> : null}
           </Container>
         </Modal.Body>
         <Modal.Footer>
