@@ -23,10 +23,6 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
     getReviews({ offset: 0, limit: 3, facilityId: linkParams.facilityId })
   );
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
-
   console.log("link params:", linkParams);
   console.log(data);
 
@@ -53,11 +49,13 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
         >
           DODAJ SWOJĄ OPINIĘ
         </Button>
-        <ReviewAddModal
-          show={showModal}
-          handleClose={() => setShowModal((prev) => !prev)}
-          facilityId={data.data[0].facility.id}
-        />
+        {linkParams.facilityId && (
+          <ReviewAddModal
+            show={showModal}
+            handleClose={() => setShowModal((prev) => !prev)}
+            facilityId={parseInt(linkParams.facilityId)}
+          />
+        )}
       </Container>
 
       <Container className="d-flex flex-column align-items-start gap-3 p-0">
@@ -70,9 +68,10 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
       </Container>
 
       <Container className="d-flex flex-column m-0 p-0 gap-4">
-        {data.data.map((review) => (
-          <FacilityReview key={review.id} review={review} />
-        ))}
+        {data &&
+          data.data.map((review) => (
+            <FacilityReview key={review.id} review={review} />
+          ))}
       </Container>
     </Container>
   );

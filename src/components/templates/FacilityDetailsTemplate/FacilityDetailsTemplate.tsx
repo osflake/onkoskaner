@@ -10,6 +10,7 @@ import DetailsHeader from "../../organisms/DetailsHeader";
 import ResultFilters from "../../molecules/ResultFilters";
 import ServiceDetails from "../../organisms/ServiceDetails";
 import FacilityReviews from "../../organisms/FacilityReviews";
+import ErrorInfo from "../../atoms/ErrorInfo";
 import { ReactComponent as ToiletIcon } from "../../../assets/Icons/BenefitIcons/ToiletIcon.svg";
 import { ReactComponent as ElevatorIcon } from "../../../assets/Icons/BenefitIcons/ElevatorIcon.svg";
 import { ReactComponent as ParkingIcon } from "../../../assets/Icons/BenefitIcons/ParkingIcon.svg";
@@ -23,12 +24,21 @@ const FacilityDetailsTemplate = () => {
 
   const reviewsRef = useRef<null | HTMLDivElement>(null);
 
-  const { data, isLoading } = useQuery<FacilityDataTypes>(
+  const { data, isLoading, isError } = useQuery<FacilityDataTypes>(
     getFacilityDetails(linkParams.facilityId)
   );
 
   if (isLoading) {
     return <div>Loading data...</div>;
+  }
+
+  if (!data?.facility) {
+    return (
+      <ErrorInfo
+        title="Brak danych o wybranej placówce"
+        redirectTo="http://dev.onkoskaner.pl/"
+      />
+    );
   }
 
   console.log("data", data);
