@@ -2,6 +2,8 @@ import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { useMutation } from "@tanstack/react-query";
+import { postOtherTerm } from "../../../../services/api/otherTermApi";
 
 interface OtherTermModalProps {
   show: boolean;
@@ -19,15 +21,31 @@ const OtherTermModal = ({
   queueId
 }: OtherTermModalProps) => {
   const [formDesc, setFormDesc] = useState("");
+  const { isLoading, isError, isSuccess, error, mutate } = useMutation(
+    postOtherTerm()
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(`submitted content: ${formDesc}`);
-    console.log(`submitted facilityId: ${facilityId}`);
-    console.log(`submitted serviceId: ${serviceId}`);
-    console.log(`submitted queueId: ${queueId}`);
-    console.log(`submitted respondentType: 3`);
+    console.log(`submitted content: `, {
+      facilityId: facilityId,
+      serviceId: serviceId,
+      queueId: queueId,
+      respondentType: 3,
+      content: formDesc
+    });
+    mutate({
+      facilityId: facilityId,
+      serviceId: serviceId,
+      queueId: queueId,
+      respondentType: 3,
+      content: formDesc
+    });
+
     setFormDesc("");
+
+    isLoading && console.log("loading...");
+    isSuccess && console.log("successfully posted data");
   };
 
   return (
@@ -49,6 +67,9 @@ const OtherTermModal = ({
                 onChange={(e) => setFormDesc(e.target.value)}
               />
             </Container>
+            {isLoading ? <p>Wysyłam informacje...</p> : null}
+            {isSuccess ? <p>Pomyślnie wysłano informacje!</p> : null}
+            {isError ? <p>{`${error}`}</p> : null}
           </Container>
         </Modal.Body>
         <Modal.Footer>

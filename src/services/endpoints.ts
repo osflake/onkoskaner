@@ -11,3 +11,5 @@ export const cities = `${api}cities`;
 export const detailedFacilities = `${api}detailed-facilities`;
 
 export const stats = `${api}stats`;
+
+export const otherTerm = `${api}tasks/create-from-user-report`;
