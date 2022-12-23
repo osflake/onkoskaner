@@ -90,8 +90,8 @@ const FacilityDetailsTemplate = () => {
           ))}
       </Container>
       <div className="w-100 border-top pb-5"></div>
-      <div ref={reviewsRef} className="p-0 m-0">
-        <FacilityReviews rating={data?.rating} />
+      <div ref={reviewsRef} className="w-100 p-0 m-0">
+        {data && <FacilityReviews rating={data.rating} />}
       </div>
     </Container>
   );

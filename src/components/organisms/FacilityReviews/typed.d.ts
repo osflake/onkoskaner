@@ -10,6 +10,9 @@ interface ReviewsDataTypes {
   status: string;
   content: string;
   createdAt: string;
+  facility: {
+    id: number;
+  };
 }
 
 interface ReviewsMetaTypes {
