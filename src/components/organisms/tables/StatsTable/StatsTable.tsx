@@ -1,6 +1,6 @@
 import { Container, Table } from "react-bootstrap";
 import "./StatsTable.scss";
-import sortArrow from "../../../../assets/Icons/SortResults/SortArrow.svg";
+import { ReactComponent as SortArrow } from "../../../../assets/Icons/SortResults/SortArrow.svg";
 import { useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
@@ -103,7 +103,11 @@ const RaportTable = ({
                       : handleSort(`minDaysUntilExamination,ASC`)
                   }
                 >
-                  <span>Najszybciej</span> <img src={sortArrow} alt="" />
+                  <span>Najszybciej</span>{" "}
+                  <SortArrow
+                    data-active={sort.includes("minDaysUntilExamination")}
+                    className="sortArrow"
+                  />
                 </button>
               </th>
               <th className="pb-4">
@@ -117,7 +121,10 @@ const RaportTable = ({
                   }
                 >
                   <span>Średnio</span>
-                  <img src={sortArrow} alt="" />
+                  <SortArrow
+                    data-active={sort.includes("avgDaysUntilExamination")}
+                    className="sortArrow"
+                  />
                 </button>
               </th>
               <th className="pb-4">
@@ -131,7 +138,10 @@ const RaportTable = ({
                   }
                 >
                   <span>Najdłużej</span>
-                  <img src={sortArrow} alt="" />
+                  <SortArrow
+                    data-active={sort.includes("maxDaysUntilExamination")}
+                    className="sortArrow"
+                  />
                 </button>
               </th>
               <th className="pb-4"></th>
