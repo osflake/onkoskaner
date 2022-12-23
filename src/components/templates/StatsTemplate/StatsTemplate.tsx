@@ -13,25 +13,51 @@ import {
   getStatsByProvince,
 } from "../../../services/api/statsApi";
 import { useSearchParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import MobileReportTable from "../../organisms/tables/MobileReportTable/MobileReportTable";
 
-const StatsTemplate = () => {
+const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
+  const [searchParams] = useSearchParams();
+
+  const { register, watch } = useForm({
+    defaultValues: {
+      statsBy: "1",
+      queueId: "1",
+      waitingTime: "minDaysUntilExamination",
+    },
+  });
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
-  const { data: provinceStatsData } = useQuery(getStatsByProvince());
+  const { data: provinceStatsData } = useQuery(
+    [watch("queueId"), queryParams, searchParams.get("sortBy")],
+    getStatsByProvince({
+      queryParams,
+      queueId: watch("queueId"),
+      sortBy: searchParams.get("sortBy"),
+    })
+  );
 
-  const { data: dateStatsData } = useQuery(getStatsByDate({ queryParams }));
+  const { data: dateStatsData } = useQuery({
+    queryKey: [queryParams, "normal"],
+    queryFn: getStatsByDate({
+      queryParams,
+      queueId: 1,
+    }),
+    refetchOnWindowFocus: false,
+  });
 
-  const [searchParams] = useSearchParams();
+  const { data: dateStatsDataCito } = useQuery({
+    queryKey: [queryParams, "cito"],
+    queryFn: getStatsByDate({
+      queryParams,
+      queueId: 2,
+    }),
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     setQueryParams({
       serviceId: searchParams.get("serviceId") || "217",
-      queueId: [
-        ["queueId", searchParams.get("normal")],
-        ["queueId", searchParams.get("urgent")],
-      ],
-      normal: searchParams.get("normal") || "",
-      urgent: searchParams.get("urgent") || "",
       provinceId: searchParams.get("provinceId") || "",
       cityId: searchParams.get("cityId") || "",
       days: searchParams.get("days") || "30",
@@ -40,11 +66,21 @@ const StatsTemplate = () => {
     });
   }, [searchParams]);
 
+  const [matches, setMatches] = useState(
+    window.matchMedia("(min-width: 768px)").matches
+  );
+
+  useEffect(() => {
+    window
+      .matchMedia("(min-width: 768px)")
+      .addEventListener("change", (e) => setMatches(e.matches));
+  }, []);
+
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
       <div
         ref={printRef}
-        className="w-100 d-flex flex-column justify-content-center align-items-center px-5 py-5"
+        className="w-100 d-flex flex-column justify-content-center align-items-center px-3 py-5"
       >
         <Container
           className="d-flex pb-4 flex-column justify-content-center align-items-center"
@@ -52,47 +88,105 @@ const StatsTemplate = () => {
         >
           <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>
           <p className="results-title mt-3">
-            Na tej podstronie będziesz mieć możliwość podejrzeć szczegółówe
-            statystyki dotyczące terminów poszczególnych badań. Za zbieranie
-            statystyk odpowiedzialny jest nasz zespół który codzienie
-            aktualizuje statystyki aby mieć jak najlepszy obraz tego jak
-            wyglądają czasy oczekiwania.
+            Na tej podstronie będziesz mieć możliwość zobaczyć szczegółowe
+            statystyki dotyczące terminów wybranych badań. Za zbieranie
+            statystyk odpowiedzialny jest nasz zespół, który codziennie
+            weryfikuje dostępność terminów badań, aby mieć jak najlepszy obraz
+            tego, jak wyglądają czasy oczekiwania na badania w placówkach na
+            terenie Polski
           </p>
         </Container>
         <StatsForm />
         <Container style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Średni czas oczekiwania{" "}
-            {dateStatsData?.data?.province && !dateStatsData?.data?.city
-              ? `w województwie "${dateStatsData?.data?.province.name}" `
-              : null}
-            {dateStatsData?.data?.province && dateStatsData?.data?.city
-              ? `w "${dateStatsData?.data?.city.name}" `
-              : null}
-            {!dateStatsData?.data?.province && !dateStatsData?.data?.city
-              ? `w całej Polsce `
-              : null}
-            na świadczenie a w przeciągu ostatnich {dateStatsData?.data?.days}{" "}
-            dni (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
+            Średni czas oczekiwania w{" "}
+            {(dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.province?.name}{" "}
+              </span>
+            ) : null}
+            {(dateStatsData?.data?.province && dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.city?.name}{" "}
+              </span>
+            ) : null}
+            {(!dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (!dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder"> całej Polsce </span>
+            ) : null}
+            na świadczenie{" "}
+            <span className="fw-bolder">
+              {` ${
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name ||
+                ""
+              } `}
+            </span>{" "}
+            w przeciągu ostatnich{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.days || dateStatsDataCito?.data?.days}
+            </span>{" "}
+            dni stan na{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.dateTo ||
+                dateStatsDataCito?.data?.dateTo ||
+                "2022-00-00"}
+            </span>
           </p>
         </Container>
-        <LineChart data={dateStatsData?.data?.stats} />
+        <LineChart
+          nomralData={dateStatsData?.data?.stats}
+          citoData={dateStatsDataCito?.data?.stats}
+          queue={dateStatsData?.data?.queue}
+        />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
-            Czas oczekiwania na świadczenie A w poszczególnych wojewódzctwach w
-            okresie
+            Czas oczekiwania na świadczenie
+            <span className="fw-bolder">
+              {` ${
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name
+              } `}
+            </span>
+            w poszczególnych wojewódzctwach w okresie
+            <span className="fw-bolder"> {dateStatsData?.data?.days} </span> dni
             <br />
-            (stan na {dateStatsData?.data?.dateTo || "2022-00-00"} )
+            <span className="fw-bolder">
+              stan na{" "}
+              {dateStatsData?.data?.dateTo ||
+                dateStatsDataCito?.data?.dateTo ||
+                "2022-00-00"}
+            </span>
           </p>
         </Container>
-        <Map data={provinceStatsData?.data} />
-        <StatsTable data={provinceStatsData?.data} />
+
+        <Map data={provinceStatsData?.data} registerTemplate={register} />
+        {matches ? (
+          <StatsTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        ) : (
+          <MobileReportTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        )}
       </div>
-      <div className="px-5 w-100">
-        <div className="d-flex justify-content-end w-100 mb-5">
+      <div className="px-3 w-100">
+        <div className="mb-5 row justify-content-md-end">
           <Button
             onClick={() => downloadPdf(printRef)}
-            className="btn-outline-pink"
+            className="btn-outline-pink col col-lg-3 "
           >
             POBIERZ RAPORT PDF
           </Button>

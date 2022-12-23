@@ -16,7 +16,7 @@ const OtherStatsTable = () => {
           <tbody className="otherStatsTable">
             {pdfData.map((item: any) =>
               item.status === "publish" ? (
-                <tr key={item.pdf.id}>
+                <tr key={item.pdf.id} className="tableContent">
                   <td>
                     <a
                       className="nav-link"
@@ -49,7 +49,7 @@ const OtherStatsTable = () => {
                         rel="noreferrer"
                         target="_blank"
                       >
-                        <Button className="btn-outline-pink">
+                        <Button className="btn-outline-pink ">
                           POBIERZ RAPORT
                         </Button>
                       </a>

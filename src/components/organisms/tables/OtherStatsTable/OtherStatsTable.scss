@@ -10,3 +10,25 @@
 .innerText > p {
   margin: 0;
 }
+
+.tableContent {
+  flex-direction: column;
+}
+
+.tableContent {
+  @media (max-width: 766px) {
+    display: flex;
+    > td {
+      padding-bottom: 20px;
+    }
+    > td:not(:last-child) {
+      border-bottom: none;
+    }
+    a {
+      width: 100%;
+    }
+    button {
+      width: 100%;
+    }
+  }
+}

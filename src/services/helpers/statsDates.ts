@@ -16,9 +16,9 @@ const startFullQuarter = new Date(today.getFullYear(), quarter * 3 - 3, 1);
 // export const dateSince = (type: string) => {
 //   switch (type) {
 //     case "1":
-//       return new Date(today.setDate(today.getDate() - 30))
-//         .toISOString()
-//         .split("T")[0];
+// return new Date(today.setDate(today.getDate() - 30))
+//   .toISOString()
+//   .split("T")[0];
 //     case "2":
 //       return new Date(today.setDate(today.getDate() - 60))
 //         .toISOString()
