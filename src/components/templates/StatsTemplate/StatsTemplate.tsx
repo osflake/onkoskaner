@@ -67,12 +67,12 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   }, [searchParams]);
 
   const [matches, setMatches] = useState(
-    window.matchMedia("(min-width: 768px)").matches
+    window.matchMedia("(min-width: 576px)").matches
   );
 
   useEffect(() => {
     window
-      .matchMedia("(min-width: 768px)")
+      .matchMedia("(min-width: 576px)")
       .addEventListener("change", (e) => setMatches(e.matches));
   }, []);
 

@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
@@ -18,8 +19,16 @@ export const Map = ({ data, registerTemplate }: any) => {
     },
   });
 
-  const mapData = data?.reduce(
-    (accumulator: FormValues, currentValue: any) => ({
+  const [currData, setCurrData] = useState([]);
+
+  useEffect(() => {
+    if (!!data?.length) {
+      setCurrData(data);
+    }
+  }, [data]);
+
+  const mapData = currData?.reduce(
+    (accumulator: any, currentValue: any) => ({
       ...accumulator,
       [currentValue.province.name]:
         watch("setTime") === "1"
