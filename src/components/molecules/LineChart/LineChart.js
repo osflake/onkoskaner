@@ -4,8 +4,8 @@ import { Button, Container } from "react-bootstrap";
 import "./LineChart.scss";
 import downloadPdf from "../../../hooks/downloadPdf";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
-import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
+import ExportCSV from "./ExportCSV";
 const groupBy = require("lodash/groupBy");
 const moment = require("moment");
 
@@ -17,37 +17,39 @@ const CustomSymbol = ({ color }) => {
   );
 };
 
-const LineChart = ({ nomralData, citoData, queue, pdf }) => {
+const LineChart = ({
+  nomralData,
+  citoData,
+  queue,
+  pdf,
+  register,
+  watch,
+  setValue,
+}) => {
   const printRef = useRef();
 
   const [searchParams] = useSearchParams();
 
-  const { register, watch, setValue } = useForm({
-    defaultValues: {
-      displayBy: "1",
-    },
-  });
-
-  const normalObj = groupBy(nomralData, (dt) =>
-    watch("displayBy") === "1" && nomralData.length > 14
+  const normalObj = groupBy(nomralData?.stats, (dt) =>
+    watch("displayBy") === "1" && nomralData?.stats.length > 14
       ? moment(dt.date).week()
-      : watch("displayBy") === "2" && nomralData.length > 14
+      : watch("displayBy") === "2" && nomralData?.stats.length > 14
       ? moment(dt.date).month()
-      : nomralData
+      : nomralData?.stats
   );
 
-  const citoObj = groupBy(citoData, (dt) =>
-    watch("displayBy") === "1" && citoData.length > 14
+  const citoObj = groupBy(citoData?.stats, (dt) =>
+    watch("displayBy") === "1" && citoData?.stats.length > 14
       ? moment(dt.date).week()
-      : watch("displayBy") === "2" && citoData.length > 14
+      : watch("displayBy") === "2" && citoData?.stats.length > 14
       ? moment(dt.date).month()
-      : citoData
+      : citoData?.stats
   );
 
   const statsCito = Object.values(citoObj)?.reduce(
     (accumulator, currentValue) => ({
       ...accumulator,
-      [citoData?.length > 14
+      [citoData?.stats?.length > 14
         ? `${currentValue[0].date} - ${
             currentValue[currentValue.length - 1].date
           }`
@@ -78,7 +80,7 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
   const statsNormal = Object.values(normalObj)?.reduce(
     (accumulator, currentValue) => ({
       ...accumulator,
-      [nomralData.length > 14
+      [nomralData?.stats.length > 14
         ? `${currentValue[0].date} - ${
             currentValue[currentValue.length - 1].date
           }`
@@ -200,7 +202,35 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
       setValue("displayBy", "1");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nomralData, citoData, watch, setValue]);
+  }, [nomralData?.stats, citoData?.stats, watch, setValue]);
+
+  const pdfData = () => {
+    const normal = nomralData?.stats?.map((item) => ({
+      name: nomralData.service.name,
+      queue: nomralData.queue.name,
+      date: item.date,
+      minDaysToResult: item.minDaysToResult,
+      minDaysUntilExamination: item.minDaysUntilExamination,
+      avgDaysToResult: item.avgDaysToResult,
+      avgDaysUntilExamination: item.avgDaysUntilExamination,
+      maxDaysToResult: item.maxDaysToResult,
+      maxDaysUntilExamination: item.maxDaysUntilExamination,
+    }));
+
+    const urgent = citoData?.stats?.map((item) => ({
+      name: citoData.service.name,
+      queue: citoData.queue.name,
+      date: item.date,
+      minDaysToResult: item.minDaysToResult,
+      minDaysUntilExamination: item.minDaysUntilExamination,
+      avgDaysToResult: item.avgDaysToResult,
+      avgDaysUntilExamination: item.avgDaysUntilExamination,
+      maxDaysToResult: item.maxDaysToResult,
+      maxDaysUntilExamination: item.maxDaysUntilExamination,
+    }));
+
+    return [...(!!normal ? normal : []), ...(!!urgent ? urgent : [])];
+  };
 
   return (
     <>
@@ -208,11 +238,11 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
         <div
           ref={printRef}
           style={{
-            height: nomralData?.length > 14 ? 700 : 500,
+            height: nomralData?.stats?.length > 14 ? 700 : 500,
             width: "100%",
           }}
         >
-          {nomralData?.length > 14 ? (
+          {nomralData?.stats?.length > 14 ? (
             <div className="pe-5 pt-4" style={{ maxWidth: "300px" }}>
               <p className="results-title fw-normal-500 ">Wyświetl względem:</p>
               <Container className="gap-3 row">
@@ -240,11 +270,11 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
             </div>
           ) : null}
           <ResponsiveLine
-            data={(nomralData || citoData) && chartData}
+            data={(nomralData?.stats || citoData?.stats) && chartData}
             margin={{
               top: 50,
               right: 70,
-              bottom: nomralData?.length > 14 ? 250 : 100,
+              bottom: nomralData?.stats?.length > 14 ? 250 : 100,
               left: 70,
             }}
             xScale={{ type: "point" }}
@@ -279,7 +309,6 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
               tickSize: 0,
               tickPadding: 20,
               tickRotation: -60,
-
               legend: "",
               legendOffset: 60,
               legendPosition: "middle",
@@ -361,7 +390,7 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
           </div>
         </div>
       )}
-      <div className="my-4 w-100 p-0 d-flex flex-column  justify-content-between flex-md-row">
+      <div className="my-4 w-100 p-0 d-flex flex-column  justify-content-between flex-md-row linechartFooter">
         <div className="d-flex pb-3 gap-3 align-items-center flex-column flex-md-row ">
           <p className="results-title fw-normal-500 m-0">Legenda:</p>
           {chartData?.map((item) =>
@@ -377,12 +406,11 @@ const LineChart = ({ nomralData, citoData, queue, pdf }) => {
           )}
         </div>
         {!pdf ? (
-          <Button
-            onClick={() => downloadPdf(printRef)}
-            className="btn-outline-pink"
-          >
-            POBIERZ RAPORT XLSX/CSV
-          </Button>
+          <ExportCSV
+            nomralData={nomralData}
+            citoData={citoData}
+            fileName="Raport"
+          />
         ) : null}
       </div>
     </>
