@@ -17,7 +17,7 @@ const CustomSymbol = ({ color }) => {
   );
 };
 
-const LineChart = ({ nomralData, citoData, queue }) => {
+const LineChart = ({ nomralData, citoData, queue, pdf }) => {
   const printRef = useRef();
 
   const [searchParams] = useSearchParams();
@@ -256,6 +256,7 @@ const LineChart = ({ nomralData, citoData, queue }) => {
               reverse: false,
             }}
             yFormat=" >-.2f"
+            isInteractive={pdf ? false : true}
             theme={{
               dots: {
                 text: {
@@ -375,13 +376,14 @@ const LineChart = ({ nomralData, citoData, queue }) => {
             ) : null
           )}
         </div>
-
-        <Button
-          onClick={() => downloadPdf(printRef)}
-          className="btn-outline-pink"
-        >
-          POBIERZ RAPORT XLSX/CSV
-        </Button>
+        {!pdf ? (
+          <Button
+            onClick={() => downloadPdf(printRef)}
+            className="btn-outline-pink"
+          >
+            POBIERZ RAPORT XLSX/CSV
+          </Button>
+        ) : null}
       </div>
     </>
   );

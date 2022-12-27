@@ -15,6 +15,8 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import MobileReportTable from "../../organisms/tables/MobileReportTable/MobileReportTable";
+import logo from "../../../assets/images/logo.png";
+import krs from "../../../assets/images/krs.png";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   const [searchParams] = useSearchParams();
@@ -78,10 +80,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
 
   return (
     <Container className="d-flex flex-column  justify-content-center align-items-center p-0">
-      <div
-        ref={printRef}
-        className="w-100 d-flex flex-column justify-content-center align-items-center px-3 py-5"
-      >
+      <div className="w-100 d-flex flex-column justify-content-center align-items-center px-3 py-5">
         <Container
           className="d-flex pb-4 flex-column justify-content-center align-items-center"
           style={{ maxWidth: "738px" }}
@@ -133,9 +132,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             </span>{" "}
             dni stan na{" "}
             <span className="fw-bolder">
-              {dateStatsData?.data?.dateTo ||
-                dateStatsDataCito?.data?.dateTo ||
-                "2022-00-00"}
+              {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}
             </span>
           </p>
         </Container>
@@ -143,6 +140,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
           nomralData={dateStatsData?.data?.stats}
           citoData={dateStatsDataCito?.data?.stats}
           queue={dateStatsData?.data?.queue}
+          pdf={false}
         />
         <Container className="my-4" style={{ maxWidth: "738px" }}>
           <p className="results-title mt-3 mb-0 text-center">
@@ -158,9 +156,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             <br />
             <span className="fw-bolder">
               stan na{" "}
-              {dateStatsData?.data?.dateTo ||
-                dateStatsDataCito?.data?.dateTo ||
-                "2022-00-00"}
+              {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}
             </span>
           </p>
         </Container>
@@ -182,6 +178,121 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
           />
         )}
       </div>
+
+      <Container
+        ref={printRef}
+        className="w-100 d-flex flex-column justify-content-center align-items-center px-5 py-5 testTest m-5"
+      >
+        <Container className="d-flex pb-4">
+          <img src={logo} alt="" />
+          <div className="ps-5">
+            <img src={krs} alt="" />{" "}
+            <span className="krsText">KRS 0000358654</span>
+          </div>
+        </Container>
+        <Container
+          className="d-flex pb-4 flex-column justify-content-center align-items-center"
+          style={{ maxWidth: "738px" }}
+        >
+          <h1 className="fw-bold results-title mb-5 ">Dla eksperta</h1>
+          <p className="results-title mt-3">
+            Na tej podstronie będziesz mieć możliwość zobaczyć szczegółowe
+            statystyki dotyczące terminów wybranych badań. Za zbieranie
+            statystyk odpowiedzialny jest nasz zespół, który codziennie
+            weryfikuje dostępność terminów badań, aby mieć jak najlepszy obraz
+            tego, jak wyglądają czasy oczekiwania na badania w placówkach na
+            terenie Polski
+          </p>
+        </Container>
+        <Container style={{ maxWidth: "738px" }}>
+          <p className="results-title mt-3 mb-0 text-center">
+            Średni czas oczekiwania w{" "}
+            {(dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.province?.name}{" "}
+              </span>
+            ) : null}
+            {(dateStatsData?.data?.province && dateStatsData?.data?.city) ||
+            (dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder">
+                {dateStatsData?.data?.city?.name}{" "}
+              </span>
+            ) : null}
+            {(!dateStatsData?.data?.province && !dateStatsData?.data?.city) ||
+            (!dateStatsDataCito?.data?.province &&
+              !dateStatsDataCito?.data?.city) ? (
+              <span className="fw-bolder"> całej Polsce </span>
+            ) : null}
+            na świadczenie{" "}
+            <span className="fw-bolder">
+              {` ${
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name ||
+                ""
+              } `}
+            </span>{" "}
+            w przeciągu ostatnich{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.days || dateStatsDataCito?.data?.days}
+            </span>{" "}
+            dni stan na{" "}
+            <span className="fw-bolder">
+              {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}
+            </span>
+          </p>
+        </Container>
+        <LineChart
+          nomralData={dateStatsData?.data?.stats}
+          citoData={dateStatsDataCito?.data?.stats}
+          queue={dateStatsData?.data?.queue}
+          pdf={true}
+        />
+        <Container className="my-4" style={{ maxWidth: "738px" }}>
+          <p className="results-title mt-3 mb-0 text-center">
+            Czas oczekiwania na świadczenie
+            <span className="fw-bolder">
+              {` ${
+                dateStatsData?.data.service?.name ||
+                dateStatsDataCito?.data.service?.name
+              } `}
+            </span>
+            w poszczególnych wojewódzctwach w okresie
+            <span className="fw-bolder"> {dateStatsData?.data?.days} </span> dni
+            <br />
+            <span className="fw-bolder">
+              stan na{" "}
+              {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}
+            </span>
+          </p>
+        </Container>
+
+        <Map data={provinceStatsData?.data} registerTemplate={register} />
+        {matches ? (
+          <StatsTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        ) : (
+          <MobileReportTable
+            data={provinceStatsData?.data}
+            adminRole={adminRole}
+            register={register}
+            watch={watch}
+          />
+        )}
+        <div className="pdfFooter">
+          <span>
+            dokument wygenerowany elektronicznie:{" "}
+            {new Date().toISOString().split("T")[0]}
+          </span>
+        </div>
+      </Container>
+
       <div className="px-3 w-100">
         <div className="mb-5 row justify-content-md-end">
           <Button
