@@ -20,7 +20,7 @@ const TestTemplate = () => {
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
-      queueId: searchParams.get("queueId")
+      queueId: searchParams.get("queueId"),
     })
   );
 
@@ -31,9 +31,6 @@ const TestTemplate = () => {
   if (isError) {
     return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
   }
-
-  console.log("data", data);
-  console.log("results/searchParams", searchParams);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">

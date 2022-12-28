@@ -9,10 +9,7 @@ interface OpeningHoursProps {
 const OpeningHours = ({
   title = "Godziny otwarcia rejestracji",
   openHours,
-}: // openHours = openingHoursArray
-OpeningHoursProps) => {
-  console.log(!!openHours[6][0]);
-
+}: OpeningHoursProps) => {
   return (
     <Container className="col-12 col-md-4 d-flex flex-column align-items-start py-4 ps-3 pe-4 gap-4 border-end">
       <p className="m-0 fw-bold-600">{title}</p>

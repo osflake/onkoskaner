@@ -33,12 +33,6 @@ const ResultFilters = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const filteredSet = getFiltersSet(itemsList);
 
-  // const handleFilterPillToggle = (service: any) => {
-  //   setSearchParams({
-  //     filterBy: [...searchParams.getAll("filterBy"), service.id.toString()]
-  //   });
-  // };
-
   return (
     <Container className="d-flex flex-column align-items-start gap-3 p-0">
       <p className="fw-normal-500 fs-14 m-0">{label}</p>
