@@ -36,7 +36,7 @@ const DetailsHeader = ({
                 {<StarsRating rating={rating} />}
                 <h4 className="m-0">
                   <Badge bg="info" className="m-0">
-                    {rating ? `${rating}/5` : "N/A"}
+                    {rating ? `${rating.toFixed(2)}/5` : "N/A"}
                   </Badge>
                 </h4>
               </Container>

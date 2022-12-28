@@ -28,7 +28,7 @@ const ReviewAddModal = ({
     e.preventDefault();
     mutation.mutate({
       facility: facilityId,
-      // name: formName,
+      name: formName,
       rating: 5,
       addedByUser: 1,
       content: formDesc
@@ -36,7 +36,7 @@ const ReviewAddModal = ({
 
     console.log("payload sent: ", {
       facilityId: facilityId,
-      // name: formName,
+      name: formName,
       rating: formRating,
       addedByUser: 0,
       content: formDesc
