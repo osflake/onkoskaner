@@ -51,6 +51,8 @@ const ServiceDetails = ({
 
   const data = facilityByDepartment?.data[0];
 
+  const openHours = data?.openHours && JSON.parse(data?.openHours);
+
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">
       <Container className="row d-flex p-0 m-0">
@@ -100,7 +102,7 @@ const ServiceDetails = ({
         <Accordion.Body className="border-bottom p-0">
           <Container className="d-flex flex-column m-0 p-0">
             <Container className="row d-flex p-0 m-0">
-              <OpeningHours />
+              <OpeningHours openHours={openHours} />
 
               <Container className="col-12 col-md-4 d-flex flex-column gap-4 border-end p-4">
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
