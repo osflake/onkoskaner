@@ -1,5 +1,5 @@
 import axios from "axios";
-import { detailedFacilities } from "../endpoints";
+import { detailedFacilities, facilities } from "../endpoints";
 
 interface SerializerSettings {
   offset?: string;
@@ -14,14 +14,14 @@ export const getFacilities = ({
   limit,
   provinceId,
   serviceId,
-  queueId
+  queueId,
 }: SerializerSettings) => {
   const params = new URLSearchParams({
     ...(offset && { offset }),
     ...(limit && { limit }),
     ...(provinceId && { provinceId }),
     ...(serviceId && { serviceId }),
-    ...(queueId && { queueId })
+    ...(queueId && { queueId }),
   });
 
   return {
@@ -30,12 +30,27 @@ export const getFacilities = ({
       `offset/${offset}`,
       `provinceId/${provinceId}`,
       `serviceId/${serviceId}`,
-      `queueId/${queueId}`
+      `queueId/${queueId}`,
     ],
     queryFn: () =>
       axios
         .get(`${detailedFacilities}?${params.toString()}`)
         .then((res) => res.data),
-    retry: false
+    retry: false,
   };
+};
+
+interface SerializerSettings {
+  facilityId?: string;
+  serviceId?: string | null;
+}
+
+export const getFacilityByDepartment = ({
+  facilityId,
+  serviceId,
+}: SerializerSettings) => {
+  return () =>
+    axios
+      .get(`${facilities}/${facilityId}/departments?serviceId=${serviceId}`)
+      .then((res) => res.data);
 };

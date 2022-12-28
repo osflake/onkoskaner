@@ -6,28 +6,18 @@ import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
 import { useSearchParams } from "react-router-dom";
 
-interface FormValues {
-  province: {
-    name: string;
-    id: number;
-  };
-  results: {
-    minDaysUntilExamination: number;
-    avgDaysUntilExaminationDaysUntilExamination: number;
-    maxDaysUntilExamination: number;
-  };
-}
-
 const RaportTable = ({
   data,
   adminRole,
   register,
   watch,
+  pdf,
 }: {
   data: any;
   adminRole: boolean;
   register: any;
   watch: any;
+  pdf?: boolean;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,7 +38,7 @@ const RaportTable = ({
   return (
     <div className="w-100 my-5">
       <div className="d-flex row">
-        {adminRole ? (
+        {!pdf && adminRole ? (
           <div className="pt-4 col-12 col-sm-7">
             <p className="results-title fw-normal-500">
               Szczegółowe statystyki względem:

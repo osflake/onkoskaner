@@ -3,5 +3,15 @@ export const openingHoursArray = [
   { day: "Wtorek", hours: "08:00 - 14:00" },
   { day: "Środa", hours: "08:00 - 14:00" },
   { day: "Czwartek", hours: "08:00 - 14:00" },
-  { day: "Piątek", hours: "08:00 - 14:00" }
+  { day: "Piątek", hours: "08:00 - 14:00" },
 ];
+
+export enum PrintMedia {
+  Poniedziałek,
+  Wtorek,
+  Środa,
+  Czwartek,
+  Piątek,
+  Sobota,
+  Niedziela,
+}

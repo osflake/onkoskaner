@@ -15,7 +15,7 @@ interface DetailsHeaderProps {
 const DetailsHeader = ({
   facility,
   rating,
-  scrollClick = () => {}
+  scrollClick = () => {},
 }: DetailsHeaderProps) => {
   return (
     <Container className="d-flex flex-column gap-5 p-0 align-items-center mb-5">
@@ -36,7 +36,9 @@ const DetailsHeader = ({
                 {<StarsRating rating={rating} />}
                 <h4 className="m-0">
                   <Badge bg="info" className="m-0">
-                    {rating ? `${rating.toFixed(2)}/5` : "N/A"}
+                    {rating
+                      ? `${(Math.round(rating * 10) / 10).toFixed(1)}/5`
+                      : "-/5"}
                   </Badge>
                 </h4>
               </Container>
@@ -54,7 +56,7 @@ const DetailsHeader = ({
             style={{
               border: "0",
               borderRadius: "0px 48px 48px 0px",
-              zIndex: "1000"
+              zIndex: "1000",
             }}
             loading="lazy"
             allowFullScreen
