@@ -26,3 +26,44 @@
   color: white !important;
   background-color: var(--pink-btn-color) !important;
 }
+
+.results-breadcrumbs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  & p {
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+  }
+}
+
+.results-breadcrumbs-divider {
+  @media (max-width: 768px) {
+  }
+}
+
+.results-rwd-button {
+  width: auto;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.results-sort-button {
+  display: none;
+  width: 100%;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.results-sort-section {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
