@@ -26,15 +26,19 @@ interface FacilityDataTypes {
     };
   };
   rating?: number;
+  ratingCount?: number;
   successfulCalls?: number;
   totalCalls?: number;
   avgTotalCallsPercents?: number;
+  avgSuccessfulCallsPercents?: number;
   latestSurveys?: LatestSurveyTypes[];
 }
 
 interface LatestSurveyTypes {
   id: number;
   daysToExamination?: number;
+  daysUntilExamination: number;
+  daysToResults: number;
   service: {
     id: number;
     name: string;
