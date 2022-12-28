@@ -1,8 +1,7 @@
 import { ResponsiveLine } from "@nivo/line";
-import { useEffect, useRef, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { useEffect, useRef } from "react";
+import { Container } from "react-bootstrap";
 import "./LineChart.scss";
-import downloadPdf from "../../../hooks/downloadPdf";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useSearchParams } from "react-router-dom";
 import ExportCSV from "./ExportCSV";
@@ -25,6 +24,7 @@ const LineChart = ({
   register,
   watch,
   setValue,
+  loading,
 }) => {
   const printRef = useRef();
 
@@ -204,37 +204,14 @@ const LineChart = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nomralData?.stats, citoData?.stats, watch, setValue]);
 
-  const pdfData = () => {
-    const normal = nomralData?.stats?.map((item) => ({
-      name: nomralData.service.name,
-      queue: nomralData.queue.name,
-      date: item.date,
-      minDaysToResult: item.minDaysToResult,
-      minDaysUntilExamination: item.minDaysUntilExamination,
-      avgDaysToResult: item.avgDaysToResult,
-      avgDaysUntilExamination: item.avgDaysUntilExamination,
-      maxDaysToResult: item.maxDaysToResult,
-      maxDaysUntilExamination: item.maxDaysUntilExamination,
-    }));
-
-    const urgent = citoData?.stats?.map((item) => ({
-      name: citoData.service.name,
-      queue: citoData.queue.name,
-      date: item.date,
-      minDaysToResult: item.minDaysToResult,
-      minDaysUntilExamination: item.minDaysUntilExamination,
-      avgDaysToResult: item.avgDaysToResult,
-      avgDaysUntilExamination: item.avgDaysUntilExamination,
-      maxDaysToResult: item.maxDaysToResult,
-      maxDaysUntilExamination: item.maxDaysUntilExamination,
-    }));
-
-    return [...(!!normal ? normal : []), ...(!!urgent ? urgent : [])];
+  const displayByEnums = {
+    1: "tygodni",
+    2: "miesięcy",
   };
 
   return (
     <>
-      {!!chartData[0]?.data?.length ? (
+      {!loading && !!chartData[0]?.data?.length ? (
         <div
           ref={printRef}
           style={{
@@ -244,29 +221,34 @@ const LineChart = ({
         >
           {nomralData?.stats?.length > 14 ? (
             <div className="pe-5 pt-4" style={{ maxWidth: "300px" }}>
-              <p className="results-title fw-normal-500 ">Wyświetl względem:</p>
-              <Container className="gap-3 row">
-                {(watch("displayBy") === "1" &&
-                  chartData[0]?.data.length < 14) ||
-                (watch("displayBy") === "2" &&
-                  chartData[0]?.data.length < 11) ? (
+              <p className="results-title fw-normal-500 ">
+                Wyświetl względem:{" "}
+                {pdf ? displayByEnums[watch("displayBy")] : null}
+              </p>
+              {!pdf ? (
+                <Container className="gap-3 row">
+                  {(watch("displayBy") === "1" &&
+                    chartData[0]?.data.length < 14) ||
+                  (watch("displayBy") === "2" &&
+                    chartData[0]?.data.length < 11) ? (
+                    <RadioInput
+                      register={register("displayBy", {
+                        required: true,
+                      })}
+                      label="tygodni"
+                      value="1"
+                    />
+                  ) : null}
+
                   <RadioInput
                     register={register("displayBy", {
                       required: true,
                     })}
-                    label="tygodni"
-                    value="1"
+                    label="miesięcy"
+                    value="2"
                   />
-                ) : null}
-
-                <RadioInput
-                  register={register("displayBy", {
-                    required: true,
-                  })}
-                  label="miesięcy"
-                  value="2"
-                />
-              </Container>
+                </Container>
+              ) : null}
             </div>
           ) : null}
           <ResponsiveLine
