@@ -1,12 +1,12 @@
 import axios from "axios";
-import { facilities } from "../endpoints";
+import { detailedFacilities } from "../endpoints";
 
 export const getFacilityDetails = (facilityId?: string) => {
   return {
     queryKey: [`facility/${facilityId}`],
     queryFn: () =>
       axios
-        .get(`${facilities}/${facilityId}/details`)
+        .get(`${detailedFacilities}/${facilityId}`)
         .then((res) => res.data.data)
   };
 };

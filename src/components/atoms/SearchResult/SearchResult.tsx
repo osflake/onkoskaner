@@ -53,7 +53,7 @@ const SearchResult = ({ facility }: SearchResultProps) => {
           <Container className="d-flex flex-row justify-content-center align-items-center gap-2">
             <h4 className="m-0">
               <Badge bg="info" className="m-0">
-                {facility.rating ? `${facility.rating}/5` : "N/A"}
+                {facility.rating ? `${facility.rating.toFixed(1)}/5` : "N/A"}
               </Badge>
             </h4>
             <p className="m-0 align-self-center fs-13">{`(${

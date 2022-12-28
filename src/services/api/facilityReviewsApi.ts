@@ -3,7 +3,7 @@ import { reviews } from "../endpoints";
 
 interface PayloadArgs {
   facility: number;
-  // name: string;
+  name: string;
   rating: number;
   addedByUser: number;
   content: string;
