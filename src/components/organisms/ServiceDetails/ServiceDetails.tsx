@@ -3,11 +3,13 @@ import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-
+import { useParams } from "react-router-dom";
 import "./ServiceDetails.scss";
 import PercentageProgress from "../../atoms/PercentageProgress";
 import OpeningHours from "../../atoms/OpeningHours";
 import OtherTermModal from "../Modals/OtherTermModal";
+import { getFacilityByDepartment } from "../../../services/api/facilitiesApi";
+import { useQuery } from "@tanstack/react-query";
 
 interface ServiceDetailsProps {
   name: string;
@@ -26,13 +28,25 @@ const ServiceDetails = ({
   avgTotalCallsPercents = 40,
   surveyId,
   serviceId,
-  queueId
+  queueId,
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const handleCollapse = () => {
     setCollapse((prev) => !prev);
   };
+  const linkParams = useParams();
+
+  const { data: facilityByDepartment } = useQuery({
+    queryKey: [`getFacilityByDepartment/${serviceId.toString()}`],
+    queryFn: getFacilityByDepartment({
+      facilityId: linkParams.facilityId,
+      serviceId: serviceId.toString(),
+    }),
+    // refetchOnWindowFocus: false,
+  });
+
+  console.log(serviceId.toString(), facilityByDepartment);
 
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">

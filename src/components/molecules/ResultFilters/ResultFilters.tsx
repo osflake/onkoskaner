@@ -28,7 +28,7 @@ const getFiltersSet = (itemsList: any) => {
 const ResultFilters = ({
   itemsList,
   label = "Filtruj po świadczeniach",
-  filterAll = false
+  filterAll = false,
 }: ResultFiltersProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const filteredSet = getFiltersSet(itemsList);

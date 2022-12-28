@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { stats } from "../endpoints";
 
 export const getPdf = () => {
   return {
