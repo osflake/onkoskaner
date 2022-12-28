@@ -18,7 +18,7 @@ const OtherTermModal = ({
   handleClose = () => {},
   facilityId,
   serviceId,
-  queueId
+  queueId,
 }: OtherTermModalProps) => {
   const [formDesc, setFormDesc] = useState("");
   const { isLoading, isError, isSuccess, error, mutate } = useMutation(
@@ -32,14 +32,14 @@ const OtherTermModal = ({
       serviceId: serviceId,
       queueId: queueId,
       respondentType: 3,
-      content: formDesc
+      content: formDesc,
     });
     mutate({
       facilityId: facilityId,
       serviceId: serviceId,
       queueId: queueId,
       respondentType: 3,
-      content: formDesc
+      content: formDesc,
     });
 
     setFormDesc("");

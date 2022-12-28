@@ -28,16 +28,10 @@ const getFiltersSet = (itemsList: any) => {
 const ResultFilters = ({
   itemsList,
   label = "Filtruj po świadczeniach",
-  filterAll = false
+  filterAll = false,
 }: ResultFiltersProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const filteredSet = getFiltersSet(itemsList);
-
-  // const handleFilterPillToggle = (service: any) => {
-  //   setSearchParams({
-  //     filterBy: [...searchParams.getAll("filterBy"), service.id.toString()]
-  //   });
-  // };
 
   return (
     <Container className="d-flex flex-column align-items-start gap-3 p-0">

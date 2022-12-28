@@ -313,6 +313,7 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
             adminRole={adminRole}
             register={register}
             watch={watch}
+            pdf
           />
         ) : (
           <MobileReportTable
