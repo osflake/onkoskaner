@@ -19,16 +19,19 @@ interface ServiceDetailsProps {
   surveyId?: number;
   serviceId: number;
   queueId: number;
+  daysToResults?: number;
+  daysUntilExamination?: number;
 }
 
 const ServiceDetails = ({
   facility,
   name,
-  daysToExamination,
   avgTotalCallsPercents = 40,
   surveyId,
   serviceId,
   queueId,
+  daysToResults,
+  daysUntilExamination,
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -43,10 +46,10 @@ const ServiceDetails = ({
       facilityId: linkParams.facilityId,
       serviceId: serviceId.toString(),
     }),
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
   });
 
-  console.log(serviceId.toString(), facilityByDepartment);
+  const data = facilityByDepartment?.data[0];
 
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">
@@ -59,7 +62,7 @@ const ServiceDetails = ({
           <p className="m-0">Najbliższa wizyta za</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysToExamination ? `${daysToExamination} dni` : "N/A"}
+              {daysUntilExamination ? `${daysUntilExamination} dni` : "-"}
             </Badge>
           </h4>
         </Container>
@@ -68,7 +71,7 @@ const ServiceDetails = ({
           <p className="m-0">Oczekiwanie na opis</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysToExamination ? `${daysToExamination} dni` : "N/A"}
+              {daysToResults ? `${daysToResults} dni` : "-"}
             </Badge>
           </h4>
         </Container>
@@ -103,7 +106,7 @@ const ServiceDetails = ({
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
                 <Container className="d-flex align-items-center p-0 justify-content-between">
                   <p className="m-0">Numer telefonu</p>
-                  <p className="m-0 fw-bold-600">{facility.phoneNumber}</p>
+                  <p className="m-0 fw-bold-600">{data?.phoneNumber}</p>
                 </Container>
                 <Container className="d-flex flex-column justify-content-center align-items-center gap-2">
                   <PercentageProgress percentage={avgTotalCallsPercents} />
@@ -115,11 +118,7 @@ const ServiceDetails = ({
 
               <Container className="col-12 col-md-4 d-flex flex-column gap-4 p-4">
                 <p className="m-0 fw-bold-600">Dodatkowe informacje</p>
-                <p>
-                  {facility.description
-                    ? facility.description
-                    : "Brak dodatkowych informacji"}
-                </p>
+                <p>{data?.info ? data.info : "Brak dodatkowych informacji"}</p>
               </Container>
             </Container>
           </Container>

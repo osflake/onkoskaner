@@ -41,8 +41,6 @@ const FacilityDetailsTemplate = () => {
     );
   }
 
-  console.log("data", data);
-
   const filteredDetails = (data: FacilityDataTypes) => {
     if (searchParams.getAll("service").length < 1) {
       return data.latestSurveys;
@@ -52,6 +50,8 @@ const FacilityDetailsTemplate = () => {
       );
     }
   };
+
+  console.log(data);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
@@ -92,10 +92,11 @@ const FacilityDetailsTemplate = () => {
               key={survey.id}
               name={survey.service.name}
               serviceId={survey.service.id}
-              daysToExamination={survey?.daysToExamination}
               avgTotalCallsPercents={data.avgTotalCallsPercents}
               surveyId={survey.id}
               queueId={survey.queue.id}
+              daysToResults={survey.daysToResults}
+              daysUntilExamination={survey.daysUntilExamination}
             />
           ))}
       </Container>
