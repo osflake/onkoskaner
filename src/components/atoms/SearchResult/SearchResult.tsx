@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
@@ -7,6 +8,7 @@ import "./SearchResult.scss";
 
 import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
+import MapModal from "../../organisms/Modals/MapModal";
 
 interface SearchResultProps {
   facility: FacilityDataTypes;
@@ -21,6 +23,8 @@ const SearchResult = ({
   ratingCount,
   latestSurveys
 }: SearchResultProps) => {
+  const [showMap, setShowMap] = useState(false);
+
   return (
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
       <Container className="row m-0 p-0 result-top-row-bg">
@@ -66,9 +70,17 @@ const SearchResult = ({
       <Container className="row m-0 p-0 border-top">
         <Container className="col-12 col-md-3 d-flex flex-column align-items-start results-rwd-border gap-2 pt-4 pb-4 px-4">
           <p className="m-0">{`ul. ${facility.facility.street}, ${facility.facility.zipCode} ${facility.facility.city?.name}`}</p>
-          <Button className="btn-outline-pink results-rwd-button">
+          <Button
+            onClick={() => setShowMap((prev) => !prev)}
+            className="btn-outline-pink results-rwd-button"
+          >
             POKAŻ NA MAPIE
           </Button>
+          <MapModal
+            show={showMap}
+            handleClose={() => setShowMap((prev) => !prev)}
+            facility={facility}
+          />
         </Container>
 
         <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center results-rwd-border gap-3 py-3">
