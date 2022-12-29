@@ -12,31 +12,23 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currPage, setCurrPage] = useState(1);
+  const [currPage, setCurrPage] = useState(
+    searchParams.get("page") ? searchParams.get("page") : "1"
+  );
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: currPage ? ((currPage - 1) * 10).toString() : "0",
+      offset: currPage
+        ? parseInt(currPage) <= 0
+          ? "0"
+          : ((parseInt(currPage) - 1) * 10).toString()
+        : "0",
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
       queueId: searchParams.get("queueId"),
     })
   );
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currPage, searchParams]);
-
-  const handlePageChange = (e: any) => {
-    searchParams.set("page", e.toString());
-    setSearchParams(searchParams);
-    setCurrPage(e);
-  };
-
-  if (isError) {
-    return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
-  }
 
   const getQueueName = (queueId: any) => {
     if (queueId === "1") {
@@ -50,8 +42,32 @@ const TestTemplate = () => {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    currPage && searchParams.set("page", currPage);
+    setSearchParams(searchParams);
+  }, [currPage, searchParams, setSearchParams]);
+
+  const handlePageChange = (e: any) => {
+    searchParams.set("page", e.toString());
+    setSearchParams(searchParams);
+    setCurrPage(e);
+  };
+
+  if (isError) {
+    return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
+  }
+
+  if (data && data.data.length <= 0) {
+    setCurrPage(
+      (prev) =>
+        (prev = (Math.floor(data.meta.totalResults / 10) + 1).toString())
+    );
+    return <div>Pusta lista</div>;
+  }
+
   console.log("data", data);
-  console.log("results/searchParams", searchParams);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
@@ -127,7 +143,7 @@ const TestTemplate = () => {
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}
-        currentPage={currPage}
+        currentPage={currPage ? parseInt(currPage) : 1}
         onPageChange={(e: any) => handlePageChange(e)}
       />
     </Container>
