@@ -163,6 +163,8 @@ const RaportTable = ({
                   item={item}
                   key={item.province.id}
                   statsBy={watch("statsBy")}
+                  adminRole={adminRole}
+                  pdf={pdf}
                 />
               );
             })}

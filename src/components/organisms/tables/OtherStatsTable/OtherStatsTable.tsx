@@ -86,7 +86,7 @@ const OtherStatsTable = () => {
       </Table>
       <div className="d-flex justify-content-center w-100 p-0">
         <CustomPagination
-          totalCount={pdfData?.length || 0}
+          totalCount={(!!pdfData && pdfData[0]?.totalRaports) || 0}
           pageSize={10}
           currentPage={currPage}
           onPageChange={(e: any) => handlePageChange(e)}
