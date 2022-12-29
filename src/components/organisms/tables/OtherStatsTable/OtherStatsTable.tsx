@@ -4,10 +4,25 @@ import CustomPagination from "../../../molecules/CustomPagination/CustomPaginati
 import "./OtherStatsTable.scss";
 import { useQuery } from "@tanstack/react-query";
 import { getPdf } from "../../../../services/api/pdfApi";
+import { useSearchParams } from "react-router-dom";
 
 const OtherStatsTable = () => {
-  const [currPage, setCurrPage] = useState(1);
-  const { data: pdfData, isLoading } = useQuery(getPdf());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currPage, setCurrPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+  const { data: pdfData, isLoading } = useQuery(
+    getPdf({
+      offset: currPage ? ((currPage - 1) * 1).toString() : "0",
+      limit: "10",
+    })
+  );
+
+  const handlePageChange = (e: any) => {
+    searchParams.set("page", e.toString());
+    setSearchParams(searchParams);
+    setCurrPage(e);
+  };
 
   return (
     <>
@@ -72,9 +87,9 @@ const OtherStatsTable = () => {
       <div className="d-flex justify-content-center w-100 p-0">
         <CustomPagination
           totalCount={pdfData?.length || 0}
-          itemsPerPage={8}
+          pageSize={10}
           currentPage={currPage}
-          onPageChange={setCurrPage}
+          onPageChange={(e: any) => handlePageChange(e)}
         />
       </div>
     </>
