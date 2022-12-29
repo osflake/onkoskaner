@@ -43,7 +43,6 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
           </h4>
           <p className="m-0">{`3 opinii`}</p>
         </Container>
-
         <Button
           className="col-12 col-lg-4 btn-outline-pink w-auto my-3"
           onClick={() => setShowModal((prev) => !prev)}
