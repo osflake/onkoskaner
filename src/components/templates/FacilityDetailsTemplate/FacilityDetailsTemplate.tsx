@@ -11,12 +11,7 @@ import ResultFilters from "../../molecules/ResultFilters";
 import ServiceDetails from "../../organisms/ServiceDetails";
 import FacilityReviews from "../../organisms/FacilityReviews";
 import ErrorInfo from "../../atoms/ErrorInfo";
-import { ReactComponent as ToiletIcon } from "../../../assets/Icons/BenefitIcons/ToiletIcon.svg";
-import { ReactComponent as ElevatorIcon } from "../../../assets/Icons/BenefitIcons/ElevatorIcon.svg";
-import { ReactComponent as ParkingIcon } from "../../../assets/Icons/BenefitIcons/ParkingIcon.svg";
-import { ReactComponent as RampIcon } from "../../../assets/Icons/BenefitIcons/RampIcon.svg";
-import { ReactComponent as BlocksIcon } from "../../../assets/Icons/BenefitIcons/BlocksIcon.svg";
-import { ReactComponent as VirusIcon } from "../../../assets/Icons/BenefitIcons/VirusIcon.svg";
+import ListOfFacilities from "../../molecules/ListOfFacilities/ListOfFacilities";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -64,14 +59,7 @@ const FacilityDetailsTemplate = () => {
       )}
       <Container className="p-0 d-flex flex-column align-items-start gap-2 pb-3">
         <p className="fw-bold-600">Lista udogodnień:</p>
-        <Container className="p-0 d-flex align-items-center gap-3">
-          <ToiletIcon />
-          <VirusIcon />
-          <ElevatorIcon />
-          <ParkingIcon />
-          <BlocksIcon />
-          <RampIcon />
-        </Container>
+        <ListOfFacilities data={data?.facility} />
       </Container>
       <Container className="d-flex flex-column align-items-start gap-5 results-title p-0 pb-5">
         <Container className="d-flex justify-content-between align-items-baseline p-0">

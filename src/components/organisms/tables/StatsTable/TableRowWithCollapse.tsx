@@ -9,9 +9,8 @@ import {
 } from "../../../../services/api/statsApi";
 import "./StatsTable.scss";
 
-const TableRowWithCollapse = ({ item, statsBy }: any) => {
-  const [isCollapse, setCollapse] = useState(false);
-  // const isOdd = !!(item.province.id % 2) ? "odd" : "even";
+const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
+  const [isCollapse, setCollapse] = useState(!!(adminRole && pdf));
   const [queryParams, setQueryParams] = useState({});
 
   const handleCollapse = () => {
@@ -44,24 +43,22 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
   const { data: cityData, refetch: refetchCity } = useQuery({
     queryKey: [`getStatsByCity${item.province.id}`],
     queryFn: getStatsByCity({ queryParams }),
-    enabled: false,
+    enabled: !!(adminRole && pdf && statsBy === "2"),
     refetchOnWindowFocus: false,
   });
 
-  const {
-    data: facilityData,
-    refetch: refetchFacality,
-    isFetchedAfterMount,
-  } = useQuery({
+  const { data: facilityData, refetch: refetchFacality } = useQuery({
     queryKey: [`getStatsByFacility${item.province.id}`],
     queryFn: getStatsByFacility({ queryParams }),
-    enabled: false,
+    enabled: !!(adminRole && pdf && statsBy === "3"),
     refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    setCollapse(false);
-  }, [statsBy]);
+    if (!(adminRole && pdf)) {
+      setCollapse(false);
+    }
+  }, [adminRole, pdf, statsBy]);
 
   return (
     <>
@@ -87,7 +84,7 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
       {isCollapse && (
         <>
           {statsBy === "2" &&
-            cityData?.data.stats.map((item: any) => (
+            cityData?.data?.stats.map((item: any) => (
               <Fragment key={item.city.id}>
                 {item.city && (
                   <tr className="inner">
@@ -112,8 +109,7 @@ const TableRowWithCollapse = ({ item, statsBy }: any) => {
             ))}
 
           {statsBy === "3" &&
-            isFetchedAfterMount &&
-            facilityData?.data.stats.map((item: any) => (
+            facilityData?.data?.stats.map((item: any) => (
               <Fragment key={item.facility.id}>
                 {item.facility && (
                   <tr className="inner" key={item.facility.id}>
