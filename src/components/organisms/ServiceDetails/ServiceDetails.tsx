@@ -56,7 +56,7 @@ const ServiceDetails = ({
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">
       <Container className="row d-flex p-0 m-0">
-        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-start ps-3 py-5 border-bottom border-end">
+        <Container className="col-12 col-md-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
           <h6 className="m-0 fw-bold-600">{name}</h6>
         </Container>
 
@@ -64,21 +64,23 @@ const ServiceDetails = ({
           <p className="m-0">Najbliższa wizyta za</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysUntilExamination ? `${daysUntilExamination} dni` : "-"}
+              {daysUntilExamination
+                ? `${daysUntilExamination} dni`
+                : "Brak danych"}
             </Badge>
           </h4>
         </Container>
 
-        <Container className="col-12 col-md-3 d-flex justify-content-between align-items-center border-end border-bottom py-3 px-4">
+        <Container className="col-12 col-md-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
           <p className="m-0">Oczekiwanie na opis</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysToResults ? `${daysToResults} dni` : "-"}
+              {daysToResults ? `${daysToResults} dni` : "Brak danych"}
             </Badge>
           </h4>
         </Container>
 
-        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center py-3 px-5 gap-3">
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center  py-3 px-5 gap-3">
           <Button className="btn-pink w-100">UMÓW SIĘ</Button>
 
           <Button

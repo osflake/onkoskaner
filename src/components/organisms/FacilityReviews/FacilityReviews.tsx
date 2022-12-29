@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
@@ -11,19 +11,33 @@ import StarsRating from "../../atoms/StarsRating";
 import ReviewAddModal from "../Modals/ReviewAddModal";
 import { getReviews } from "../../../services/api/reviewsApi";
 import FacilityReview from "../../atoms/FacilityReview";
+import CustomPagination from "../../molecules/CustomPagination/CustomPagination";
 
 interface FacilityReviewsProps {
   rating?: number;
 }
 
 const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [currPage, setCurrPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
   const [showModal, setShowModal] = useState(false);
   const linkParams = useParams();
-  const { data, isLoading } = useQuery<ReviewsApiTypes>(
-    getReviews({ offset: 0, limit: 3, facilityId: linkParams.facilityId })
+  const { data } = useQuery<ReviewsApiTypes>(
+    getReviews({
+      offset: currPage ? ((currPage - 1) * 1).toString() : "0",
+      limit: "10",
+      facilityId: linkParams.facilityId,
+    })
   );
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const handlePageChange = (e: any) => {
+    searchParams.set("page", e.toString());
+    setSearchParams(searchParams);
+    setCurrPage(e);
+  };
 
   return (
     <Container className="d-flex flex-column align-items-start gap-5 results-title p-0">
@@ -121,6 +135,12 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
             }
           })}
       </Container>
+      <CustomPagination
+        totalCount={data?.meta.totalResults || 0}
+        pageSize={10}
+        currentPage={currPage}
+        onPageChange={(e: any) => handlePageChange(e)}
+      />
     </Container>
   );
 };
