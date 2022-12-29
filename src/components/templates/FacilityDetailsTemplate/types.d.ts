@@ -47,6 +47,8 @@ interface LatestSurveyTypes {
   queue: {
     id: number;
   };
+  daysToResults?: number;
+  daysUntilExamination?: number;
 }
 
 interface FacilityDataApiTypes {

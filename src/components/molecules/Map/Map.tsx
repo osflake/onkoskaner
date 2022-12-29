@@ -1,24 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { useForm } from "react-hook-form";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 
-interface FormValues {
-  province: {
-    name: string;
-  };
-  results: {
-    minDaysUntilExamination: number;
-  };
-}
-
-export const Map = ({ data, registerTemplate }: any) => {
-  const { register, watch } = useForm({
-    defaultValues: {
-      setTime: "2",
-    },
-  });
-
+export const Map = ({ data, watch, register, pdf }: MapProps) => {
   const [currData, setCurrData] = useState([]);
 
   useEffect(() => {
@@ -53,42 +37,63 @@ export const Map = ({ data, registerTemplate }: any) => {
     { name: "Pilny", value: "2" },
   ];
 
+  const statsByDataEnums = statsByData.reduce(
+    (accumulator: any, currentValue: { value: string; name: string }) => ({
+      ...accumulator,
+      [currentValue.value]: currentValue.name,
+    }),
+    ""
+  );
+
+  const queueDataEnums = queueData.reduce(
+    (accumulator: any, currentValue: { value: string; name: string }) => ({
+      ...accumulator,
+      [currentValue.value]: currentValue.name,
+    }),
+    ""
+  );
+
   return (
     <>
       <div className="d-flex row w-100">
         <div className="pt-4 col-12 col-sm-6">
           <p className="results-title fw-normal-500">
-            Statystyki względem czasu oczekiwania:
+            Statystyki względem czasu oczekiwania:{" "}
+            {pdf ? statsByDataEnums[watch("setTime")] : null}
           </p>
           <Container
             className="d-inline-flex gap-3 row "
             style={{ maxWidth: "500px" }}
           >
-            {statsByData.map((item: { name: string; value: string }) => (
-              <RadioInput
-                key={item.value}
-                register={register("setTime", {
-                  required: true,
-                })}
-                label={item.name}
-                value={item.value}
-              />
-            ))}
+            {!pdf &&
+              statsByData.map((item: { name: string; value: string }) => (
+                <RadioInput
+                  key={item.value}
+                  register={register("setTime", {
+                    required: true,
+                  })}
+                  label={item.name}
+                  value={item.value}
+                />
+              ))}
           </Container>
         </div>
         <div className="pt-4 col-12 col-sm-5">
-          <p className="results-title fw-normal-500">Tryb świadczenia:</p>
+          <p className="results-title fw-normal-500">
+            Tryb świadczenia: {pdf ? queueDataEnums[watch("queueId")] : null}
+          </p>
           <Container className="d-inline-flex gap-2 row w-50">
-            {queueData.map((item: { name: string; value: string }) => (
-              <RadioInput
-                key={item.value}
-                register={registerTemplate("queueId", {
-                  required: true,
-                })}
-                label={item.name}
-                value={item.value}
-              />
-            ))}
+            {!pdf &&
+              queueData.map((item: { name: string; value: string }) => (
+                <RadioInput
+                  key={item.value}
+                  register={register("queueId", {
+                    required: true,
+                  })}
+                  label={item.name}
+                  value={item.value}
+                />
+              ))}
           </Container>
         </div>
       </div>

@@ -28,7 +28,13 @@ const StatsForm = () => {
       serviceId: search.get("serviceId") || "217",
       provinceId: search.get("provinceId") || "",
       cityId: search.get("cityId") || "",
-      interval: search.get("interval") || "1",
+      interval:
+        search.get("dateTo") &&
+        search.get("dateTo") !== new Date().toISOString().split("T")[0]
+          ? "0"
+          : search.get("interval")
+          ? search.get("interval")
+          : "1",
       normal: search.get("normal") === "" ? false : true,
       urgent: search.get("urgent") === "" ? false : true,
       waitingTime: search.get("waitingTime") === "true" ? true : false,
@@ -63,16 +69,18 @@ const StatsForm = () => {
     <form
       className="w-100 pb-5"
       onSubmit={handleSubmit((data) => {
+        const dateToInfo = search.get("dateTo") || undefined;
+        const daysInfo = search.get("days") || undefined;
         setSearch({
           ...(data.serviceId && { serviceId: data.serviceId }),
           ...(data.provinceId && { provinceId: data.provinceId }),
           ...(data.cityId && { cityId: data.cityId }),
           ...(data.interval && { interval: data.interval }),
           ...(data.interval && {
-            dateTo: dateTo(data.interval),
+            dateTo: data.interval === "0" ? dateToInfo : dateTo(data.interval),
           }),
           ...(data.interval && {
-            days: days(data.interval),
+            days: data.interval === "0" ? daysInfo : days(data.interval),
           }),
           ...(data.normal === true ? { normal: "1" } : { normal: "" }),
           ...(data.urgent === true ? { urgent: "2" } : { urgent: "" }),
@@ -159,7 +167,7 @@ const StatsForm = () => {
             label="Okres czasowy"
             dropdownData={interval}
             register={register("interval")}
-            defaultValue="1"
+            interval
           />
         </Container>
       )}

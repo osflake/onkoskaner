@@ -3,11 +3,13 @@ import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-
+import { useParams } from "react-router-dom";
 import "./ServiceDetails.scss";
 import PercentageProgress from "../../atoms/PercentageProgress";
 import OpeningHours from "../../atoms/OpeningHours";
 import OtherTermModal from "../Modals/OtherTermModal";
+import { getFacilityByDepartment } from "../../../services/api/facilitiesApi";
+import { useQuery } from "@tanstack/react-query";
 
 interface ServiceDetailsProps {
   name: string;
@@ -17,22 +19,39 @@ interface ServiceDetailsProps {
   surveyId?: number;
   serviceId: number;
   queueId: number;
+  daysToResults?: number;
+  daysUntilExamination?: number;
 }
 
 const ServiceDetails = ({
   facility,
   name,
-  daysToExamination,
   avgTotalCallsPercents = 40,
   surveyId,
   serviceId,
-  queueId
+  queueId,
+  daysToResults,
+  daysUntilExamination,
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const handleCollapse = () => {
     setCollapse((prev) => !prev);
   };
+  const linkParams = useParams();
+
+  const { data: facilityByDepartment } = useQuery({
+    queryKey: [`getFacilityByDepartment/${serviceId.toString()}`],
+    queryFn: getFacilityByDepartment({
+      facilityId: linkParams.facilityId,
+      serviceId: serviceId.toString(),
+    }),
+    refetchOnWindowFocus: false,
+  });
+
+  const data = facilityByDepartment?.data[0];
+
+  const openHours = data?.openHours && JSON.parse(data?.openHours);
 
   return (
     <Container className="d-flex flex-column align-items-center border p-0 m-0">
@@ -45,7 +64,7 @@ const ServiceDetails = ({
           <p className="m-0">Najbliższa wizyta za</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysToExamination ? `${daysToExamination} dni` : "N/A"}
+              {daysUntilExamination ? `${daysUntilExamination} dni` : "-"}
             </Badge>
           </h4>
         </Container>
@@ -54,7 +73,7 @@ const ServiceDetails = ({
           <p className="m-0">Oczekiwanie na opis</p>
           <h4 className="m-0">
             <Badge bg="info" className="m-0">
-              {daysToExamination ? `${daysToExamination} dni` : "N/A"}
+              {daysToResults ? `${daysToResults} dni` : "-"}
             </Badge>
           </h4>
         </Container>
@@ -83,13 +102,13 @@ const ServiceDetails = ({
         <Accordion.Body className="border-bottom p-0">
           <Container className="d-flex flex-column m-0 p-0">
             <Container className="row d-flex p-0 m-0">
-              <OpeningHours />
+              <OpeningHours openHours={openHours} />
 
               <Container className="col-12 col-md-4 d-flex flex-column gap-4 border-end p-4">
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
                 <Container className="d-flex align-items-center p-0 justify-content-between">
                   <p className="m-0">Numer telefonu</p>
-                  <p className="m-0 fw-bold-600">{facility.phoneNumber}</p>
+                  <p className="m-0 fw-bold-600">{data?.phoneNumber}</p>
                 </Container>
                 <Container className="d-flex flex-column justify-content-center align-items-center gap-2">
                   <PercentageProgress percentage={avgTotalCallsPercents} />
@@ -101,11 +120,7 @@ const ServiceDetails = ({
 
               <Container className="col-12 col-md-4 d-flex flex-column gap-4 p-4">
                 <p className="m-0 fw-bold-600">Dodatkowe informacje</p>
-                <p>
-                  {facility.description
-                    ? facility.description
-                    : "Brak dodatkowych informacji"}
-                </p>
+                <p>{data?.info ? data.info : "Brak dodatkowych informacji"}</p>
               </Container>
             </Container>
           </Container>

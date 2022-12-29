@@ -54,8 +54,6 @@ const ExportCSV = ({ fileName, nomralData, citoData }) => {
       { wch: 20 },
     ];
 
-    console.log(wscols);
-
     XLSX.utils.sheet_add_json(ws, csvData, {
       skipHeader: false,
       origin: "A2",

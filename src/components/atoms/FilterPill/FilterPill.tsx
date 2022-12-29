@@ -15,7 +15,7 @@ const FilterPill = ({
   title = "Button",
   onClick,
   filterByName = "service",
-  filterId = 12
+  filterId = 12,
 }: FilterPillProps) => {
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,20 +26,20 @@ const FilterPill = ({
     } else {
       setActive((prev) => (prev = false));
     }
-  }, [searchParams]);
+  }, [filterId, searchParams]);
 
   const handleClick = () => {
     setActive((prevState) => !prevState);
     !active
       ? setSearchParams({
-          service: [...searchParams.getAll("service"), filterId.toString()]
+          service: [...searchParams.getAll("service"), filterId.toString()],
         })
       : setSearchParams({
           service: [
             ...searchParams
               .getAll("service")
-              .filter((param) => param !== filterId.toString())
-          ]
+              .filter((param) => param !== filterId.toString()),
+          ],
         });
   };
 
