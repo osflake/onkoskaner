@@ -25,3 +25,13 @@
     margin-left: auto !important;
   }
 }
+
+.results-rwd-border {
+  @media (min-width: 768px) {
+    border-right: 1px solid #dee2e6;
+  }
+
+  @media (max-width: 768px) {
+    border-bottom: 1px solid #dee2e6;
+  }
+}

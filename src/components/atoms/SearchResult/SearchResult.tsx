@@ -3,7 +3,7 @@ import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
-import "./SearchResult.css";
+import "./SearchResult.scss";
 
 import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
@@ -24,7 +24,7 @@ const SearchResult = ({
   return (
     <Container className="d-flex flex-column fc-main border rounded-1 p-0">
       <Container className="row m-0 p-0 result-top-row-bg">
-        <Container className="col-12 col-md-4 d-flex justify-content-start align-items-center border-end border-bottom py-4 ps-4">
+        <Container className="col-12 col-md-4 d-flex justify-content-start align-items-center results-rwd-border py-4 ps-4">
           <p className="fw-bold-600 m-0">
             <Link
               className="fw-bold-600 m-0 results-title results-link"
@@ -35,7 +35,7 @@ const SearchResult = ({
           </p>
         </Container>
 
-        <Container className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center border-end border-bottom py-4">
+        <Container className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center results-rwd-border py-4">
           <p>Najbliższa wizyta za</p>
           <h4>
             <Badge bg="info">
@@ -64,14 +64,14 @@ const SearchResult = ({
       </Container>
 
       <Container className="row m-0 p-0 border-top">
-        <Container className="col-12 col-md-3 d-flex flex-column align-items-start border-end border-bottom gap-2 pt-4 pb-4 px-4">
+        <Container className="col-12 col-md-3 d-flex flex-column align-items-start results-rwd-border gap-2 pt-4 pb-4 px-4">
           <p className="m-0">{`ul. ${facility.facility.street}, ${facility.facility.zipCode} ${facility.facility.city?.name}`}</p>
           <Button className="btn-outline-pink results-rwd-button">
             POKAŻ NA MAPIE
           </Button>
         </Container>
 
-        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center border-end border-bottom gap-3 py-3">
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center results-rwd-border gap-3 py-3">
           <StarsRating rating={facility.rating} />
           <Container className="d-flex flex-row justify-content-center align-items-center gap-2">
             <h4 className="m-0">
@@ -85,7 +85,7 @@ const SearchResult = ({
           </Container>
         </Container>
 
-        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center border-end border-bottom py-3 gap-2">
+        <Container className="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center results-rwd-border py-3 gap-2">
           <PercentageProgress
             percentage={
               avgSuccessfulCallsPercents

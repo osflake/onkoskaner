@@ -1,0 +1,29 @@
+.fc-main {
+  color: var(--main-text-color);
+}
+
+.result-top-row-bg {
+  background-color: #f8f9fa;
+
+  @media (max-width: 768px) {
+    background-color: transparent;
+  }
+}
+
+.results-link {
+  text-decoration: none;
+}
+
+.results-link:hover {
+  text-decoration: underline;
+}
+
+.results-rwd-border {
+  @media (min-width: 768px) {
+    border-right: 1px solid #dee2e6;
+  }
+
+  @media (max-width: 768px) {
+    border-bottom: 1px solid #dee2e6;
+  }
+}
