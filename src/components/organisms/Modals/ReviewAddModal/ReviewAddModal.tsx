@@ -36,6 +36,7 @@ const ReviewAddModal = ({
 
     setFormName("");
     setFormDesc("");
+    setTimeout(handleClose, 1000);
   };
 
   return (

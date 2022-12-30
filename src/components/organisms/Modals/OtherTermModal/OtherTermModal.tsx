@@ -40,6 +40,7 @@ const OtherTermModal = ({
 
     isLoading && console.log("loading...");
     isSuccess && console.log("successfully posted data");
+    setTimeout(handleClose, 1000);
   };
 
   return (

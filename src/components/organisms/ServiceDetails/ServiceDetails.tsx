@@ -63,10 +63,15 @@ const ServiceDetails = ({
   const openHours = data?.openHours && JSON.parse(data?.openHours);
 
   return (
-    <Container className="d-flex flex-column align-items-center border p-0 m-0">
+    <Container
+      className={`d-flex flex-column align-items-center border ${
+        queueId === 2 && "border-danger"
+      } p-0 m-0`}
+    >
       <Container className="row d-flex p-0 m-0">
-        <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
+        <Container className="col-12 col-lg-3 details-rwd-queue border-end pt-3 px-4">
           <h6 className="m-0 fw-bold-600">{name}</h6>
+          {queueId === 2 && <h5 className="m-0 cito-text">CITO</h5>}
         </Container>
 
         <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">

@@ -9,19 +9,22 @@ import "./SearchResult.scss";
 import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
 import MapModal from "../../organisms/Modals/MapModal";
+import { getTotalReviewsDesc } from "../../../services/helpers/getTotalReviewsDesc";
 
 interface SearchResultProps {
   facility: FacilityDataTypes;
   avgSuccessfulCallsPercents?: number;
   ratingCount?: number;
   latestSurveys?: LatestSurveyTypes[];
+  totalReviews?: number;
 }
 
 const SearchResult = ({
   facility,
   avgSuccessfulCallsPercents,
   ratingCount,
-  latestSurveys
+  latestSurveys,
+  totalReviews = 0
 }: SearchResultProps) => {
   const [showMap, setShowMap] = useState(false);
 
@@ -91,9 +94,9 @@ const SearchResult = ({
                 {facility.rating ? `${facility.rating.toFixed(1)}/5` : "-/5"}
               </Badge>
             </h4>
-            <p className="m-0 align-self-center fs-13">{`(${
-              ratingCount ? ratingCount : "-"
-            } opinii)`}</p>
+            <p className="m-0 align-self-center fs-13">{`(${totalReviews} ${getTotalReviewsDesc(
+              totalReviews
+            )})`}</p>
           </Container>
         </Container>
 

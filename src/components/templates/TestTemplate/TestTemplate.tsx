@@ -112,19 +112,19 @@ const TestTemplate = () => {
           show={showCriteriaModal}
           handleClose={() => setShowCriteriaModal((prevState) => !prevState)}
         />
-        <Button className="btn-outline-pink results-sort-button">
+        {/* <Button className="btn-outline-pink results-sort-button">
           SORTOWANIE
-        </Button>
+        </Button> */}
       </Container>
 
       <Container className="d-flex flex-column gap-5">
         <Container className="p-0 results-sort-section">
-          <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
+          {/* <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
             <p className="results-title fw-normal-500">Sortowanie:</p>
             <p className="text-secondary">czas oczekiwania na wizytę</p>
             <p className="text-secondary">czas oczekiwania na opis badania</p>
             <p className="text-secondary">ocena ośrodka</p>
-          </Container>
+          </Container> */}
         </Container>
 
         {data &&
@@ -136,6 +136,7 @@ const TestTemplate = () => {
                 avgSuccessfulCallsPercents={facility.avgSuccessfulCallsPercents}
                 ratingCount={facility.ratingCount}
                 latestSurveys={facility.latestSurveys}
+                totalReviews={facility.totalReviews}
               />
             );
           })}

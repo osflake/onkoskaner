@@ -12,12 +12,17 @@ import ReviewAddModal from "../Modals/ReviewAddModal";
 import { getReviews } from "../../../services/api/reviewsApi";
 import FacilityReview from "../../atoms/FacilityReview";
 import CustomPagination from "../../molecules/CustomPagination/CustomPagination";
+import { getTotalReviewsDesc } from "../../../services/helpers/getTotalReviewsDesc";
 
 interface FacilityReviewsProps {
   rating?: number;
+  totalReviews?: number;
 }
 
-const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
+const FacilityReviews = ({
+  rating,
+  totalReviews = 0
+}: FacilityReviewsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [currPage, setCurrPage] = useState(
@@ -29,7 +34,7 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
     getReviews({
       offset: currPage ? ((currPage - 1) * 1).toString() : "0",
       limit: "10",
-      facilityId: linkParams.facilityId,
+      facilityId: linkParams.facilityId
     })
   );
 
@@ -55,7 +60,9 @@ const FacilityReviews = ({ rating }: FacilityReviewsProps) => {
                 : "-/5"}
             </Badge>
           </h4>
-          <p className="m-0">{`3 opinii`}</p>
+          <p className="m-0">{`${totalReviews} ${getTotalReviewsDesc(
+            totalReviews
+          )}`}</p>
         </Container>
         <Button
           className="col-12 col-lg-4 btn-outline-pink w-auto my-3"
