@@ -32,6 +32,7 @@ interface FacilityDataTypes {
   avgTotalCallsPercents?: number;
   avgSuccessfulCallsPercents?: number;
   latestSurveys?: LatestSurveyTypes[];
+  totalReviews?: number;
 }
 
 interface LatestSurveyTypes {

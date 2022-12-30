@@ -9,6 +9,7 @@ import PercentageProgress from "../../atoms/PercentageProgress";
 import OpeningHours from "../../atoms/OpeningHours";
 import OtherTermModal from "../Modals/OtherTermModal";
 import { getFacilityByDepartment } from "../../../services/api/facilitiesApi";
+import { getSurveyCalls } from "../../../services/api/surveyCalls";
 import { useQuery } from "@tanstack/react-query";
 
 interface ServiceDetailsProps {
@@ -31,7 +32,7 @@ const ServiceDetails = ({
   serviceId,
   queueId,
   daysToResults,
-  daysUntilExamination,
+  daysUntilExamination
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -44,10 +45,18 @@ const ServiceDetails = ({
     queryKey: [`getFacilityByDepartment/${serviceId.toString()}`],
     queryFn: getFacilityByDepartment({
       facilityId: linkParams.facilityId,
-      serviceId: serviceId.toString(),
+      serviceId: serviceId.toString()
     }),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
+
+  const { data: surveyCalls } = useQuery(
+    getSurveyCalls({
+      facilityId: linkParams.facilityId,
+      serviceId: serviceId.toString(),
+      queueId: queueId.toString()
+    })
+  );
 
   const data = facilityByDepartment?.data[0];
 
@@ -113,7 +122,11 @@ const ServiceDetails = ({
                   <p className="m-0 fw-bold-600">{data?.phoneNumber}</p>
                 </Container>
                 <Container className="d-flex flex-column justify-content-center align-items-center gap-2">
-                  <PercentageProgress percentage={avgTotalCallsPercents} />
+                  <PercentageProgress
+                    percentage={
+                      surveyCalls ? Math.floor(surveyCalls.avgAnsweredCalls) : 0
+                    }
+                  />
                   <p className="text-center m-0 fs-13">
                     udanych połączeń telefonicznych do placówki
                   </p>

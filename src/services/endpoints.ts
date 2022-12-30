@@ -21,3 +21,5 @@ export const otherTerm = `${api}tasks/create-from-user-report`;
 export const reviews = `${api}facility-reviews`;
 
 export const roles = `http://dev.onkoskaner.pl/wp-json/user/v1/roles`;
+
+export const surveyCalls = `${api}stats/survey-calls`;
