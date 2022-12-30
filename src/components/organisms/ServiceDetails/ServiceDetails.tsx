@@ -9,6 +9,7 @@ import PercentageProgress from "../../atoms/PercentageProgress";
 import OpeningHours from "../../atoms/OpeningHours";
 import OtherTermModal from "../Modals/OtherTermModal";
 import { getFacilityByDepartment } from "../../../services/api/facilitiesApi";
+import { getSurveyCalls } from "../../../services/api/surveyCalls";
 import { useQuery } from "@tanstack/react-query";
 
 interface ServiceDetailsProps {
@@ -31,7 +32,7 @@ const ServiceDetails = ({
   serviceId,
   queueId,
   daysToResults,
-  daysUntilExamination,
+  daysUntilExamination
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -44,20 +45,33 @@ const ServiceDetails = ({
     queryKey: [`getFacilityByDepartment/${serviceId.toString()}`],
     queryFn: getFacilityByDepartment({
       facilityId: linkParams.facilityId,
-      serviceId: serviceId.toString(),
+      serviceId: serviceId.toString()
     }),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
+
+  const { data: surveyCalls } = useQuery(
+    getSurveyCalls({
+      facilityId: linkParams.facilityId,
+      serviceId: serviceId.toString(),
+      queueId: queueId.toString()
+    })
+  );
 
   const data = facilityByDepartment?.data[0];
 
   const openHours = data?.openHours && JSON.parse(data?.openHours);
 
   return (
-    <Container className="d-flex flex-column align-items-center border p-0 m-0">
+    <Container
+      className={`d-flex flex-column align-items-center border ${
+        queueId === 2 && "border-danger"
+      } p-0 m-0`}
+    >
       <Container className="row d-flex p-0 m-0">
-        <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
+        <Container className="col-12 col-lg-3 details-rwd-queue border-end pt-3 px-4">
           <h6 className="m-0 fw-bold-600">{name}</h6>
+          {queueId === 2 && <h5 className="m-0 cito-text">CITO</h5>}
         </Container>
 
         <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
@@ -113,7 +127,11 @@ const ServiceDetails = ({
                   <p className="m-0 fw-bold-600">{data?.phoneNumber}</p>
                 </Container>
                 <Container className="d-flex flex-column justify-content-center align-items-center gap-2">
-                  <PercentageProgress percentage={avgTotalCallsPercents} />
+                  <PercentageProgress
+                    percentage={
+                      surveyCalls ? Math.floor(surveyCalls.avgAnsweredCalls) : 0
+                    }
+                  />
                   <p className="text-center m-0 fs-13">
                     udanych połączeń telefonicznych do placówki
                   </p>

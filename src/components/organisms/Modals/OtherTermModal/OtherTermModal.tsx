@@ -18,7 +18,7 @@ const OtherTermModal = ({
   handleClose = () => {},
   facilityId,
   serviceId,
-  queueId,
+  queueId
 }: OtherTermModalProps) => {
   const [formDesc, setFormDesc] = useState("");
   const { isLoading, isError, isSuccess, error, mutate } = useMutation(
@@ -27,25 +27,20 @@ const OtherTermModal = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(`submitted content: `, {
-      facilityId: facilityId,
-      serviceId: serviceId,
-      queueId: queueId,
-      respondentType: 3,
-      content: formDesc,
-    });
+
     mutate({
       facilityId: facilityId,
       serviceId: serviceId,
       queueId: queueId,
       respondentType: 3,
-      content: formDesc,
+      content: formDesc
     });
 
     setFormDesc("");
 
     isLoading && console.log("loading...");
     isSuccess && console.log("successfully posted data");
+    setTimeout(handleClose, 1000);
   };
 
   return (

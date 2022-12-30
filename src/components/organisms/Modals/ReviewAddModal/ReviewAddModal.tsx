@@ -34,16 +34,9 @@ const ReviewAddModal = ({
       content: formDesc
     });
 
-    console.log("payload sent: ", {
-      facilityId: facilityId,
-      name: formName,
-      rating: formRating,
-      addedByUser: 0,
-      content: formDesc
-    });
-
     setFormName("");
     setFormDesc("");
+    setTimeout(handleClose, 1000);
   };
 
   return (
