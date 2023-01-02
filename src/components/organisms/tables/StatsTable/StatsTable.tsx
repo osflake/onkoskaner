@@ -59,7 +59,7 @@ const RaportTable = ({
         ) : null}{" "}
       </div>
       {!!data ? (
-        <Table className="mt-5 reportTable">
+        <Table className={pdf ? "pdfReportTable" : "reportTable"}>
           <thead>
             <tr>
               <th className="pb-3">Czas oczekiwania:</th>

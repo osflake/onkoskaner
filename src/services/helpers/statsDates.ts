@@ -1,4 +1,9 @@
-const today = new Date();
+const handleDateChange = (dates: any) => {
+  const offset = dates.getTimezoneOffset();
+  return new Date(dates.getTime() - offset * 60 * 1000);
+};
+
+const today = handleDateChange(new Date());
 const quarter = Math.floor(today.getMonth() / 3);
 
 function getLastDayOfYear(year: any) {
@@ -62,9 +67,9 @@ const startFullQuarter = new Date(today.getFullYear(), quarter * 3 - 3, 1);
 export const dateTo = (type: string) => {
   switch (type) {
     case "1":
-      return new Date().toISOString().split("T")[0];
+      return today.toISOString().split("T")[0];
     case "2":
-      return new Date().toISOString().split("T")[0];
+      return today.toISOString().split("T")[0];
     case "3":
       return new Date(
         startFullQuarter.getFullYear(),
@@ -74,7 +79,7 @@ export const dateTo = (type: string) => {
         .toISOString()
         .split("T")[0];
     case "4":
-      return getLastDayOfYear(currentYear - 1)
+      return handleDateChange(getLastDayOfYear(currentYear - 1))
         .toISOString()
         .split("T")[0];
 
@@ -92,7 +97,7 @@ export const days = (type: string) => {
     case "3":
       return "90";
     case "4":
-      return "365";
+      return "364";
     default:
       return "";
   }

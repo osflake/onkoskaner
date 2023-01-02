@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import FileSaver from "file-saver";
 import * as XLSX from "xlsx/xlsx.mjs";
 
 const ExportCSV = ({ fileName, nomralData, citoData }) => {
+  const [buttonIsBlocked, setButtonIsBlocked] = useState(false);
+
   const pdfData = () => {
     const normal = nomralData?.stats?.map((item) => ({
       Nazwa: nomralData.service.name,
@@ -38,7 +41,7 @@ const ExportCSV = ({ fileName, nomralData, citoData }) => {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 
-  const exportToCSV = (csvData, fileName, wscols) => {
+  const ExportToCSV = async (csvData, fileName) => {
     var ws = XLSX.utils.aoa_to_sheet([["ONKOSKANER", "RAPORT"]]);
     var wsrows = [{ hpt: 16 }, { hpx: 24 }];
     ws["!rows"] = wsrows;
@@ -61,15 +64,27 @@ const ExportCSV = ({ fileName, nomralData, citoData }) => {
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName);
+    await FileSaver.saveAs(data, fileName);
   };
 
   return (
     <Button
-      onClick={(e) => exportToCSV(pdfData(), fileName, [500])}
-      className="btn-outline-pink"
+      onClick={(e) =>
+        ExportToCSV(pdfData(), fileName, [500]).then(() =>
+          setButtonIsBlocked(false)
+        )
+      }
+      disabled={buttonIsBlocked}
+      className="btn-outline-pink loadingButton"
     >
       POBIERZ RAPORT XLSX/CSV
+      {buttonIsBlocked && (
+        <div className="loadingButtonSpinner">
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
     </Button>
   );
 };
