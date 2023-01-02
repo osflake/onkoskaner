@@ -22,6 +22,7 @@ interface ServiceDetailsProps {
   queueId: number;
   daysToResults?: number;
   daysUntilExamination?: number;
+  updatedAt?: any;
 }
 
 const ServiceDetails = ({
@@ -32,7 +33,8 @@ const ServiceDetails = ({
   serviceId,
   queueId,
   daysToResults,
-  daysUntilExamination
+  daysUntilExamination,
+  updatedAt
 }: ServiceDetailsProps) => {
   const [isCollapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -59,6 +61,8 @@ const ServiceDetails = ({
   );
 
   const data = facilityByDepartment?.data[0];
+  console.log("surveyCalls", surveyCalls);
+  console.log(data);
 
   const openHours = data?.openHours && JSON.parse(data?.openHours);
 
@@ -76,11 +80,16 @@ const ServiceDetails = ({
 
         <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
           <p className="m-0">Najbliższa wizyta za</p>
-          <h4 className="m-0">
-            <Badge bg="info" className="m-0">
+          <h4 className="d-flex m-0">
+            <Badge
+              bg="info"
+              className={`m-0 ${
+                daysUntilExamination ? "text-nowrap" : "text-wrap"
+              }`}
+            >
               {daysUntilExamination
                 ? `${daysUntilExamination} dni`
-                : "Brak danych"}
+                : "brak danych"}
             </Badge>
           </h4>
         </Container>
@@ -88,8 +97,11 @@ const ServiceDetails = ({
         <Container className="col-12 col-lg-3 d-flex justify-content-between align-items-center border-end pt-3 px-4">
           <p className="m-0">Oczekiwanie na opis</p>
           <h4 className="m-0">
-            <Badge bg="info" className="m-0">
-              {daysToResults ? `${daysToResults} dni` : "Brak danych"}
+            <Badge
+              bg="info"
+              className={`m-0 ${daysToResults ? "text-nowrap" : "text-wrap"}`}
+            >
+              {daysToResults ? `${daysToResults} dni` : "brak danych"}
             </Badge>
           </h4>
         </Container>
@@ -124,7 +136,11 @@ const ServiceDetails = ({
                 <p className="m-0 fw-bold-600">Kontakt z placówką</p>
                 <Container className="d-flex align-items-center p-0 justify-content-between">
                   <p className="m-0">Numer telefonu</p>
-                  <p className="m-0 fw-bold-600">{data?.phoneNumber}</p>
+                  <p className="m-0 fw-bold-600">
+                    {data?.phoneNumber.length
+                      ? data.phoneNumber
+                      : facility.phoneNumber}
+                  </p>
                 </Container>
                 <Container className="d-flex flex-column justify-content-center align-items-center gap-2">
                   <PercentageProgress
@@ -138,9 +154,21 @@ const ServiceDetails = ({
                 </Container>
               </Container>
 
-              <Container className="col-12 col-lg-4 d-flex flex-column gap-4 p-4">
-                <p className="m-0 fw-bold-600">Dodatkowe informacje</p>
-                <p>{data?.info ? data.info : "Brak dodatkowych informacji"}</p>
+              <Container className="col-12 col-lg-4 d-flex flex-column justify-content-between gap-4 p-4">
+                <div className="d-flex flex-column gap-2">
+                  <p className="m-0 fw-bold-600">Dodatkowe informacje</p>
+                  <p>
+                    {data?.info ? data.info : "Brak dodatkowych informacji"}
+                  </p>
+                </div>
+                {updatedAt ? (
+                  <p className="m-0">
+                    Ostatnia aktualizacja:{" "}
+                    <span className="fw-bold-600">
+                      {new Date(updatedAt).toISOString().split("T")[0]}
+                    </span>
+                  </p>
+                ) : null}
               </Container>
             </Container>
           </Container>
