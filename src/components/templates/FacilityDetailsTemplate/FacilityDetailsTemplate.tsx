@@ -66,10 +66,6 @@ const FacilityDetailsTemplate = () => {
       <Container className="d-flex flex-column align-items-start gap-5 results-title p-0 pb-5">
         <Container className="d-flex justify-content-between align-items-baseline p-0">
           <h2 className="fw-bold">Terminarz</h2>
-          <p>
-            Ostatnia aktualizacja:{" "}
-            <span className="fw-bold">6 września 2022</span>
-          </p>
         </Container>
 
         <ResultFilters filterAll itemsList={data?.latestSurveys} />
@@ -83,6 +79,7 @@ const FacilityDetailsTemplate = () => {
               avgTotalCallsPercents={data.avgTotalCallsPercents}
               surveyId={survey.id}
               queueId={survey.queue.id}
+              updatedAt={survey.updatedAt}
               daysToResults={survey.daysToResults}
               daysUntilExamination={survey.daysUntilExamination}
             />

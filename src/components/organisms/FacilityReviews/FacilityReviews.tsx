@@ -144,7 +144,7 @@ const FacilityReviews = ({
       </Container>
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
-        pageSize={10}
+        pageSize={5}
         currentPage={currPage}
         onPageChange={(e: any) => handlePageChange(e)}
       />

@@ -40,6 +40,7 @@ interface LatestSurveyTypes {
   daysToExamination?: number;
   daysUntilExamination: number;
   daysToResults: number;
+  updatedAt: any;
   service: {
     id: number;
     name: string;
