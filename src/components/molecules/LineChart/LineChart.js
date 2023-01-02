@@ -47,12 +47,14 @@ const LineChart = ({
   );
 
   const statsCito = Object.values(citoObj)?.reduce(
-    (accumulator, currentValue) => ({
+    (accumulator, currentValue, currentIndex) => ({
       ...accumulator,
-      [citoData?.stats?.length > 14
-        ? `${currentValue[0].date} - ${
-            currentValue[currentValue.length - 1].date
-          }`
+      [citoData?.stats?.length > 14 && watch("displayBy") === "1"
+        ? `${currentValue[0].date.slice(0, 7)} [${
+            citoObj && Object.entries(citoObj)[currentIndex][0]
+          }]`
+        : citoData?.stats?.length > 14 && watch("displayBy") === "2"
+        ? `${currentValue[0].date.slice(0, 7)}`
         : `${currentValue[0].date}`]: {
         avgDaysUntilExamination: currentValue.reduce(
           (innerAccumulator, innerCurrentValue) =>
@@ -78,12 +80,15 @@ const LineChart = ({
   );
 
   const statsNormal = Object.values(normalObj)?.reduce(
-    (accumulator, currentValue) => ({
+    (accumulator, currentValue, currentIndex) => ({
       ...accumulator,
-      [nomralData?.stats.length > 14
-        ? `${currentValue[0].date} - ${
-            currentValue[currentValue.length - 1].date
-          }`
+
+      [nomralData?.stats?.length > 14 && watch("displayBy") === "1"
+        ? `${currentValue[0].date.slice(0, 7)} [${
+            normalObj && Object.entries(normalObj)[currentIndex][0]
+          }]`
+        : nomralData?.stats?.length > 14 && watch("displayBy") === "2"
+        ? `${currentValue[0].date.slice(0, 7)}`
         : `${currentValue[0].date}`]: {
         avgDaysUntilExamination: currentValue.reduce(
           (innerAccumulator, innerCurrentValue) =>
@@ -196,9 +201,9 @@ const LineChart = ({
   }
 
   useEffect(() => {
-    if (watch("displayBy") === "1" && chartData[0]?.data.length > 13) {
+    if (watch("displayBy") === "1" && chartData[0]?.data.length > 14) {
       setValue("displayBy", "2");
-    } else if (watch("displayBy") === "2" && chartData[0]?.data.length < 11) {
+    } else if (watch("displayBy") === "2" && chartData[0]?.data.length < 7) {
       setValue("displayBy", "1");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,22 +233,18 @@ const LineChart = ({
               {!pdf ? (
                 <Container className="gap-3 row">
                   {(watch("displayBy") === "1" &&
-                    chartData[0]?.data.length < 14) ||
+                    chartData[0]?.data.length > 14) ||
                   (watch("displayBy") === "2" &&
                     chartData[0]?.data.length < 11) ? (
                     <RadioInput
-                      register={register("displayBy", {
-                        required: true,
-                      })}
+                      register={register("displayBy")}
                       label="tygodni"
                       value="1"
                     />
                   ) : null}
 
                   <RadioInput
-                    register={register("displayBy", {
-                      required: true,
-                    })}
+                    register={register("displayBy")}
                     label="miesięcy"
                     value="2"
                   />
@@ -256,7 +257,7 @@ const LineChart = ({
             margin={{
               top: 50,
               right: 70,
-              bottom: nomralData?.stats?.length > 14 ? 250 : 100,
+              bottom: nomralData?.stats?.length > 14 ? 180 : 100,
               left: 70,
             }}
             xScale={{ type: "point" }}
