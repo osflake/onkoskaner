@@ -20,6 +20,7 @@ import krs from "../../../assets/images/krs.png";
 
 const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   const [searchParams] = useSearchParams();
+  const [buttonIsBlocked, setButtonIsBlocked] = useState(false);
 
   const { register, watch, setValue } = useForm({
     defaultValues: {
@@ -198,10 +199,21 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
       <div className="px-3 w-100">
         <div className="mb-5 row justify-content-md-end">
           <Button
-            onClick={() => downloadPdf(printRef)}
-            className="btn-outline-pink col col-lg-3 "
+            onClick={() => {
+              setButtonIsBlocked(true);
+              downloadPdf(printRef).then(() => setButtonIsBlocked(false));
+            }}
+            disabled={buttonIsBlocked}
+            className="btn-outline-pink col col-lg-3 loadingButton"
           >
             POBIERZ RAPORT PDF
+            {buttonIsBlocked && (
+              <div className="loadingButtonSpinner">
+                <div className="spinner-border " role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
           </Button>
         </div>
         <OtherStats />
@@ -326,7 +338,8 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
         <div className="pdfFooter">
           <span>
             dokument wygenerowany elektronicznie:{" "}
-            {new Date().toISOString().split("T")[0]}
+            {new Date().toISOString().split("T")[0]}{" "}
+            {new Date().toISOString().split("T")[1].slice(0, 8)}
           </span>
         </div>
       </Container>

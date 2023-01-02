@@ -6,8 +6,6 @@ const handleDateChange = (dates: any) => {
 const today = handleDateChange(new Date());
 const quarter = Math.floor(today.getMonth() / 3);
 
-// console.log(handleDateChange(today), today);
-
 function getLastDayOfYear(year: any) {
   return new Date(year, 11, 31);
 }

@@ -19,3 +19,14 @@
   color: #fff;
   padding: 10px;
 }
+
+.loadingButton {
+  position: relative;
+}
+
+.loadingButtonSpinner {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  transform: translate(-50%, -50%);
+}
