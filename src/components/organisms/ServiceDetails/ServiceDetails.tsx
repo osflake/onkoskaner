@@ -61,8 +61,8 @@ const ServiceDetails = ({
   );
 
   const data = facilityByDepartment?.data[0];
-  console.log("surveyCalls", surveyCalls);
-  console.log(data);
+  // console.log("surveyCalls", surveyCalls);
+  // console.log(data);
 
   const openHours = data?.openHours && JSON.parse(data?.openHours);
 
@@ -83,9 +83,13 @@ const ServiceDetails = ({
           <h4 className="d-flex m-0">
             <Badge
               bg="info"
-              className={`m-0 ${daysToResults ? "text-nowrap" : "text-wrap"}`}
+              className={`m-0 ${
+                daysUntilExamination ? "text-nowrap" : "text-wrap"
+              }`}
             >
-              {daysToResults ? `${daysToResults} dni` : "brak danych"}
+              {daysUntilExamination
+                ? `${daysUntilExamination} dni`
+                : "brak danych"}
             </Badge>
           </h4>
         </Container>
@@ -95,13 +99,9 @@ const ServiceDetails = ({
           <h4 className="m-0">
             <Badge
               bg="info"
-              className={`m-0 ${
-                daysUntilExamination ? "text-nowrap" : "text-wrap"
-              }`}
+              className={`m-0 ${daysToResults ? "text-nowrap" : "text-wrap"}`}
             >
-              {daysUntilExamination
-                ? `${daysUntilExamination} dni`
-                : "brak danych"}
+              {daysToResults ? `${daysToResults} dni` : "brak danych"}
             </Badge>
           </h4>
         </Container>

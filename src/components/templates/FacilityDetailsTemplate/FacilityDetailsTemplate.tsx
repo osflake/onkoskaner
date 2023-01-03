@@ -50,7 +50,7 @@ const FacilityDetailsTemplate = () => {
     }
   };
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
