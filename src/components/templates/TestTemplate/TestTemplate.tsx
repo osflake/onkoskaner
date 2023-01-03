@@ -12,17 +12,11 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currPage, setCurrPage] = useState(
-    searchParams.get("page") ? searchParams.get("page") : "1"
-  );
+  const [currPage, setCurrPage] = useState(1);
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: currPage
-        ? parseInt(currPage) <= 0
-          ? "0"
-          : ((parseInt(currPage) - 1) * 10).toString()
-        : "0",
+      offset: currPage <= 0 ? "0" : ((currPage - 1) * 10).toString(),
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
@@ -44,7 +38,18 @@ const TestTemplate = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (searchParams.get("page")) {
+      setCurrPage(Number(searchParams.get("page")));
+    }
+
+    if (!searchParams.get("page")) {
+      setCurrPage(1);
+    }
   }, [currPage, searchParams, setSearchParams]);
+
+  // searchParams.set("page", currPage.toString());
+  // setSearchParams(searchParams);
 
   const handlePageChange = (e: any) => {
     searchParams.set("page", e.toString());
@@ -57,10 +62,7 @@ const TestTemplate = () => {
   }
 
   if (data && data.data.length <= 0) {
-    setCurrPage(
-      (prev) =>
-        (prev = (Math.floor(data.meta.totalResults / 10) + 1).toString())
-    );
+    setCurrPage((prev) => (prev = Math.floor(data.meta.totalResults / 10) + 1));
     return <div>Pusta lista</div>;
   }
 
@@ -143,7 +145,7 @@ const TestTemplate = () => {
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}
-        currentPage={currPage ? parseInt(currPage) : 1}
+        currentPage={currPage ? currPage : 1}
         onPageChange={(e: any) => handlePageChange(e)}
       />
     </Container>

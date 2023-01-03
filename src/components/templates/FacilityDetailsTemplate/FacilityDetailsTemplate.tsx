@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +23,10 @@ const FacilityDetailsTemplate = () => {
     getFacilityDetails(linkParams.facilityId)
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [searchParams, setSearchParams]);
+
   if (isLoading) {
     return <div>Loading data...</div>;
   }
@@ -30,7 +34,7 @@ const FacilityDetailsTemplate = () => {
   if (!data?.facility) {
     return (
       <ErrorInfo
-        title="Brak danych o wybranej placówce"
+        title="Taka placówka nie istnieje"
         redirectTo="http://dev.onkoskaner.pl/"
       />
     );
