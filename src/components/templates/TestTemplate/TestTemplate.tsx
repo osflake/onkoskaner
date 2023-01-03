@@ -44,9 +44,6 @@ const TestTemplate = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    currPage && searchParams.set("page", currPage);
-    setSearchParams(searchParams);
   }, [currPage, searchParams, setSearchParams]);
 
   const handlePageChange = (e: any) => {
