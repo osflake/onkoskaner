@@ -30,7 +30,7 @@ const FacilityDetailsTemplate = () => {
   if (!data?.facility) {
     return (
       <ErrorInfo
-        title="Brak danych o wybranej placówce"
+        title="Taka placówka nie istnieje"
         redirectTo="http://dev.onkoskaner.pl/"
       />
     );
