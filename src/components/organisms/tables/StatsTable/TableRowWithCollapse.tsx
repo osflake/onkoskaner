@@ -72,9 +72,12 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
         <td>{item.results.minDaysUntilExamination} dni</td>
         <td>{Math.round(item.results.avgDaysUntilExamination)} dni</td>
         <td>{item.results.maxDaysUntilExamination} dni</td>
-        <td>
-          <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
-        </td>
+        {!pdf && (
+          <td>
+            <Link to={`/results?${linkTo.toString()}`}>Pokaż placówki</Link>
+          </td>
+        )}
+
         {statsBy === "2" || statsBy === "3" ? (
           <td>
             <AnglesArrow className="angleArrow" data-isopen={isCollapse} />
@@ -94,15 +97,17 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
                     </td>
                     <td>{item.results.minDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
-                    <td colSpan={2}>
-                      <Link
-                        to={`/results?${linkTo.toString()}&cityId=${
-                          item.city.id
-                        }`}
-                      >
-                        Pokaż placówki
-                      </Link>
-                    </td>
+                    {!pdf && (
+                      <td colSpan={2}>
+                        <Link
+                          to={`/results?${linkTo.toString()}&cityId=${
+                            item.city.id
+                          }`}
+                        >
+                          Pokaż placówki
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 )}
               </Fragment>
@@ -119,11 +124,13 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
                     </td>
                     <td>{item.results.minDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
-                    <td colSpan={2}>
-                      <Link to={`/details/${item.facility.id}`}>
-                        Pokaż szczegóły
-                      </Link>
-                    </td>
+                    {!pdf && (
+                      <td colSpan={2}>
+                        <Link to={`/details/${item.facility.id}`}>
+                          Pokaż szczegóły
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 )}
               </Fragment>
