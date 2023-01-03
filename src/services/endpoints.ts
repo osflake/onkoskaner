@@ -1,26 +1,33 @@
 const apiKey = sessionStorage.getItem("api_key");
 
-const api = apiKey ? `${apiKey}` : "https://dev-api.alivia.org.pl";
+const api =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development" || !apiKey
+    ? `https://dev-api.alivia.org.pl/api/v1/`
+    : `${apiKey}/api/v1/`;
 
-const apiV1 = `${api}/api/v1/`;
-const apiWP = `${api}/wp-json/`;
+const apiWP =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+    ? `https://dev.onkoskaner.pl/wp-json/`
+    : `https://onkoskaner.pl/wp-json/`;
 
-export const facilities = `${apiV1}facilities`;
+export const facilities = `${api}facilities`;
 
-export const services = `${apiV1}services`;
+export const services = `${api}services`;
 
-export const provinces = `${apiV1}provinces`;
+export const provinces = `${api}provinces`;
 
-export const cities = `${apiV1}cities`;
+export const cities = `${api}cities`;
 
-export const detailedFacilities = `${apiV1}detailed-facilities`;
+export const detailedFacilities = `${api}detailed-facilities`;
 
-export const stats = `${apiV1}stats`;
+export const stats = `${api}stats`;
 
-export const otherTerm = `${apiV1}tasks/create-from-user-report`;
+export const otherTerm = `${api}tasks/create-from-user-report`;
 
-export const surveyCalls = `${apiV1}stats/survey-calls`;
+export const surveyCalls = `${api}stats/survey-calls`;
 
-export const reviews = `${apiV1}facility-reviews`;
+export const reviews = `${api}facility-reviews`;
 
 export const roles = `${apiWP}user/v1/roles`;
+
+export const pdf = `${apiWP}wp/v2/pdf`;

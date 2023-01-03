@@ -1,4 +1,5 @@
 import axios from "axios";
+import { pdf } from "../endpoints";
 
 export const getPdf = ({ offset, limit = 10 }: any) => {
   const params = new URLSearchParams({
@@ -7,10 +8,7 @@ export const getPdf = ({ offset, limit = 10 }: any) => {
   });
   return {
     queryKey: [`pdf/${offset}`],
-    queryFn: () =>
-      axios
-        .get(`http://dev.onkoskaner.pl/wp-json/wp/v2/pdf?${params}`)
-        .then((res) => res.data),
+    queryFn: () => axios.get(`${pdf}?${params}`).then((res) => res.data),
     refetchOnWindowFocus: false,
   };
 };
