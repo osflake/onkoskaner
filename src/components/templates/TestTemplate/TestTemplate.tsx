@@ -14,9 +14,15 @@ const TestTemplate = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currPage, setCurrPage] = useState(1);
 
+  // currPage <= 0 ? "0" : ((currPage - 1) * 10).toString()
+
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: currPage <= 0 ? "0" : ((currPage - 1) * 10).toString(),
+      offset: searchParams.get("page")
+        ? Number(searchParams.get("page")) <= 0
+          ? "0"
+          : ((Number(searchParams.get("page")) - 1) * 10)?.toString()
+        : "0",
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
@@ -46,7 +52,17 @@ const TestTemplate = () => {
     if (!searchParams.get("page")) {
       setCurrPage(1);
     }
-  }, [currPage, searchParams, setSearchParams]);
+
+    if (data && data.data.length <= 0) {
+      searchParams.set(
+        "page",
+        (Math.floor(data.meta.totalResults / 10) + 1).toString()
+      );
+      setSearchParams(searchParams);
+
+      return;
+    }
+  }, [data, currPage, searchParams, setSearchParams]);
 
   // searchParams.set("page", currPage.toString());
   // setSearchParams(searchParams);
@@ -62,11 +78,10 @@ const TestTemplate = () => {
   }
 
   if (data && data.data.length <= 0) {
-    setCurrPage((prev) => (prev = Math.floor(data.meta.totalResults / 10) + 1));
     return <div>Pusta lista</div>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
