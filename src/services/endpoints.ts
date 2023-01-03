@@ -7,8 +7,8 @@ const api =
 
 const apiWP =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-    ? `https://dev.onkoskaner.pl/wp-json/`
-    : `https://onkoskaner.pl/wp-json/`;
+    ? `http://dev.onkoskaner.pl/wp-json/`
+    : `http://onkoskaner.pl/wp-json/`;
 
 export const facilities = `${api}facilities`;
 
