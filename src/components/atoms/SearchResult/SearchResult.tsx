@@ -46,12 +46,9 @@ const SearchResult = ({
           <p>Najbliższa wizyta za</p>
           <h4>
             <Badge bg="info">
-              {" "}
-              {latestSurveys
-                ? latestSurveys.length
-                  ? latestSurveys[0].daysToResults
-                    ? `${latestSurveys[0].daysToResults} DNI`
-                    : "brak danych"
+              {latestSurveys?.length
+                ? latestSurveys[0].daysUntilExamination
+                  ? `${latestSurveys[0].daysUntilExamination} DNI`
                   : "brak danych"
                 : "brak danych"}
             </Badge>
@@ -62,9 +59,11 @@ const SearchResult = ({
           <p>Oczekiwanie na opis badania</p>
           <h4>
             <Badge bg="info">
-              {latestSurveys?.length
-                ? latestSurveys[0].daysUntilExamination
-                  ? `${latestSurveys[0].daysUntilExamination} DNI`
+              {latestSurveys
+                ? latestSurveys.length
+                  ? latestSurveys[0].daysToResults
+                    ? `${latestSurveys[0].daysToResults} DNI`
+                    : "brak danych"
                   : "brak danych"
                 : "brak danych"}
             </Badge>
