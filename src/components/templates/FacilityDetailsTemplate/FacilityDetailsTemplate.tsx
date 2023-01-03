@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +22,10 @@ const FacilityDetailsTemplate = () => {
   const { data, isLoading, isError } = useQuery<FacilityDataTypes>(
     getFacilityDetails(linkParams.facilityId)
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [searchParams, setSearchParams]);
 
   if (isLoading) {
     return <div>Loading data...</div>;
