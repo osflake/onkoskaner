@@ -78,7 +78,9 @@ const TestTemplate = () => {
             <p>
               {searchParams.get("serviceId")
                 ? data.data[0].latestSurveys
-                  ? data.data[0].latestSurveys[0].service.name
+                  ? data.data[0].latestSurveys.length
+                    ? data.data[0].latestSurveys[0].service.name
+                    : "Wszystkie badania"
                   : "Wszystkie badania"
                 : "Wszystkie badania"}
             </p>
