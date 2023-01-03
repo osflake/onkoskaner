@@ -13,12 +13,12 @@ export const getStatsByProvince = ({ queryParams, queueId, sortBy }: any) => {
     ...(sortArray && { sortOrder: sortArray[1] }),
   });
 
-  return {
-    queryFn: () =>
-      axios
-        .get(`${stats}/waiting-times-by-province?${searchParams.toString()}`)
-        .then((res) => res.data),
-  };
+  return () =>
+    !!queryParams.serviceId
+      ? axios
+          .get(`${stats}/waiting-times-by-province?${searchParams.toString()}`)
+          .then((res) => res.data)
+      : null;
 };
 
 export const getStatsByDate = ({ queryParams, queueId }: any) => {
@@ -32,10 +32,11 @@ export const getStatsByDate = ({ queryParams, queueId }: any) => {
   });
 
   return () =>
-    searchParams.toString() &&
-    axios
-      .get(`${stats}/waiting-times-by-date?${searchParams.toString()}`)
-      .then((res) => res.data);
+    queryParams.serviceId
+      ? axios
+          .get(`${stats}/waiting-times-by-date?${searchParams.toString()}`)
+          .then((res) => res.data)
+      : null;
 };
 
 export const getStatsByCity = ({ queryParams }: any) => {

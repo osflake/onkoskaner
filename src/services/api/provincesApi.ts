@@ -14,5 +14,6 @@ export const getProvinces = (provinceId?: string) => {
       provinceId
         ? data.filter((province) => province.id.toString() === provinceId)
         : data,
+    refetchOnWindowFocus: false,
   };
 };

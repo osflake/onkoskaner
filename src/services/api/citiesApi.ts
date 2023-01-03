@@ -19,5 +19,6 @@ export const getCities = ({ offset, limit, provinceId, q }: citiesProps) => {
   return {
     queryFn: () =>
       axios.get(`${cities}?${params.toString()}`).then((res) => res.data),
+    refetchOnWindowFocus: false,
   };
 };

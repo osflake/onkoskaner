@@ -12,5 +12,6 @@ export const getServices = ({ active, offset, limit }: any) => {
     queryKey: ["services"],
     queryFn: () =>
       axios.get(`${services}?${params.toString()}`).then((res) => res.data),
+    refetchOnWindowFocus: false,
   };
 };

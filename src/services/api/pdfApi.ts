@@ -11,5 +11,6 @@ export const getPdf = ({ offset, limit = 10 }: any) => {
       axios
         .get(`http://dev.onkoskaner.pl/wp-json/wp/v2/pdf?${params}`)
         .then((res) => res.data),
+    refetchOnWindowFocus: false,
   };
 };

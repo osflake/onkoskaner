@@ -33,14 +33,16 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
   });
   const printRef = useRef<HTMLInputElement>(null);
   const [queryParams, setQueryParams] = useState({});
-  const { data: provinceStatsData } = useQuery(
-    [watch("queueId"), queryParams, searchParams.get("sortBy")],
-    getStatsByProvince({
+
+  const { data: provinceStatsData } = useQuery({
+    queryKey: [watch("queueId"), queryParams, searchParams.get("sortBy")],
+    queryFn: getStatsByProvince({
       queryParams,
       queueId: watch("queueId"),
       sortBy: searchParams.get("sortBy"),
-    })
-  );
+    }),
+    refetchOnWindowFocus: false,
+  });
 
   const { data: dateStatsData } = useQuery({
     queryKey: [queryParams, "normal"],
