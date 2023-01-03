@@ -19,7 +19,7 @@ export const stats = `${apiV1}stats`;
 
 export const otherTerm = `${apiV1}tasks/create-from-user-report`;
 
-export const surveyCalls = `${api}stats/survey-calls`;
+export const surveyCalls = `${apiV1}stats/survey-calls`;
 
 export const reviews = `${apiV1}facility-reviews`;
 
