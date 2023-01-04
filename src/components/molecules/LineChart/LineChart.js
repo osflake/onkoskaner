@@ -5,7 +5,6 @@ import "./LineChart.scss";
 import RadioInput from "../../atoms/RadioInput/RadioInput";
 import { useSearchParams } from "react-router-dom";
 import ExportCSV from "./ExportCSV";
-const groupBy = require("lodash/groupBy");
 const moment = require("moment");
 
 const CustomSymbol = ({ color }) => {
@@ -30,55 +29,77 @@ const LineChart = ({
 
   const [searchParams] = useSearchParams();
 
-  const normalObj = groupBy(nomralData?.stats, (dt) =>
+  const groupsMonth = (data) => {
+    if (data)
+      return data.reduce((acc, curr) => {
+        const yearWeek = `${moment(curr.date).year()}-${
+          moment(curr.date).month() + 1
+        }`;
+        if (!acc[yearWeek]) {
+          acc[yearWeek] = [];
+        }
+        acc[yearWeek].push(curr);
+        return acc;
+      }, {});
+    else return {};
+  };
+
+  const groupsWeeks = (data) => {
+    if (data)
+      return data?.reduce((acc, curr) => {
+        const yearWeek = `${moment(curr.date).year()}-${(
+          "0" +
+          moment(curr.date).month() +
+          1
+        ).slice(-2)} [${moment(curr.date).week()}]`;
+        if (!acc[yearWeek]) {
+          acc[yearWeek] = [];
+        }
+        acc[yearWeek].push(curr);
+        return acc;
+      }, {});
+    else return {};
+  };
+
+  const groupsDay = (data) => {
+    if (data)
+      return data?.reduce((acc, curr) => {
+        const yearWeek = `${moment(curr.date).year()}-${
+          moment(curr.date).month() + 1
+        }-${moment(curr.date).format("DD")}`;
+        if (!acc[yearWeek]) {
+          acc[yearWeek] = [];
+        }
+        acc[yearWeek].push(curr);
+        return acc;
+      }, {});
+    else return {};
+  };
+
+  const normalObj =
     watch("displayBy") === "1" &&
     (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
-      ? moment(dt.date).week()
+      ? groupsWeeks(nomralData?.stats)
       : watch("displayBy") === "2" &&
         (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
-      ? moment(dt.date).month()
-      : dt.date
-  );
+      ? groupsMonth(nomralData?.stats)
+      : groupsDay(nomralData?.stats);
 
-  const citoObj = groupBy(citoData?.stats, (dt) =>
+  const citoObj =
     watch("displayBy") === "1" &&
     (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
-      ? moment(dt.date).week()
+      ? groupsWeeks(citoData?.stats)
       : watch("displayBy") === "2" &&
         (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
-      ? moment(dt.date).month()
-      : dt.date
-  );
-  // console.log(citoData?.stats);
-
-  // const groups = citoData?.stats.reduce((acc, date) => {
-  //   console.log(acc, date);
-  //   // // create a composed key: 'year-week'
-  //   const yearWeek = `${moment(date.date).year()}-${moment(date.date).week()}`;
-
-  //   console.log(yearWeek);
-
-  //   // // add this key as a property to the result object
-  //   if (!acc[yearWeek]) {
-  //     acc[yearWeek] = [];
-  //   }
-
-  //   // // push the current date that belongs to the year-week calculated befor
-  //   acc[yearWeek].push(date);
-
-  //   return acc.date;
-  // }, {});
-
-  // console.log(groups);
+      ? groupsMonth(citoData?.stats)
+      : groupsDay(citoData?.stats);
 
   const statsCito = Object.values(citoObj)?.reduce(
     (accumulator, currentValue, currentIndex) => ({
       ...accumulator,
       [(citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
       watch("displayBy") === "1"
-        ? `${currentValue[0].date.slice(0, 7)} [${
-            citoObj && Object.entries(citoObj)[currentIndex][0]
-          }]`
+        ? `${citoObj && Object.entries(citoObj)[currentIndex][0]}`
         : (citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
           watch("displayBy") === "2"
         ? `${currentValue[0].date.slice(0, 7)}`
@@ -112,9 +133,7 @@ const LineChart = ({
 
       [(citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
       watch("displayBy") === "1"
-        ? `${currentValue[0].date.slice(0, 7)} [${
-            normalObj && Object.entries(normalObj)[currentIndex][0]
-          }]`
+        ? `${normalObj && Object.entries(normalObj)[currentIndex][0]}`
         : (citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
           watch("displayBy") === "2"
         ? `${currentValue[0].date.slice(0, 7)}`
