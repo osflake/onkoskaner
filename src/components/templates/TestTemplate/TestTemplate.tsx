@@ -53,15 +53,12 @@ const TestTemplate = () => {
     //   setCurrPage(1);
     // }
 
-    if (data && data.data.length <= 0) {
-      searchParams.set(
-        "page",
-        (Math.floor(data.meta.totalResults / 10) + 1).toString()
-      );
-      setSearchParams(searchParams);
+    // if (data && data.data.length <= 0) {
+    //   searchParams.set("page", "1");
+    //   setSearchParams(searchParams);
 
-      return;
-    }
+    //   return;
+    // }
   }, [data, searchParams, setSearchParams]);
 
   // searchParams.set("page", currPage.toString());
@@ -77,6 +74,9 @@ const TestTemplate = () => {
   }
 
   if (data && data.data.length <= 0) {
+    searchParams.set("page", "1");
+    setSearchParams(searchParams);
+
     return <div>Pusta lista</div>;
   }
 
