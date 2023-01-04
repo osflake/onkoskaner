@@ -12,7 +12,7 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currPage, setCurrPage] = useState(1);
+  // const [currPage, setCurrPage] = useState(1);
 
   // currPage <= 0 ? "0" : ((currPage - 1) * 10).toString()
 
@@ -45,13 +45,13 @@ const TestTemplate = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (searchParams.get("page")) {
-      setCurrPage(Number(searchParams.get("page")));
-    }
+    // if (searchParams.get("page")) {
+    //   setCurrPage(Number(searchParams.get("page")));
+    // }
 
-    if (!searchParams.get("page")) {
-      setCurrPage(1);
-    }
+    // if (!searchParams.get("page")) {
+    //   setCurrPage(1);
+    // }
 
     if (data && data.data.length <= 0) {
       searchParams.set(
@@ -62,7 +62,7 @@ const TestTemplate = () => {
 
       return;
     }
-  }, [data, currPage, searchParams, setSearchParams]);
+  }, [data, searchParams, setSearchParams]);
 
   // searchParams.set("page", currPage.toString());
   // setSearchParams(searchParams);
@@ -70,7 +70,6 @@ const TestTemplate = () => {
   const handlePageChange = (e: any) => {
     searchParams.set("page", e.toString());
     setSearchParams(searchParams);
-    setCurrPage(e);
   };
 
   if (isError) {
@@ -160,7 +159,9 @@ const TestTemplate = () => {
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}
-        currentPage={currPage ? currPage : 1}
+        currentPage={
+          searchParams.get("page") ? Number(searchParams.get("page")) : 1
+        }
         onPageChange={(e: any) => handlePageChange(e)}
       />
     </Container>
