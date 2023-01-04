@@ -5,6 +5,7 @@ export const getFacilityDetails = (facilityId?: string) => {
   return {
     queryKey: [`facility/${facilityId}`],
     retry: false,
+    refetchOnWindowFocus: false,
     queryFn: () =>
       axios
         .get(`${detailedFacilities}/${facilityId}`)
