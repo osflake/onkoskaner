@@ -31,29 +31,56 @@ const LineChart = ({
   const [searchParams] = useSearchParams();
 
   const normalObj = groupBy(nomralData?.stats, (dt) =>
-    watch("displayBy") === "1" && nomralData?.stats.length > 14
+    watch("displayBy") === "1" &&
+    (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
       ? moment(dt.date).week()
-      : watch("displayBy") === "2" && nomralData?.stats.length > 14
+      : watch("displayBy") === "2" &&
+        (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
       ? moment(dt.date).month()
-      : nomralData?.stats
+      : dt.date
   );
 
   const citoObj = groupBy(citoData?.stats, (dt) =>
-    watch("displayBy") === "1" && citoData?.stats.length > 14
+    watch("displayBy") === "1" &&
+    (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
       ? moment(dt.date).week()
-      : watch("displayBy") === "2" && citoData?.stats.length > 14
+      : watch("displayBy") === "2" &&
+        (citoData?.stats.length > 14 || nomralData?.stats.length > 14)
       ? moment(dt.date).month()
-      : citoData?.stats
+      : dt.date
   );
+  // console.log(citoData?.stats);
+
+  // const groups = citoData?.stats.reduce((acc, date) => {
+  //   console.log(acc, date);
+  //   // // create a composed key: 'year-week'
+  //   const yearWeek = `${moment(date.date).year()}-${moment(date.date).week()}`;
+
+  //   console.log(yearWeek);
+
+  //   // // add this key as a property to the result object
+  //   if (!acc[yearWeek]) {
+  //     acc[yearWeek] = [];
+  //   }
+
+  //   // // push the current date that belongs to the year-week calculated befor
+  //   acc[yearWeek].push(date);
+
+  //   return acc.date;
+  // }, {});
+
+  // console.log(groups);
 
   const statsCito = Object.values(citoObj)?.reduce(
     (accumulator, currentValue, currentIndex) => ({
       ...accumulator,
-      [citoData?.stats?.length > 14 && watch("displayBy") === "1"
+      [(citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
+      watch("displayBy") === "1"
         ? `${currentValue[0].date.slice(0, 7)} [${
             citoObj && Object.entries(citoObj)[currentIndex][0]
           }]`
-        : citoData?.stats?.length > 14 && watch("displayBy") === "2"
+        : (citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
+          watch("displayBy") === "2"
         ? `${currentValue[0].date.slice(0, 7)}`
         : `${currentValue[0].date}`]: {
         avgDaysUntilExamination: currentValue.reduce(
@@ -83,11 +110,13 @@ const LineChart = ({
     (accumulator, currentValue, currentIndex) => ({
       ...accumulator,
 
-      [nomralData?.stats?.length > 14 && watch("displayBy") === "1"
+      [(citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
+      watch("displayBy") === "1"
         ? `${currentValue[0].date.slice(0, 7)} [${
             normalObj && Object.entries(normalObj)[currentIndex][0]
           }]`
-        : nomralData?.stats?.length > 14 && watch("displayBy") === "2"
+        : (citoData?.stats.length > 14 || nomralData?.stats.length > 14) &&
+          watch("displayBy") === "2"
         ? `${currentValue[0].date.slice(0, 7)}`
         : `${currentValue[0].date}`]: {
         avgDaysUntilExamination: currentValue.reduce(
@@ -220,11 +249,14 @@ const LineChart = ({
         <div
           ref={printRef}
           style={{
-            height: nomralData?.stats?.length > 14 ? 700 : 500,
+            height:
+              citoData?.stats.length > 14 || nomralData?.stats.length > 14
+                ? 700
+                : 500,
             width: "100%",
           }}
         >
-          {nomralData?.stats?.length > 14 ? (
+          {citoData?.stats.length > 14 || nomralData?.stats.length > 14 ? (
             <div className="pe-5 pt-4" style={{ maxWidth: "300px" }}>
               <p className="results-title fw-normal-500 ">
                 Wyświetl względem:{" "}
@@ -233,7 +265,7 @@ const LineChart = ({
               {!pdf ? (
                 <Container className="gap-3 row">
                   {(watch("displayBy") === "1" &&
-                    chartData[0]?.data.length > 14) ||
+                    nomralData?.stats.length > 14) ||
                   (watch("displayBy") === "2" &&
                     chartData[0]?.data.length < 11) ? (
                     <RadioInput
@@ -257,7 +289,10 @@ const LineChart = ({
             margin={{
               top: 50,
               right: 70,
-              bottom: nomralData?.stats?.length > 14 ? 180 : 100,
+              bottom:
+                citoData?.stats.length > 14 || nomralData?.stats.length > 14
+                  ? 180
+                  : 100,
               left: 70,
             }}
             xScale={{ type: "point" }}

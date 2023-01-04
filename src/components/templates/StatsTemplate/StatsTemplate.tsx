@@ -141,12 +141,13 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
                 ""
               } `}
             </span>{" "}
-            w przeciągu ostatnich{" "}
+            w&nbsp;przeciągu ostatnich{" "}
             <span className="fw-bolder">
               {dateStatsData?.data?.days || dateStatsDataCito?.data?.days}
             </span>{" "}
-            dni stan na{" "}
+            dni{" "}
             <span className="fw-bolder">
+              stan na{" "}
               {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}
             </span>
           </p>
@@ -171,8 +172,10 @@ const StatsTemplate = ({ adminRole }: { adminRole: boolean }) => {
               } `}
             </span>
             w poszczególnych wojewódzctwach w okresie
-            <span className="fw-bolder"> {dateStatsData?.data?.days} </span> dni
-            <br />
+            <span className="fw-bolder">
+              {" "}
+              {dateStatsData?.data?.days}{" "}
+            </span> dni{" "}
             <span className="fw-bolder">
               stan na{" "}
               {dateStatsData?.data?.dateTo || dateStatsDataCito?.data?.dateTo}

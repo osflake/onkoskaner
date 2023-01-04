@@ -11,7 +11,11 @@ const OtherStatsTable = () => {
   const [currPage, setCurrPage] = useState(
     Number(searchParams.get("page")) || 1
   );
-  const { data: pdfData, isLoading } = useQuery(
+  const {
+    data: pdfData,
+    isLoading,
+    isError,
+  } = useQuery(
     getPdf({
       offset: currPage ? ((currPage - 1) * 1).toString() : "0",
       limit: "10",
@@ -29,7 +33,7 @@ const OtherStatsTable = () => {
       <Table>
         {!isLoading ? (
           <tbody className="otherStatsTable">
-            {pdfData.map((item: any) =>
+            {pdfData?.map((item: any) =>
               item.status === "publish" ? (
                 <tr key={item.pdf.id} className="tableContent">
                   <td>
@@ -84,6 +88,11 @@ const OtherStatsTable = () => {
           </tbody>
         )}
       </Table>
+      {isError && (
+        <div className="alert alert-danger" role="alert">
+          Coś poszło nie tak
+        </div>
+      )}
       <div className="d-flex justify-content-center w-100 p-0">
         <CustomPagination
           totalCount={(!!pdfData && pdfData[0]?.totalRaports) || 0}
