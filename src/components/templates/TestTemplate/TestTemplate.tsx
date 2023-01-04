@@ -18,10 +18,10 @@ const TestTemplate = () => {
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: searchParams.get("strona")
-        ? Number(searchParams.get("strona")) <= 0
+      offset: searchParams.get("pageNumber")
+        ? Number(searchParams.get("pageNumber")) <= 0
           ? "0"
-          : ((Number(searchParams.get("strona")) - 1) * 10)?.toString()
+          : ((Number(searchParams.get("pageNumber")) - 1) * 10)?.toString()
         : "0",
       limit: "10",
       provinceId: searchParams.get("provinceId"),
@@ -65,7 +65,7 @@ const TestTemplate = () => {
   // setSearchParams(searchParams);
 
   const handlePageChange = (e: any) => {
-    searchParams.set("strona", e.toString());
+    searchParams.set("pageNumber", e.toString());
     setSearchParams(searchParams);
   };
 
@@ -74,7 +74,7 @@ const TestTemplate = () => {
   }
 
   if (data && data.data.length <= 0) {
-    searchParams.set("strona", "1");
+    searchParams.set("pageNumber", "1");
     setSearchParams(searchParams);
 
     return <div>Pusta lista</div>;
@@ -160,7 +160,9 @@ const TestTemplate = () => {
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}
         currentPage={
-          searchParams.get("strona") ? Number(searchParams.get("strona")) : 1
+          searchParams.get("pageNumber")
+            ? Number(searchParams.get("pageNumber"))
+            : 1
         }
         onPageChange={(e: any) => handlePageChange(e)}
       />
