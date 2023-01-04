@@ -162,7 +162,7 @@ const TestTemplate = () => {
         currentPage={
           searchParams.get("page") ? Number(searchParams.get("page")) : 1
         }
-        onPageChange={(e: any) => handlePageChange(e)}
+        onPageChange={() => {}}
       />
     </Container>
   );
