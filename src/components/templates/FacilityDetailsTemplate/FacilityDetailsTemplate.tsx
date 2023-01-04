@@ -25,7 +25,7 @@ const FacilityDetailsTemplate = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [searchParams, setSearchParams]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading data...</div>;

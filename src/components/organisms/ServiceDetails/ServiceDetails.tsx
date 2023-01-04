@@ -84,11 +84,17 @@ const ServiceDetails = ({
             <Badge
               bg="info"
               className={`m-0 ${
-                daysUntilExamination ? "text-nowrap" : "text-wrap"
+                !(daysUntilExamination === undefined)
+                  ? !(daysUntilExamination === null)
+                    ? `text-nowrap`
+                    : "text-wrap"
+                  : "text-wrap"
               }`}
             >
-              {daysUntilExamination
-                ? `${daysUntilExamination} dni`
+              {!(daysUntilExamination === undefined)
+                ? !(daysUntilExamination === null)
+                  ? `${daysUntilExamination} dni`
+                  : "brak danych"
                 : "brak danych"}
             </Badge>
           </h4>
@@ -99,9 +105,19 @@ const ServiceDetails = ({
           <h4 className="m-0">
             <Badge
               bg="info"
-              className={`m-0 ${daysToResults ? "text-nowrap" : "text-wrap"}`}
+              className={`m-0 ${
+                !(daysToResults === undefined)
+                  ? !(daysToResults === null)
+                    ? `text-nowrap`
+                    : "text-wrap"
+                  : "text-wrap"
+              }`}
             >
-              {daysToResults ? `${daysToResults} dni` : "brak danych"}
+              {!(daysToResults === undefined)
+                ? !(daysToResults === null)
+                  ? `${daysToResults} dni`
+                  : "brak danych"
+                : "brak danych"}
             </Badge>
           </h4>
         </Container>
