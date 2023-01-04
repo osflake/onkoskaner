@@ -25,7 +25,6 @@ const FacilityReviews = ({
 }: FacilityReviewsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [context, setContext] = useState("");
   const [currPage, setCurrPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
@@ -100,7 +99,6 @@ const FacilityReviews = ({
             onClick={() => {
               searchParams.delete("positive");
               setSearchParams(searchParams);
-              setContext((prev) => (prev = ""));
             }}
           >
             Wszystkie
@@ -114,7 +112,6 @@ const FacilityReviews = ({
             onClick={() => {
               searchParams.set("positive", "true");
               setSearchParams(searchParams);
-              setContext((prev) => (prev = "POSITIVE"));
             }}
           >
             Pozytywne
@@ -128,7 +125,6 @@ const FacilityReviews = ({
             onClick={() => {
               searchParams.set("positive", "false");
               setSearchParams(searchParams);
-              setContext((prev) => (prev = "NEGATIVE"));
             }}
           >
             Negatywne
