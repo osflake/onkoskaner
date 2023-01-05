@@ -12,16 +12,20 @@ const RaportTable = ({
   register,
   watch,
   pdf,
+  provinceStatsLoading,
 }: {
   data: any;
   adminRole: boolean;
   register: any;
   watch: any;
   pdf?: boolean;
+  provinceStatsLoading?: boolean;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [sort, setSort] = useState(searchParams.get("sortBy"));
+
+  const [collapseId, setCollapseId] = useState([]);
 
   const handleSort = (sortBy: string) => {
     searchParams.set("sortBy", sortBy);
@@ -165,6 +169,8 @@ const RaportTable = ({
                   statsBy={watch("statsBy")}
                   adminRole={adminRole}
                   pdf={pdf}
+                  setCollapseId={setCollapseId}
+                  isOpen={!!collapseId[item.province.id]}
                 />
               );
             })}

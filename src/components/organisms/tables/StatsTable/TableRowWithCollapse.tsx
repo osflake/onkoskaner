@@ -9,7 +9,14 @@ import {
 } from "../../../../services/api/statsApi";
 import "./StatsTable.scss";
 
-const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
+const TableRowWithCollapse = ({
+  item,
+  statsBy,
+  adminRole,
+  pdf,
+  setCollapseId,
+  isOpen,
+}: any) => {
   const [isCollapse, setCollapse] = useState(!!(adminRole && pdf));
   const [queryParams, setQueryParams] = useState({});
 
@@ -17,6 +24,10 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
     !isCollapse && statsBy === "2" && refetchCity();
     !isCollapse && statsBy === "3" && refetchFacality();
     setCollapse((prev) => !prev);
+    setCollapseId((prev: any) => ({
+      ...prev,
+      [item.province.id]: !isCollapse,
+    }));
   };
 
   const [searchParams] = useSearchParams();
@@ -53,6 +64,17 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
     enabled: !!(adminRole && pdf && statsBy === "3"),
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (!pdf && isOpen) {
+      setTimeout(() => {
+        !isCollapse && statsBy === "2" && refetchCity();
+        !isCollapse && statsBy === "3" && refetchFacality();
+        setCollapse(isOpen);
+      }, 10);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!(adminRole && pdf)) {
