@@ -26,7 +26,8 @@ const TestTemplate = () => {
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
-      queueId: searchParams.get("queueId")
+      queueId: searchParams.get("queueId"),
+      cityId: searchParams.get("cityId")
     })
   );
 
