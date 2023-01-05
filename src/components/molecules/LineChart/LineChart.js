@@ -48,9 +48,7 @@ const LineChart = ({
     if (data)
       return data?.reduce((acc, curr) => {
         const yearWeek = `${moment(curr.date).year()}-${(
-          "0" +
-          moment(curr.date).month() +
-          1
+          "0" + (moment(curr.date).month() + 1).toString()
         ).slice(-2)} [${moment(curr.date).week()}]`;
         if (!acc[yearWeek]) {
           acc[yearWeek] = [];
