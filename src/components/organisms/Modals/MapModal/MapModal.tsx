@@ -1,8 +1,11 @@
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import { Link } from "react-router-dom";
 
 import "./MapModal.scss";
+import StarsRating from "../../../atoms/StarsRating";
 
 interface MapModalProps {
   show: boolean;
@@ -24,7 +27,14 @@ const MapModal = ({
       size="xl"
     >
       <Modal.Header closeButton>
-        <Modal.Title className="fw-bold">{facility.facility.name}</Modal.Title>
+        <Modal.Title className="fw-bold">
+          <Link
+            className="fw-bold-600 m-0 results-title results-link"
+            to={`/details/${facility.facility.id}`}
+          >
+            {facility.facility.name}
+          </Link>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container className="p-0 d-flex flex-column gap-4 h-100">
@@ -51,7 +61,16 @@ const MapModal = ({
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Container className="p-0 d-flex w-100 gap-3 justify-content-end">
+        <Container className="p-0 d-flex w-100 gap-3 justify-content-between">
+          <div className="d-flex p-0 m-0 justify-content-start align-items-center">
+            <StarsRating rating={facility.rating} />
+            <h4 className="m-0">
+              <Badge bg="info" className="m-0">
+                {facility.rating ? `${facility.rating.toFixed(1)}/5` : "-/5"}
+              </Badge>
+            </h4>
+            {/* <Button className="btn-outline-pink">DODAJ OPINIĘ</Button> */}
+          </div>
           <Button variant="danger btn-pink" size="lg" onClick={handleClose}>
             WRÓĆ
           </Button>

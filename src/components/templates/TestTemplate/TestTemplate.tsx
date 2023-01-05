@@ -12,9 +12,6 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [currPage, setCurrPage] = useState(1);
-
-  // currPage <= 0 ? "0" : ((currPage - 1) * 10).toString()
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
@@ -26,7 +23,8 @@ const TestTemplate = () => {
       limit: "10",
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
-      queueId: searchParams.get("queueId")
+      queueId: searchParams.get("queueId"),
+      cityId: searchParams.get("cityId")
     })
   );
 
@@ -44,25 +42,7 @@ const TestTemplate = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // if (searchParams.get("page")) {
-    //   setCurrPage(Number(searchParams.get("page")));
-    // }
-
-    // if (!searchParams.get("page")) {
-    //   setCurrPage(1);
-    // }
-
-    // if (data && data.data.length <= 0) {
-    //   searchParams.set("page", "1");
-    //   setSearchParams(searchParams);
-
-    //   return;
-    // }
   }, [data, searchParams, setSearchParams]);
-
-  // searchParams.set("page", currPage.toString());
-  // setSearchParams(searchParams);
 
   const handlePageChange = (e: any) => {
     searchParams.set("pageNumber", e.toString());
@@ -80,10 +60,20 @@ const TestTemplate = () => {
     return <div>Pusta lista</div>;
   }
 
+  // const regex1 = /[0-9]/g;
+  // const testValue = searchParams.get("pageNumber");
+
+  // if (testValue && !regex1.test(testValue)) {
+  //   searchParams.set("pageNumber", "1");
+  //   setSearchParams(searchParams);
+
+  //   return <div>Pusta lista</div>;
+  // }
+
   // console.log(data);
 
   return (
-    <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
+    <Container className="d-flex flex-column py-5 gap-5 justify-content-center align-items-center">
       <Container className="d-flex flex-column justify-content-center align-items-center gap-3">
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
         {data && (

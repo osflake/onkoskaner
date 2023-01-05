@@ -10,6 +10,7 @@ import StarsRating from "../StarsRating/StarsRating";
 import PercentageProgress from "../PercentageProgress";
 import MapModal from "../../organisms/Modals/MapModal";
 import { getTotalReviewsDesc } from "../../../services/helpers/getTotalReviewsDesc";
+import { getDaysRange } from "../../../services/helpers/getDaysRange";
 
 interface SearchResultProps {
   facility: FacilityDataTypes;
@@ -48,7 +49,7 @@ const SearchResult = ({
             <Badge bg="info">
               {latestSurveys?.length
                 ? latestSurveys[0].daysUntilExamination
-                  ? `${latestSurveys[0].daysUntilExamination} DNI`
+                  ? `${latestSurveys[0].daysUntilExamination} dni`
                   : "brak danych"
                 : "brak danych"}
             </Badge>
@@ -62,7 +63,7 @@ const SearchResult = ({
               {latestSurveys
                 ? latestSurveys.length
                   ? latestSurveys[0].daysToResults
-                    ? `${latestSurveys[0].daysToResults} DNI`
+                    ? `${getDaysRange(latestSurveys[0].daysToResults)}`
                     : "brak danych"
                   : "brak danych"
                 : "brak danych"}

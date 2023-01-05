@@ -7,6 +7,7 @@ interface SerializerSettings {
   queueId?: string | null;
   serviceId?: string | null;
   provinceId?: string | null;
+  cityId?: string | null;
 }
 
 export const getFacilities = ({
@@ -15,6 +16,7 @@ export const getFacilities = ({
   provinceId,
   serviceId,
   queueId,
+  cityId
 }: SerializerSettings) => {
   const params = new URLSearchParams({
     ...(offset && { offset }),
@@ -22,6 +24,7 @@ export const getFacilities = ({
     ...(provinceId && { provinceId }),
     ...(serviceId && { serviceId }),
     ...(queueId && { queueId }),
+    ...(cityId && { cityId })
   });
 
   return {
@@ -31,12 +34,13 @@ export const getFacilities = ({
       `provinceId/${provinceId}`,
       `serviceId/${serviceId}`,
       `queueId/${queueId}`,
+      `cityId/${cityId}`
     ],
     queryFn: () =>
       axios
         .get(`${detailedFacilities}?${params.toString()}`)
         .then((res) => res.data),
-    retry: false,
+    retry: false
   };
 };
 
@@ -47,7 +51,7 @@ interface SerializerSettings {
 
 export const getFacilityByDepartment = ({
   facilityId,
-  serviceId,
+  serviceId
 }: SerializerSettings) => {
   return () =>
     axios
