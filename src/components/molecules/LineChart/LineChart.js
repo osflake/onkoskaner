@@ -425,6 +425,12 @@ const LineChart = ({
           </div>
         </div>
       )}
+      {watch("displayBy") === "1" && (
+        <p className="w-100 mt-4 m-0">
+          [ X ] - numer tygodnia w roku kalendarzowym
+        </p>
+      )}
+
       <div className="my-4 w-100 p-0 d-flex flex-column  justify-content-between flex-md-row linechartFooter">
         <div className="d-flex pb-3 gap-3 align-items-center flex-column flex-md-row ">
           <p className="results-title fw-normal-500 m-0">Legenda:</p>
