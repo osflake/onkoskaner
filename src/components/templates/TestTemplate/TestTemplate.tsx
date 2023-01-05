@@ -12,16 +12,16 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currPage, setCurrPage] = useState(1);
+  // const [currPage, setCurrPage] = useState(1);
 
   // currPage <= 0 ? "0" : ((currPage - 1) * 10).toString()
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
-      offset: searchParams.get("page")
-        ? Number(searchParams.get("page")) <= 0
+      offset: searchParams.get("pageNumber")
+        ? Number(searchParams.get("pageNumber")) <= 0
           ? "0"
-          : ((Number(searchParams.get("page")) - 1) * 10)?.toString()
+          : ((Number(searchParams.get("pageNumber")) - 1) * 10)?.toString()
         : "0",
       limit: "10",
       provinceId: searchParams.get("provinceId"),
@@ -45,32 +45,28 @@ const TestTemplate = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (searchParams.get("page")) {
-      setCurrPage(Number(searchParams.get("page")));
-    }
+    // if (searchParams.get("page")) {
+    //   setCurrPage(Number(searchParams.get("page")));
+    // }
 
-    if (!searchParams.get("page")) {
-      setCurrPage(1);
-    }
+    // if (!searchParams.get("page")) {
+    //   setCurrPage(1);
+    // }
 
-    if (data && data.data.length <= 0) {
-      searchParams.set(
-        "page",
-        (Math.floor(data.meta.totalResults / 10) + 1).toString()
-      );
-      setSearchParams(searchParams);
+    // if (data && data.data.length <= 0) {
+    //   searchParams.set("page", "1");
+    //   setSearchParams(searchParams);
 
-      return;
-    }
-  }, [data, currPage, searchParams, setSearchParams]);
+    //   return;
+    // }
+  }, [data, searchParams, setSearchParams]);
 
   // searchParams.set("page", currPage.toString());
   // setSearchParams(searchParams);
 
   const handlePageChange = (e: any) => {
-    searchParams.set("page", e.toString());
+    searchParams.set("pageNumber", e.toString());
     setSearchParams(searchParams);
-    setCurrPage(e);
   };
 
   if (isError) {
@@ -78,6 +74,9 @@ const TestTemplate = () => {
   }
 
   if (data && data.data.length <= 0) {
+    searchParams.set("pageNumber", "1");
+    setSearchParams(searchParams);
+
     return <div>Pusta lista</div>;
   }
 
@@ -160,7 +159,11 @@ const TestTemplate = () => {
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}
-        currentPage={currPage ? currPage : 1}
+        currentPage={
+          searchParams.get("pageNumber")
+            ? Number(searchParams.get("pageNumber"))
+            : 1
+        }
         onPageChange={(e: any) => handlePageChange(e)}
       />
     </Container>

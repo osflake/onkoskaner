@@ -25,16 +25,24 @@ const FacilityReviews = ({
 }: FacilityReviewsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [currPage, setCurrPage] = useState(
-    Number(searchParams.get("page")) || 1
-  );
+  const [currPage, setCurrPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
+
   const linkParams = useParams();
+
   const { data } = useQuery<ReviewsApiTypes>(
     getReviews({
       offset: currPage ? ((currPage - 1) * 1).toString() : "0",
       limit: "10",
-      facilityId: linkParams.facilityId
+      facilityId: linkParams.facilityId,
+      ...(searchParams.get("positive") && {
+        context:
+          searchParams.get("positive") === "true"
+            ? "POSITIVE"
+            : searchParams.get("positive") === "false"
+            ? "NEGATIVE"
+            : ""
+      })
     })
   );
 
@@ -127,19 +135,7 @@ const FacilityReviews = ({
       <Container className="d-flex flex-column m-0 p-0 gap-4">
         {data &&
           data.data.map((review) => {
-            if (!searchParams.get("positive")) {
-              return <FacilityReview key={review.id} review={review} />;
-            } else if (
-              searchParams.get("positive") === "true" &&
-              Number(review.rating) >= 3
-            ) {
-              return <FacilityReview key={review.id} review={review} />;
-            } else if (
-              searchParams.get("positive") === "false" &&
-              Number(review.rating) <= 2
-            ) {
-              return <FacilityReview key={review.id} review={review} />;
-            }
+            return <FacilityReview key={review.id} review={review} />;
           })}
       </Container>
       <CustomPagination

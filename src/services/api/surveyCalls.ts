@@ -10,6 +10,7 @@ export const getSurveyCalls = ({ facilityId, serviceId, queueId }: any) => {
 
   return {
     queryKey: [`SurveyCalls/serviceId:${serviceId}/queueId:${queueId}`],
+    refetchOnWindowFocus: false,
     queryFn: () =>
       axios.get(`${surveyCalls}?${params.toString()}`).then((res) => res.data)
   };
