@@ -11,6 +11,7 @@ import OtherTermModal from "../Modals/OtherTermModal";
 import { getFacilityByDepartment } from "../../../services/api/facilitiesApi";
 import { getSurveyCalls } from "../../../services/api/surveyCalls";
 import { useQuery } from "@tanstack/react-query";
+import { getDaysRange } from "../../../services/helpers/getDaysRange";
 
 interface ServiceDetailsProps {
   name: string;
@@ -115,7 +116,7 @@ const ServiceDetails = ({
             >
               {!(daysToResults === undefined)
                 ? !(daysToResults === null)
-                  ? `${daysToResults} dni`
+                  ? `${getDaysRange(daysToResults)}`
                   : "brak danych"
                 : "brak danych"}
             </Badge>

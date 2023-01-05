@@ -73,7 +73,7 @@ const TestTemplate = () => {
   // console.log(data);
 
   return (
-    <Container className="d-flex flex-column p-5 gap-5 justify-content-center align-items-center">
+    <Container className="d-flex flex-column py-5 gap-5 justify-content-center align-items-center">
       <Container className="d-flex flex-column justify-content-center align-items-center gap-3">
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
         {data && (
