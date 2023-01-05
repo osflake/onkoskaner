@@ -12,9 +12,6 @@ import CustomPagination from "../../molecules/CustomPagination/CustomPagination"
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [currPage, setCurrPage] = useState(1);
-
-  // currPage <= 0 ? "0" : ((currPage - 1) * 10).toString()
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
     getFacilities({
@@ -45,25 +42,7 @@ const TestTemplate = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // if (searchParams.get("page")) {
-    //   setCurrPage(Number(searchParams.get("page")));
-    // }
-
-    // if (!searchParams.get("page")) {
-    //   setCurrPage(1);
-    // }
-
-    // if (data && data.data.length <= 0) {
-    //   searchParams.set("page", "1");
-    //   setSearchParams(searchParams);
-
-    //   return;
-    // }
   }, [data, searchParams, setSearchParams]);
-
-  // searchParams.set("page", currPage.toString());
-  // setSearchParams(searchParams);
 
   const handlePageChange = (e: any) => {
     searchParams.set("pageNumber", e.toString());
@@ -80,6 +59,16 @@ const TestTemplate = () => {
 
     return <div>Pusta lista</div>;
   }
+
+  // const regex1 = /[0-9]/g;
+  // const testValue = searchParams.get("pageNumber");
+
+  // if (testValue && !regex1.test(testValue)) {
+  //   searchParams.set("pageNumber", "1");
+  //   setSearchParams(searchParams);
+
+  //   return <div>Pusta lista</div>;
+  // }
 
   // console.log(data);
 

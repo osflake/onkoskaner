@@ -25,15 +25,18 @@ const FacilityReviews = ({
 }: FacilityReviewsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [currPage, setCurrPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
   const linkParams = useParams();
 
   const { data } = useQuery<ReviewsApiTypes>(
     getReviews({
-      offset: currPage ? ((currPage - 1) * 1).toString() : "0",
-      limit: "10",
+      offset: searchParams.get("pageNumber")
+        ? Number(searchParams.get("pageNumber")) <= 0
+          ? "0"
+          : ((Number(searchParams.get("pageNumber")) - 1) * 5)?.toString()
+        : "0",
+      limit: "5",
       facilityId: linkParams.facilityId,
       ...(searchParams.get("positive") && {
         context:
@@ -47,9 +50,8 @@ const FacilityReviews = ({
   );
 
   const handlePageChange = (e: any) => {
-    searchParams.set("page", e.toString());
+    searchParams.set("pageNumber", e.toString());
     setSearchParams(searchParams);
-    setCurrPage(e);
   };
 
   return (
@@ -141,7 +143,11 @@ const FacilityReviews = ({
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={5}
-        currentPage={currPage}
+        currentPage={
+          searchParams.get("pageNumber")
+            ? Number(searchParams.get("pageNumber"))
+            : 1
+        }
         onPageChange={(e: any) => handlePageChange(e)}
       />
     </Container>
