@@ -93,9 +93,9 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
                   <tr className="inner">
                     <td className="ps-4">{item?.city?.name}</td>
                     <td>
-                      {Math.round(item.results.avgDaysUntilExamination)} dni
+                      {Math.round(item.results.minDaysUntilExamination)} dni
                     </td>
-                    <td>{item.results.minDaysUntilExamination} dni</td>
+                    <td>{item.results.avgDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     {!pdf && (
                       <td colSpan={2}>
@@ -120,9 +120,9 @@ const TableRowWithCollapse = ({ item, statsBy, adminRole, pdf }: any) => {
                   <tr className="inner" key={item.facility.id}>
                     <td className="ps-4">{item?.facility?.name}</td>
                     <td>
-                      {Math.round(item.results?.avgDaysUntilExamination)} dni
+                      {Math.round(item.results?.minDaysUntilExamination)} dni
                     </td>
-                    <td>{item.results.minDaysUntilExamination} dni</td>
+                    <td>{item.results.avgDaysUntilExamination} dni</td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     {!pdf && (
                       <td colSpan={2}>

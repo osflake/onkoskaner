@@ -218,14 +218,6 @@ const LineChart = ({
 
   if (
     searchParams.get("waitingTime") === "true" &&
-    searchParams.get("normal") === "1" &&
-    !!chartNormalWaitingTime.data.length
-  ) {
-    chartData.push(chartNormalWaitingTime);
-  }
-
-  if (
-    searchParams.get("waitingTime") === "true" &&
     searchParams.get("urgent") === "2" &&
     !!chartCitoWaitingTime.data.length
   ) {
@@ -233,11 +225,11 @@ const LineChart = ({
   }
 
   if (
-    (searchParams.get("normal") === "1" ||
-      searchParams.get("normal") === null) &&
-    !!chartDataNormal.data.length
+    searchParams.get("waitingTime") === "true" &&
+    searchParams.get("normal") === "1" &&
+    !!chartNormalWaitingTime.data.length
   ) {
-    chartData.push(chartDataNormal);
+    chartData.push(chartNormalWaitingTime);
   }
 
   if (
@@ -246,6 +238,14 @@ const LineChart = ({
     !!chartDataCito.data.length
   ) {
     chartData.push(chartDataCito);
+  }
+
+  if (
+    (searchParams.get("normal") === "1" ||
+      searchParams.get("normal") === null) &&
+    !!chartDataNormal.data.length
+  ) {
+    chartData.push(chartDataNormal);
   }
 
   useEffect(() => {
