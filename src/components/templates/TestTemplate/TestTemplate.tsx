@@ -53,12 +53,12 @@ const TestTemplate = () => {
     return <ErrorInfo redirectTo="http://dev.onkoskaner.pl/" />;
   }
 
-  if (data && data.data.length <= 0) {
-    searchParams.set("pageNumber", "1");
-    setSearchParams(searchParams);
+  // if (data && data.data.length <= 0) {
+  // searchParams.set("pageNumber", "1");
+  // setSearchParams(searchParams);
 
-    return <div>Pusta lista</div>;
-  }
+  //   return <div>Pusta lista</div>;
+  // }
 
   // const regex1 = /[0-9]/g;
   // const testValue = searchParams.get("pageNumber");
@@ -90,11 +90,13 @@ const TestTemplate = () => {
             <p className="results-breadcrumbs-divider">/</p>
             <p>
               {searchParams.get("provinceId")
-                ? ` ${data.data[0].facility.province?.name
-                    ?.charAt(0)
-                    .toUpperCase()}${data.data[0].facility.province?.name.slice(
-                    1
-                  )}`
+                ? data.data[0]
+                  ? ` ${data.data[0].facility.province?.name
+                      ?.charAt(0)
+                      .toUpperCase()}${data.data[0].facility.province?.name.slice(
+                      1
+                    )}`
+                  : "Cała Polska"
                 : "Cała Polska"}
             </p>
             <p className="results-breadcrumbs-divider">/</p>
@@ -121,31 +123,37 @@ const TestTemplate = () => {
           SORTOWANIE
         </Button> */}
       </Container>
-
-      <Container className="d-flex flex-column gap-5">
-        <Container className="p-0 results-sort-section">
-          {/* <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
+      {data && data.data.length <= 0 ? (
+        <h1>Brak dopasowania w wynikach wyszukiwania. Zmień kryteria.</h1>
+      ) : (
+        <Container className="d-flex flex-column gap-5">
+          <Container className="p-0 results-sort-section">
+            {/* <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
             <p className="results-title fw-normal-500">Sortowanie:</p>
             <p className="text-secondary">czas oczekiwania na wizytę</p>
             <p className="text-secondary">czas oczekiwania na opis badania</p>
             <p className="text-secondary">ocena ośrodka</p>
           </Container> */}
-        </Container>
+          </Container>
 
-        {data &&
-          data.data.map((facility) => {
-            return (
-              <SearchResult
-                facility={facility}
-                key={facility.facility.id}
-                avgSuccessfulCallsPercents={facility.avgSuccessfulCallsPercents}
-                ratingCount={facility.ratingCount}
-                latestSurveys={facility.latestSurveys}
-                totalReviews={facility.totalReviews}
-              />
-            );
-          })}
-      </Container>
+          {data &&
+            data.data.map((facility) => {
+              return (
+                <SearchResult
+                  facility={facility}
+                  key={facility.facility.id}
+                  avgSuccessfulCallsPercents={
+                    facility.avgSuccessfulCallsPercents
+                  }
+                  ratingCount={facility.ratingCount}
+                  latestSurveys={facility.latestSurveys}
+                  totalReviews={facility.totalReviews}
+                />
+              );
+            })}
+        </Container>
+      )}
+
       <CustomPagination
         totalCount={data?.meta.totalResults || 0}
         pageSize={10}

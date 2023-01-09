@@ -35,7 +35,7 @@ const StarsRating = ({ rating = 0 }: StarsRatingProps) => {
   };
 
   return (
-    <Container className="col-4 d-flex flex-row align-items-center justify-content-center width-auto m-0 gap-2">
+    <Container className="col-4 d-flex flex-row align-items-center justify-content-center width-auto m-0 p-0 gap-2">
       {renderStars()}
     </Container>
   );

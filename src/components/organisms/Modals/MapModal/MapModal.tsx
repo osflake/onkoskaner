@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -6,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import "./MapModal.scss";
 import StarsRating from "../../../atoms/StarsRating";
+import ReviewAddModal from "../ReviewAddModal";
 
 interface MapModalProps {
   show: boolean;
@@ -18,6 +20,8 @@ const MapModal = ({
   handleClose = () => {},
   facility
 }: MapModalProps) => {
+  const [showReviewAdd, setShowReviewAdd] = useState(false);
+
   return (
     <Modal
       className="results-title map-modal-container"
@@ -62,14 +66,24 @@ const MapModal = ({
       </Modal.Body>
       <Modal.Footer>
         <Container className="p-0 d-flex w-100 gap-3 justify-content-between">
-          <div className="d-flex p-0 m-0 justify-content-start align-items-center">
+          <div className="d-flex p-0 m-0 gap-2 flex-wrap justify-content-start align-items-center">
             <StarsRating rating={facility.rating} />
             <h4 className="m-0">
               <Badge bg="info" className="m-0">
                 {facility.rating ? `${facility.rating.toFixed(1)}/5` : "-/5"}
               </Badge>
             </h4>
-            {/* <Button className="btn-outline-pink">DODAJ OPINIĘ</Button> */}
+            <Button
+              className="btn-outline-pink text-nowrap"
+              onClick={() => setShowReviewAdd((prev) => (prev = true))}
+            >
+              DODAJ OPINIĘ
+            </Button>
+            <ReviewAddModal
+              facilityId={facility.facility.id}
+              show={showReviewAdd}
+              handleClose={() => setShowReviewAdd(false)}
+            />
           </div>
           <Button variant="danger btn-pink" size="lg" onClick={handleClose}>
             WRÓĆ
