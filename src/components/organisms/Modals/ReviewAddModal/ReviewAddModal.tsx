@@ -31,7 +31,8 @@ const ReviewAddModal = ({
       name: formName,
       rating: 5,
       addedByUser: 1,
-      content: formDesc
+      content: formDesc,
+      source: 1
     });
 
     setFormName("");
@@ -40,7 +41,12 @@ const ReviewAddModal = ({
   };
 
   return (
-    <Modal className="results-title" show={show} onHide={handleClose} centered>
+    <Modal
+      className="results-title zindex-tooltip"
+      show={show}
+      onHide={handleClose}
+      centered
+    >
       <form onSubmit={(e) => handleSubmit(e)}>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold">Dodaj swoją opinię</Modal.Title>
