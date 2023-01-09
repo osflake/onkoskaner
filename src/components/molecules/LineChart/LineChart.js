@@ -246,6 +246,8 @@ const LineChart = ({
     chartData.push(chartDataNormal);
   }
 
+  console.log(chartData);
+
   useEffect(() => {
     if (watch("displayBy") === "1" && chartData[0]?.data.length > 14) {
       setValue("displayBy", "2");
@@ -260,6 +262,15 @@ const LineChart = ({
     2: "miesięcy",
   };
 
+  const maxArray = chartData.map((data) =>
+    data.data.reduce((min, p) => (p.y < min ? p.y : min), data.data[0].y)
+  );
+
+  const min = Math.min(...maxArray);
+
+  console.log(min);
+
+  console.log(watch("displayBy"));
   return (
     <>
       {!loading && !!chartData[0]?.data?.length ? (
@@ -312,10 +323,10 @@ const LineChart = ({
                   : 100,
               left: 70,
             }}
-            xScale={{ type: "point" }}
+            // xScale={{ type: "point" }}
             yScale={{
               type: "linear",
-              min: "auto",
+              min: min > 0 ? min - 2 : 0,
               max: "auto",
               stacked: false,
               reverse: false,
@@ -330,15 +341,16 @@ const LineChart = ({
                 },
               },
             }}
-            axisTop={null}
-            axisRight={{
-              orient: "right",
-              tickSize: 20,
-              tickPadding: 20,
-              tickRotation: 0,
-              legend: "",
-              legendOffset: -28,
-            }}
+            xScale={
+              citoData?.stats.length < 14 || nomralData?.stats.length < 14
+                ? {
+                    type: "time",
+                    format: "%Y-%m-%d",
+                    useUTC: false,
+                    precision: "day",
+                  }
+                : { type: "point" }
+            }
             axisBottom={{
               orient: "bottom",
               tickSize: 0,
@@ -347,6 +359,18 @@ const LineChart = ({
               legend: "",
               legendOffset: 60,
               legendPosition: "middle",
+              ...((citoData?.stats.length < 14 ||
+                nomralData?.stats.length < 14) && { format: "%Y-%m-%d" }),
+            }}
+            useMesh={true}
+            axisTop={null}
+            axisRight={{
+              orient: "right",
+              tickSize: 20,
+              tickPadding: 20,
+              tickRotation: 0,
+              legend: "",
+              legendOffset: -28,
             }}
             axisLeft={{
               orient: "left",
@@ -373,7 +397,7 @@ const LineChart = ({
             }}
             pointLabelYOffset={4}
             areaOpacity={0}
-            useMesh={true}
+            // useMesh={true}
             legends={[]}
             enableSlices="x"
             sliceTooltip={({ slice }) => {
