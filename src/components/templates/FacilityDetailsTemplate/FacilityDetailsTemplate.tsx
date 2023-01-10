@@ -12,6 +12,7 @@ import ServiceDetails from "../../organisms/ServiceDetails";
 import FacilityReviews from "../../organisms/FacilityReviews";
 import ErrorInfo from "../../atoms/ErrorInfo";
 import ListOfFacilities from "../../molecules/ListOfFacilities/ListOfFacilities";
+import FilterPill from "../../atoms/FilterPill";
 
 const FacilityDetailsTemplate = () => {
   const linkParams = useParams();
@@ -41,10 +42,38 @@ const FacilityDetailsTemplate = () => {
   }
 
   const filteredDetails = (data: FacilityDataTypes) => {
-    if (searchParams.getAll("service").length < 1) {
+    if (
+      searchParams.getAll("service").length < 1 &&
+      searchParams.getAll("queue").length < 1
+    ) {
       return data.latestSurveys;
-    } else {
-      return data.latestSurveys?.filter(({ service }) =>
+    }
+
+    if (
+      searchParams.getAll("service").length &&
+      searchParams.getAll("queue").length
+    ) {
+      return data.latestSurveys?.filter(
+        ({ service, queue }) =>
+          searchParams.getAll("service").includes(service.id.toString()) &&
+          searchParams.getAll("queue").includes(queue.id.toString())
+      );
+    }
+
+    if (
+      searchParams.getAll("service").length < 1 &&
+      searchParams.getAll("queue").length
+    ) {
+      return data.latestSurveys?.filter(({ service, queue }) =>
+        searchParams.getAll("queue").includes(queue.id.toString())
+      );
+    }
+
+    if (
+      searchParams.getAll("service").length &&
+      searchParams.getAll("queue").length < 1
+    ) {
+      return data.latestSurveys?.filter(({ service, queue }) =>
         searchParams.getAll("service").includes(service.id.toString())
       );
     }
@@ -72,7 +101,18 @@ const FacilityDetailsTemplate = () => {
           <h2 className="fw-bold">Terminarz</h2>
         </Container>
 
-        <ResultFilters filterAll itemsList={data?.latestSurveys} />
+        <ResultFilters
+          filterAll
+          filterBy="service"
+          itemsList={data?.latestSurveys}
+        />
+        <Container className="d-flex flex-column align-items-start gap-3 p-0">
+          <p className="fw-normal-500 fs-14 m-0">Filtruj po rodzaju kolejki</p>
+          <Container className="d-flex align-items-start p-0 gap-3 pills-overflow">
+            <FilterPill filterByName="queue" title="Normalna" filterId={1} />
+            <FilterPill filterByName="queue" title="CITO" filterId={2} />
+          </Container>
+        </Container>
         {data &&
           filteredDetails(data)?.map((survey) => (
             <ServiceDetails
