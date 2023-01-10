@@ -21,8 +21,6 @@ const TableRowWithCollapse = ({
   const [queryParams, setQueryParams] = useState({});
 
   const handleCollapse = () => {
-    !isCollapse && statsBy === "2" && refetchCity();
-    !isCollapse && statsBy === "3" && refetchFacality();
     setCollapse((prev) => !prev);
     setCollapseId((prev: any) => ({
       ...prev,
@@ -88,21 +86,21 @@ const TableRowWithCollapse = ({
   });
 
   useEffect(() => {
-    if (!pdf && isOpen) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (!pdf && isOpen) {
         !isCollapse && statsBy === "2" && refetchCity();
         !isCollapse && statsBy === "3" && refetchFacality();
         setCollapse(isOpen);
-      }, 10);
-    }
+      }
+    }, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (!(adminRole && pdf)) {
-  //     setCollapse(false);
-  //   }
-  // }, [adminRole, pdf, statsBy]);
+  useEffect(() => {
+    if (!(adminRole && pdf)) {
+      setCollapse(false);
+    }
+  }, [adminRole, pdf, statsBy]);
 
   return (
     <>

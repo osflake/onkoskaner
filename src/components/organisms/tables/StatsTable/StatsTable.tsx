@@ -12,7 +12,6 @@ const RaportTable = ({
   register,
   watch,
   pdf,
-  provinceStatsLoading,
 }: {
   data: any;
   adminRole: boolean;
@@ -42,6 +41,17 @@ const RaportTable = ({
     { name: "względem miast", value: "2" },
     { name: "względem placówek", value: "3" },
   ];
+
+  useEffect(() => {
+    setCollapseId([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch("statsBy")]);
+
+  useEffect(() => {
+    if (!(adminRole && pdf)) {
+      setCollapseId([]);
+    }
+  }, [adminRole, pdf]);
 
   return (
     <div className="w-100 my-5">
