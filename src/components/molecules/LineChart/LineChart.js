@@ -246,8 +246,6 @@ const LineChart = ({
     chartData.push(chartDataNormal);
   }
 
-  console.log(chartData);
-
   useEffect(() => {
     if (watch("displayBy") === "1" && chartData[0]?.data.length > 14) {
       setValue("displayBy", "2");
@@ -268,9 +266,6 @@ const LineChart = ({
 
   const min = Math.min(...maxArray);
 
-  console.log(min);
-
-  console.log(watch("displayBy"));
   return (
     <>
       {!loading && !!chartData[0]?.data?.length ? (
@@ -323,7 +318,6 @@ const LineChart = ({
                   : 100,
               left: 70,
             }}
-            // xScale={{ type: "point" }}
             yScale={{
               type: "linear",
               min: min > 0 ? min - 2 : 0,

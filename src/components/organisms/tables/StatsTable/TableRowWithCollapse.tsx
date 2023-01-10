@@ -43,25 +43,47 @@ const TableRowWithCollapse = ({
       serviceId: searchParams.get("serviceId") || "217",
       queueId: searchParams.get("normal") ? "1" : "2",
       provinceId: item.province.id,
-      dateSince: new Date(new Date().setDate(new Date().getDate() - 30))
-        .toISOString()
-        .split("T")[0],
+      days: searchParams.get("days") || "30",
       dateTo:
         searchParams.get("dateTo") || new Date().toISOString().split("T")[0],
     });
   }, [item.province.id, searchParams]);
 
-  const { data: cityData, refetch: refetchCity } = useQuery({
-    queryKey: [`getStatsByCity${item.province.id}`],
-    queryFn: getStatsByCity({ queryParams }),
-    enabled: !!(adminRole && pdf && statsBy === "2"),
+  const {
+    data: cityData,
+    refetch: refetchCity,
+    isLoading: loadingCity,
+  } = useQuery({
+    queryKey: [
+      `getStatsByCity${item.province.id}${searchParams.get("sortBy")}`,
+      !!Object.keys(queryParams).length,
+    ],
+    queryFn: getStatsByCity({
+      queryParams: queryParams,
+      sortBy: searchParams.get("sortBy"),
+    }),
+    enabled:
+      !!Object.keys(queryParams).length && !!(adminRole && statsBy === "2"),
+    retry: false,
     refetchOnWindowFocus: false,
   });
 
-  const { data: facilityData, refetch: refetchFacality } = useQuery({
-    queryKey: [`getStatsByFacility${item.province.id}`],
-    queryFn: getStatsByFacility({ queryParams }),
-    enabled: !!(adminRole && pdf && statsBy === "3"),
+  const {
+    data: facilityData,
+    refetch: refetchFacality,
+    isLoading: loadingFacility,
+  } = useQuery({
+    queryKey: [
+      `getStatsByFacility${item.province.id}${searchParams.get("sortBy")}`,
+      !!Object.keys(queryParams).length,
+    ],
+    queryFn: getStatsByFacility({
+      queryParams: queryParams,
+      sortBy: searchParams.get("sortBy"),
+    }),
+    enabled:
+      !!Object.keys(queryParams).length && !!(adminRole && statsBy === "3"),
+    retry: false,
     refetchOnWindowFocus: false,
   });
 
@@ -76,11 +98,11 @@ const TableRowWithCollapse = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!(adminRole && pdf)) {
-      setCollapse(false);
-    }
-  }, [adminRole, pdf, statsBy]);
+  // useEffect(() => {
+  //   if (!(adminRole && pdf)) {
+  //     setCollapse(false);
+  //   }
+  // }, [adminRole, pdf, statsBy]);
 
   return (
     <>
@@ -117,7 +139,9 @@ const TableRowWithCollapse = ({
                     <td>
                       {Math.round(item.results.minDaysUntilExamination)} dni
                     </td>
-                    <td>{item.results.avgDaysUntilExamination} dni</td>
+                    <td>
+                      {Math.round(item.results.avgDaysUntilExamination)} dni
+                    </td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     {!pdf && (
                       <td colSpan={2}>
@@ -134,6 +158,15 @@ const TableRowWithCollapse = ({
                 )}
               </Fragment>
             ))}
+          {isCollapse && loadingCity && statsBy === "2" && (
+            <tr className="inner">
+              <td colSpan={6} className="tableSpinner" role="status">
+                <div className="spinner-border">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </td>
+            </tr>
+          )}
 
           {statsBy === "3" &&
             facilityData?.data?.stats.map((item: any) => (
@@ -144,7 +177,9 @@ const TableRowWithCollapse = ({
                     <td>
                       {Math.round(item.results?.minDaysUntilExamination)} dni
                     </td>
-                    <td>{item.results.avgDaysUntilExamination} dni</td>
+                    <td>
+                      {Math.round(item.results.avgDaysUntilExamination)} dni
+                    </td>
                     <td>{item.results.maxDaysUntilExamination} dni</td>
                     {!pdf && (
                       <td colSpan={2}>
@@ -157,6 +192,16 @@ const TableRowWithCollapse = ({
                 )}
               </Fragment>
             ))}
+
+          {isCollapse && loadingFacility && statsBy === "3" && (
+            <tr className="inner">
+              <td colSpan={6} className="tableSpinner" role="status">
+                <div className="spinner-border">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </td>
+            </tr>
+          )}
         </>
       )}
     </>
@@ -164,3 +209,5 @@ const TableRowWithCollapse = ({
 };
 
 export default TableRowWithCollapse;
+
+// !!Object.keys(queryParams).length

@@ -1,7 +1,7 @@
 import { Container, Table } from "react-bootstrap";
 import "./StatsTable.scss";
 import { ReactComponent as SortArrow } from "../../../../assets/Icons/SortResults/SortArrow.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableRowWithCollapse from "./TableRowWithCollapse";
 import RadioInput from "../../../atoms/RadioInput/RadioInput";
 import { useSearchParams } from "react-router-dom";
@@ -24,6 +24,10 @@ const RaportTable = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [sort, setSort] = useState(searchParams.get("sortBy"));
+
+  useEffect(() => {
+    setSort(searchParams.get("sortBy"));
+  }, [searchParams]);
 
   const [collapseId, setCollapseId] = useState([]);
 

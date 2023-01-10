@@ -39,9 +39,17 @@ export const getStatsByDate = ({ queryParams, queueId }: any) => {
       : null;
 };
 
-export const getStatsByCity = ({ queryParams }: any) => {
+export const getStatsByCity = ({ queryParams, sortBy }: any) => {
+  const sortArray = sortBy?.split(",");
+
   const searchParams = new URLSearchParams({
-    ...queryParams,
+    serviceId: queryParams.serviceId,
+    queueId: queryParams.queueId,
+    days: queryParams.days,
+    dateTo: queryParams.dateTo,
+    provinceId: queryParams.provinceId,
+    ...(sortArray && { orderBy: sortArray[0] }),
+    ...(sortArray && { sortOrder: sortArray[1] }),
   });
 
   return () =>
@@ -51,9 +59,17 @@ export const getStatsByCity = ({ queryParams }: any) => {
       .then((res) => res.data);
 };
 
-export const getStatsByFacility = ({ queryParams }: any) => {
+export const getStatsByFacility = ({ queryParams, sortBy }: any) => {
+  const sortArray = sortBy?.split(",");
+
   const searchParams = new URLSearchParams({
-    ...queryParams,
+    serviceId: queryParams.serviceId,
+    queueId: queryParams.queueId,
+    days: queryParams.days,
+    dateTo: queryParams.dateTo,
+    provinceId: queryParams.provinceId,
+    ...(sortArray && { orderBy: sortArray[0] }),
+    ...(sortArray && { sortOrder: sortArray[1] }),
   });
 
   return () =>
