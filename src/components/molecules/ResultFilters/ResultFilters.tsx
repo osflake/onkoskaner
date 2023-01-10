@@ -8,6 +8,7 @@ interface ResultFiltersProps {
   label?: string;
   itemsList?: LatestSurveyTypes[];
   filterAll?: boolean;
+  filterBy: string;
 }
 
 const getFiltersSet = (itemsList: any) => {
@@ -29,6 +30,7 @@ const ResultFilters = ({
   itemsList,
   label = "Filtruj po świadczeniach",
   filterAll = false,
+  filterBy = "service"
 }: ResultFiltersProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const filteredSet = getFiltersSet(itemsList);
@@ -53,7 +55,7 @@ const ResultFilters = ({
           <FilterPill
             key={service.id}
             title={service.name}
-            filterByName="service"
+            filterByName={filterBy}
             filterId={service.id}
           />
         ))}
