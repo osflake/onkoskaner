@@ -5,10 +5,14 @@ import "./StarsInput.scss";
 
 interface StarsInputProps {
   ratingSetter?: any;
+  defaultRating?: any;
 }
 
-const StarsInput = ({ ratingSetter = () => {} }: StarsInputProps) => {
-  const [rating, setRating] = useState(0);
+const StarsInput = ({
+  defaultRating = 0,
+  ratingSetter = () => {}
+}: StarsInputProps) => {
+  const [rating, setRating] = useState(defaultRating);
   const [hover, setHover] = useState(0);
 
   return (

@@ -6,14 +6,8 @@ import Badge from "react-bootstrap/Badge";
 
 import "./ResultsFilterModal.scss";
 
-import { getProvinces } from "../../../../services/api/provincesApi";
-import { useQuery } from "@tanstack/react-query";
-import { getServices } from "../../../../services/api/servicesApi";
-import SelectInput from "../../../atoms/SelectInput/SelectInput";
-import { getCities } from "../../../../services/api/citiesApi";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
-import SwitchButton from "../../../atoms/SwitchButton/SwitchButton";
 import StarsInput from "../../../atoms/StarsInput";
 
 interface ModalContainerProps {
@@ -28,12 +22,11 @@ const CriteriaModal = ({
 }: ModalContainerProps) => {
   const [search, setSearch] = useSearchParams();
 
-  const { register, handleSubmit, watch, setValue } = useForm({
+  const { register, handleSubmit, watch, setValue, getValues } = useForm({
     defaultValues: {
-      serviceId: search.get("serviceId"),
-      provinceId: search.get("provinceId") || "",
-      queueId: search.get("queueId") === "1" ? false : true,
-      cityId: search.get("cityId") || ""
+      maxDaysUntilExamination: search.get("maxDaysUntilExamination") || "",
+      maxDaysToResults: search.get("maxDaysToResults") || "",
+      rating: search.get("rating") || ""
     }
   });
 
@@ -45,7 +38,27 @@ const CriteriaModal = ({
         onHide={handleClose}
         centered
       >
-        <form onSubmit={handleSubmit(() => {})}>
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log("filtered by", data);
+            data.maxDaysUntilExamination
+              ? search.set(
+                  "maxDaysUntilExamination",
+                  data.maxDaysUntilExamination
+                )
+              : search.delete("maxDaysUntilExamination");
+
+            data.maxDaysToResults
+              ? search.set("maxDaysToResults", data.maxDaysToResults)
+              : search.delete("maxDaysToResults");
+
+            data.rating
+              ? search.set("rating", data.rating)
+              : search.delete("rating");
+            search.delete("pageNumber");
+            setSearch(search);
+          })}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Filtrowanie</Modal.Title>
           </Modal.Header>
@@ -64,6 +77,7 @@ const CriteriaModal = ({
                     className="text-center"
                     type="number"
                     placeholder="DO 5 DNI"
+                    {...register("maxDaysUntilExamination")}
                   />
                   <Button
                     className="results-filter-count-button"
@@ -72,7 +86,11 @@ const CriteriaModal = ({
                     +
                   </Button>
                 </ButtonGroup>
-                <Button className="text-decoration-none" variant="link">
+                <Button
+                  onClick={() => setValue("maxDaysUntilExamination", "")}
+                  className="text-decoration-none"
+                  variant="link"
+                >
                   WYCZYŚĆ FILTR
                 </Button>
               </Container>
@@ -89,6 +107,7 @@ const CriteriaModal = ({
                     className="text-center"
                     type="number"
                     placeholder="DO 5 DNI"
+                    {...register("maxDaysToResults")}
                   />
                   <Button
                     className="results-filter-count-button"
@@ -97,26 +116,41 @@ const CriteriaModal = ({
                     +
                   </Button>
                 </ButtonGroup>
-                <Button className="text-decoration-none" variant="link">
+                <Button
+                  onClick={() => setValue("maxDaysToResults", "")}
+                  className="text-decoration-none"
+                  variant="link"
+                >
                   WYCZYŚĆ FILTR
                 </Button>
               </Container>
               <h6 className="m-0 px-3">Ocena ośrodka od</h6>
               <Container className="m-0 py-2 px-3 d-flex justify-content-between align-items-center">
                 <div className="m-0 p-0 d-flex justify-content-center align-item-center gap-2">
-                  <StarsInput />
+                  <StarsInput
+                    defaultRating={watch("rating")}
+                    ratingSetter={(e: any) => {
+                      setValue("rating", e.toString());
+                    }}
+                  />
                   <h5 className="m-0">
-                    <Badge bg="info">0/5</Badge>
+                    <Badge bg="info">{`${
+                      watch("rating") ? watch("rating") : "-"
+                    }/5`}</Badge>
                   </h5>
                 </div>
-                <Button className="text-decoration-none" variant="link">
+                <Button
+                  onClick={() => setValue("rating", "")}
+                  className="text-decoration-none"
+                  variant="link"
+                >
                   WYCZYŚĆ FILTR
                 </Button>
               </Container>
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Container className="p-0  d-flex w-100 justify-content-center">
+            <Container className="p-0 d-flex w-100 justify-content-center">
               <Button
                 variant="danger btn-pink"
                 type="submit"

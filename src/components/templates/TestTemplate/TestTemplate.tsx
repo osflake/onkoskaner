@@ -27,15 +27,16 @@ const TestTemplate = () => {
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
       queueId: searchParams.get("queueId"),
-      cityId: searchParams.get("cityId")
+      cityId: searchParams.get("cityId"),
+      maxDaysToResults: searchParams.get("maxDaysToResults"),
+      maxDaysUntilExamination: searchParams.get("maxDaysUntilExamination"),
+      rating: searchParams.get("rating")
     })
   );
 
   const { data: serviceData } = useQuery(
     getServiceById(searchParams.get("serviceId"))
   );
-
-  console.log(serviceData);
 
   const getQueueName = (queueId: any) => {
     if (queueId === "1") {
@@ -79,7 +80,7 @@ const TestTemplate = () => {
   //   return <div>Pusta lista</div>;
   // }
 
-  // console.log(data);
+  console.log(data);
 
   return (
     <Container className="d-flex flex-column py-5 gap-5 justify-content-center align-items-center">
@@ -128,7 +129,7 @@ const TestTemplate = () => {
         <h1>Brak dopasowania w wynikach wyszukiwania. Zmień kryteria.</h1>
       ) : (
         <Container className="d-flex flex-column gap-5">
-          <Container className="p-0 results-sort-section">
+          <Container className="p-0 d-flex justify-content-end align-items-center w-100">
             {/* <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
             <p className="results-title fw-normal-500">Sortowanie:</p>
             <p className="text-secondary">czas oczekiwania na wizytę</p>
