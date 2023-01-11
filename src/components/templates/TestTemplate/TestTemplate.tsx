@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFacilities } from "../../../services/api/facilitiesApi";
+import { getServiceById } from "../../../services/api/serviceApi";
 import SearchResult from "../../atoms/SearchResult/SearchResult";
 import "./TestTemplate.scss";
 import ErrorInfo from "../../atoms/ErrorInfo";
@@ -29,6 +30,12 @@ const TestTemplate = () => {
       cityId: searchParams.get("cityId")
     })
   );
+
+  const { data: serviceData } = useQuery(
+    getServiceById(searchParams.get("serviceId"))
+  );
+
+  console.log(serviceData);
 
   const getQueueName = (queueId: any) => {
     if (queueId === "1") {
@@ -72,7 +79,7 @@ const TestTemplate = () => {
   //   return <div>Pusta lista</div>;
   // }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Container className="d-flex flex-column py-5 gap-5 justify-content-center align-items-center">
@@ -80,17 +87,7 @@ const TestTemplate = () => {
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
         {data && (
           <div className="results-breadcrumbs">
-            <p>
-              {searchParams.get("serviceId")
-                ? data.data[0]
-                  ? data.data[0].latestSurveys
-                    ? data.data[0].latestSurveys.length
-                      ? data.data[0].latestSurveys[0].service.name
-                      : "Wszystkie badania"
-                    : "Wszystkie badania"
-                  : "Wszystkie badania"
-                : "Wszystkie badania"}
-            </p>
+            <p>{serviceData.name}</p>
             <p className="results-breadcrumbs-divider">/</p>
             <p>
               {searchParams.get("provinceId")
