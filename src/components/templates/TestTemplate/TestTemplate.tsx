@@ -8,9 +8,11 @@ import "./TestTemplate.scss";
 import ErrorInfo from "../../atoms/ErrorInfo";
 import CriteriaModal from "../../organisms/Modals/CriteriaModal/CriteriaModal";
 import CustomPagination from "../../molecules/CustomPagination/CustomPagination";
+import ResultsFilterModal from "../../organisms/Modals/ResultsFilterModal";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
+  const [showResultsFilterModal, setShowResultsFilterModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
@@ -136,6 +138,18 @@ const TestTemplate = () => {
             <p className="text-secondary">czas oczekiwania na opis badania</p>
             <p className="text-secondary">ocena ośrodka</p>
           </Container> */}
+            <Button
+              className="btn-outline-pink"
+              onClick={() => setShowResultsFilterModal((prev) => !prev)}
+            >
+              FILTROWANIE
+            </Button>
+            <ResultsFilterModal
+              show={showResultsFilterModal}
+              handleClose={() =>
+                setShowResultsFilterModal((prev) => (prev = false))
+              }
+            />
           </Container>
 
           {data &&

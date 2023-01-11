@@ -12,7 +12,7 @@ const StarsInput = ({ ratingSetter = () => {} }: StarsInputProps) => {
   const [hover, setHover] = useState(0);
 
   return (
-    <div className="d-flex star-rating-input m-0 p-0">
+    <div className="d-flex align-items-center star-rating-input m-0 p-0">
       {[...Array(5)].map((star: any, idx) => {
         const ratingValue = idx + 1;
         return (
