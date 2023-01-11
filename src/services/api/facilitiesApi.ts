@@ -8,6 +8,9 @@ interface SerializerSettings {
   serviceId?: string | null;
   provinceId?: string | null;
   cityId?: string | null;
+  maxDaysToResults?: string | null;
+  maxDaysUntilExamination?: string | null;
+  rating?: string | null;
 }
 
 export const getFacilities = ({
@@ -16,7 +19,10 @@ export const getFacilities = ({
   provinceId,
   serviceId,
   queueId,
-  cityId
+  cityId,
+  maxDaysToResults,
+  maxDaysUntilExamination,
+  rating
 }: SerializerSettings) => {
   const params = new URLSearchParams({
     ...(offset && { offset }),
@@ -24,7 +30,10 @@ export const getFacilities = ({
     ...(provinceId && { provinceId }),
     ...(serviceId && { serviceId }),
     ...(queueId && { queueId }),
-    ...(cityId && { cityId })
+    ...(cityId && { cityId }),
+    ...(maxDaysToResults && { maxDaysToResults }),
+    ...(maxDaysUntilExamination && { maxDaysUntilExamination }),
+    ...(rating && { rating })
   });
 
   return {
@@ -34,7 +43,10 @@ export const getFacilities = ({
       `provinceId/${provinceId}`,
       `serviceId/${serviceId}`,
       `queueId/${queueId}`,
-      `cityId/${cityId}`
+      `cityId/${cityId}`,
+      `maxDaysToResults/${maxDaysToResults}`,
+      `maxDaysUntilExamination/${maxDaysUntilExamination}`,
+      `rating/${rating}`
     ],
     queryFn: () =>
       axios

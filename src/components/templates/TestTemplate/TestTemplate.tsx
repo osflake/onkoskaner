@@ -3,14 +3,17 @@ import { Container, Button } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFacilities } from "../../../services/api/facilitiesApi";
+import { getServiceById } from "../../../services/api/serviceApi";
 import SearchResult from "../../atoms/SearchResult/SearchResult";
 import "./TestTemplate.scss";
 import ErrorInfo from "../../atoms/ErrorInfo";
 import CriteriaModal from "../../organisms/Modals/CriteriaModal/CriteriaModal";
 import CustomPagination from "../../molecules/CustomPagination/CustomPagination";
+import ResultsFilterModal from "../../organisms/Modals/ResultsFilterModal";
 
 const TestTemplate = () => {
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
+  const [showResultsFilterModal, setShowResultsFilterModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { isError, data } = useQuery<FacilityDataApiTypes>(
@@ -24,8 +27,15 @@ const TestTemplate = () => {
       provinceId: searchParams.get("provinceId"),
       serviceId: searchParams.get("serviceId"),
       queueId: searchParams.get("queueId"),
-      cityId: searchParams.get("cityId")
+      cityId: searchParams.get("cityId"),
+      maxDaysToResults: searchParams.get("maxDaysToResults"),
+      maxDaysUntilExamination: searchParams.get("maxDaysUntilExamination"),
+      rating: searchParams.get("rating")
     })
+  );
+
+  const { data: serviceData } = useQuery(
+    getServiceById(searchParams.get("serviceId"))
   );
 
   const getQueueName = (queueId: any) => {
@@ -78,17 +88,7 @@ const TestTemplate = () => {
         <h1 className="fw-bold results-title">Wyniki dla:</h1>
         {data && (
           <div className="results-breadcrumbs">
-            <p>
-              {searchParams.get("serviceId")
-                ? data.data[0]
-                  ? data.data[0].latestSurveys
-                    ? data.data[0].latestSurveys.length
-                      ? data.data[0].latestSurveys[0].service.name
-                      : "Wszystkie badania"
-                    : "Wszystkie badania"
-                  : "Wszystkie badania"
-                : "Wszystkie badania"}
-            </p>
+            <p>{serviceData.name}</p>
             <p className="results-breadcrumbs-divider">/</p>
             <p>
               {searchParams.get("provinceId")
@@ -129,13 +129,25 @@ const TestTemplate = () => {
         <h1>Brak dopasowania w wynikach wyszukiwania. Zmień kryteria.</h1>
       ) : (
         <Container className="d-flex flex-column gap-5">
-          <Container className="p-0 results-sort-section">
+          <Container className="p-0 d-flex justify-content-end align-items-center w-100">
             {/* <Container className="d-flex p-0 gap-5 justify-content-start align-items-center breadcrumbs-font-size">
             <p className="results-title fw-normal-500">Sortowanie:</p>
             <p className="text-secondary">czas oczekiwania na wizytę</p>
             <p className="text-secondary">czas oczekiwania na opis badania</p>
             <p className="text-secondary">ocena ośrodka</p>
           </Container> */}
+            <Button
+              className="btn-outline-pink"
+              onClick={() => setShowResultsFilterModal((prev) => !prev)}
+            >
+              FILTROWANIE
+            </Button>
+            <ResultsFilterModal
+              show={showResultsFilterModal}
+              handleClose={() =>
+                setShowResultsFilterModal((prev) => (prev = false))
+              }
+            />
           </Container>
 
           {data &&
